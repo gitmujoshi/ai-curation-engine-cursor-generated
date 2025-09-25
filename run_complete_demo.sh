@@ -175,21 +175,21 @@ setup_baml() {
     # Create directories
     mkdir -p logs baml_client
     
-    # Generate BAML client for Llama if available
-    if [ -f "baml_src/llama_content_classification.baml" ]; then
-        print_info "Generating BAML client for Llama..."
-        baml-cli generate --from ./baml_src/llama_content_classification.baml --lang python --output ./baml_client_llama > /dev/null 2>&1 || {
-            print_warning "BAML Llama client generation failed - using fallback"
+    # Generate BAML Python client
+    if [ -f "baml_src/content_classification.baml" ]; then
+        print_info "Generating BAML Python client..."
+        baml-cli generate --from ./baml_src > /dev/null 2>&1 && {
+            print_success "BAML Python client generated successfully"
+        } || {
+            print_warning "BAML client generation failed - demo will use fallback mode"
         }
     fi
     
-    # Generate standard BAML client as backup
-    if [ -f "baml_src/content_classification.baml" ]; then
-        print_info "Generating standard BAML client..."
-        baml-cli generate --from ./baml_src/content_classification.baml --lang python --output ./baml_client > /dev/null 2>&1 || {
-            print_warning "Standard BAML client generation failed"
-        }
-    fi
+    # Install required BAML Python package
+    print_info "Installing BAML Python package..."
+    pip install baml-py==0.208.5 > /dev/null 2>&1 || {
+        print_warning "BAML Python package installation failed"
+    }
     
     print_success "BAML setup complete"
 }

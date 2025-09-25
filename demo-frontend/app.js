@@ -31,13 +31,14 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session, flash
 from flask_cors import CORS
 
-# Import our BAML integration
+# Import our real BAML integration
 try:
-    from BAML_Integration_Implementation import BAMLContentAnalyzer, ContentCurationPipeline, UserContext
+    from BAML_Integration_Real import RealBAMLContentAnalyzer, ContentCurationPipeline
     BAML_AVAILABLE = True
+    print("✅ Real BAML integration imported successfully")
 except ImportError:
     BAML_AVAILABLE = False
-    print("⚠️  BAML not available. Some features will use mock data.")
+    print("⚠️  Real BAML integration not available. Using fallback mode.")
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -321,7 +322,12 @@ class DemoBAMLIntegration:
         }
 
 # Initialize BAML integration
-baml_demo = DemoBAMLIntegration()
+if BAML_AVAILABLE:
+    baml_demo = ContentCurationPipeline()
+    print("🚀 Using real BAML ContentCurationPipeline")
+else:
+    baml_demo = DemoBAMLIntegration()
+    print("⚠️  Using demo BAML integration")
 
 # Routes
 
@@ -371,7 +377,46 @@ def classify_content():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     try:
-        result = loop.run_until_complete(baml_demo.classify_content(content, child_profile))
+        if BAML_AVAILABLE and hasattr(baml_demo, 'curate_content'):
+            # Use real BAML pipeline
+            if child_profile:
+                # Create user context from child profile
+                user_context = baml_demo.analyzer.create_user_context(
+                    age=child_profile.get('age', 16),
+                    jurisdiction='US',
+                    parental_controls=child_profile.get('safetyLevel', 'MODERATE').upper(),
+                    sensitivity='MEDIUM'
+                )
+            else:
+                user_context = None
+            
+            pipeline_result = loop.run_until_complete(baml_demo.curate_content(content, user_context))
+            
+            if pipeline_result['status'] == 'success':
+                classification = pipeline_result['classification']
+                result = {
+                    'safety': classification['safety'],
+                    'educational': classification['educational'],
+                    'viewpoint': classification['viewpoint'],
+                    'recommendation': classification.get('recommendation', 'allow'),
+                    'confidence': classification.get('confidence', 0.8),
+                    'processing_time': pipeline_result.get('processing_time_seconds', 0),
+                    'model': classification.get('model', 'BAML-Real')
+                }
+            else:
+                # Handle error case
+                result = {
+                    'safety': {'score': 0.5, 'warnings': ['Analysis failed'], 'reasoning': pipeline_result.get('error', 'Unknown error')},
+                    'educational': {'score': 0.5},
+                    'viewpoint': {'political_leaning': 'neutral', 'bias_score': 0.5},
+                    'recommendation': 'caution',
+                    'confidence': 0.0,
+                    'processing_time': pipeline_result.get('processing_time_seconds', 0),
+                    'model': 'Error-Fallback'
+                }
+        else:
+            # Use demo integration
+            result = loop.run_until_complete(baml_demo.classify_content(content, child_profile))
         
         # Add metadata
         result['timestamp'] = datetime.now().isoformat()
