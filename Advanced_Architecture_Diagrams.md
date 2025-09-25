@@ -15,31 +15,46 @@ flowchart LR
     end
     
     subgraph "🔐 Authentication Layer"
-        ZKP[Zero-Knowledge Proof<br/>Age Verification]
-        BIO[Biometric Liveness<br/>Detection]
-        ID[Identity Validation<br/>Multi-Provider]
+        ZKP[Zero-Knowledge Proof
+Age Verification]
+        BIO[Biometric Liveness
+Detection]
+        ID[Identity Validation
+Multi-Provider]
     end
     
     subgraph "🤖 AI Curation Engine"
         direction TB
-        BML[BoundaryML<br/>Classifier]
-        COG[Cognitive<br/>Assessment]
-        DIV[Diversity<br/>Optimizer]
-        ALG[Algorithm<br/>Marketplace]
+        BML[BoundaryML
+Classifier]
+        COG[Cognitive
+Assessment]
+        DIV[Diversity
+Optimizer]
+        ALG[Algorithm
+Marketplace]
     end
     
     subgraph "🌐 Content Sources"
-        P1[Social Media<br/>Platforms]
-        P2[News<br/>Websites]
-        P3[Educational<br/>Content]
-        P4[User Generated<br/>Content]
+        P1[Social Media
+Platforms]
+        P2[News
+Websites]
+        P3[Educational
+Content]
+        P4[User Generated
+Content]
     end
     
     subgraph "⚖️ Compliance Layer"
-        EU[EU GDPR/DSA<br/>Compliance]
-        US[US COPPA<br/>Compliance]
-        IN[India DPDPA<br/>Compliance]
-        CN[China Minor Mode<br/>Compliance]
+        EU[EU GDPR/DSA
+Compliance]
+        US[US COPPA
+Compliance]
+        IN[India DPDPA
+Compliance]
+        CN[China Minor Mode
+Compliance]
     end
     
     U1 --> ZKP
@@ -80,31 +95,67 @@ flowchart LR
 ```mermaid
 flowchart TD
     subgraph "📥 Content Ingestion"
-        TEXT[📝 Text Extraction<br/>• Articles<br/>• Posts<br/>• Comments]
-        MEDIA[🎬 Media Processing<br/>• Video Transcription<br/>• Image OCR<br/>• Audio STT]
-        META[📊 Metadata Enrichment<br/>• Source Info<br/>• Timestamps<br/>• Context]
+        TEXT[📝 Text Extraction
+• Articles
+• Posts
+• Comments]
+        MEDIA[🎬 Media Processing
+• Video Transcription
+• Image OCR
+• Audio STT]
+        META[📊 Metadata Enrichment
+• Source Info
+• Timestamps
+• Context]
     end
     
     subgraph "🧠 LLM Analysis Pipeline"
         direction TB
         
         subgraph "🔍 Content Analysis"
-            SAFE[🛡️ Safety Analysis<br/>• Violence Detection<br/>• Toxicity Scoring<br/>• Age Appropriateness]
-            EDU[📚 Educational Assessment<br/>• Learning Objectives<br/>• Cognitive Level<br/>• Subject Classification]
-            VIEW[🏛️ Viewpoint Analysis<br/>• Bias Detection<br/>• Political Leaning<br/>• Source Credibility]
+            SAFE[🛡️ Safety Analysis
+• Violence Detection
+• Toxicity Scoring
+• Age Appropriateness]
+            EDU[📚 Educational Assessment
+• Learning Objectives
+• Cognitive Level
+• Subject Classification]
+            VIEW[🏛️ Viewpoint Analysis
+• Bias Detection
+• Political Leaning
+• Source Credibility]
         end
         
         subgraph "⚙️ Schema Processing"
-            JSON[🔧 JSON Correction<br/>• Syntax Fixing<br/>• Format Validation<br/>• Error Recovery]
-            SCHEMA[📋 Schema Coercion<br/>• Type Conversion<br/>• Field Validation<br/>• Constraint Checking]
-            VALID[✅ Output Validation<br/>• Completeness Check<br/>• Range Validation<br/>• Quality Assurance]
+            JSON[🔧 JSON Correction
+• Syntax Fixing
+• Format Validation
+• Error Recovery]
+            SCHEMA[📋 Schema Coercion
+• Type Conversion
+• Field Validation
+• Constraint Checking]
+            VALID[✅ Output Validation
+• Completeness Check
+• Range Validation
+• Quality Assurance]
         end
     end
     
     subgraph "📊 Structured Output"
-        RESULT[📈 Classification Results<br/>• Confidence Scores<br/>• Detailed Reasoning<br/>• Compliance Flags]
-        CACHE[⚡ Result Caching<br/>• Redis Storage<br/>• TTL Management<br/>• Performance Optimization]
-        API[🔌 API Response<br/>• JSON Schema<br/>• Error Handling<br/>• Rate Limiting]
+        RESULT[📈 Classification Results
+• Confidence Scores
+• Detailed Reasoning
+• Compliance Flags]
+        CACHE[⚡ Result Caching
+• Redis Storage
+• TTL Management
+• Performance Optimization]
+        API[🔌 API Response
+• JSON Schema
+• Error Handling
+• Rate Limiting]
     end
     
     TEXT --> SAFE
@@ -136,64 +187,157 @@ flowchart TD
 ```mermaid
 graph TB
     subgraph "🌐 Global Edge Network"
-        CDN[🚀 CloudFlare CDN<br/>• 200+ Edge Locations<br/>• DDoS Protection<br/>• SSL Termination]
-        DNS[🌍 Global DNS<br/>• Geo-routing<br/>• Health Checks<br/>• Failover Logic]
-        WAF[🛡️ Web Application Firewall<br/>• OWASP Protection<br/>• Rate Limiting<br/>• Bot Detection]
+        CDN[🚀 CloudFlare CDN
+• 200+ Edge Locations
+• DDoS Protection
+• SSL Termination]
+        DNS[🌍 Global DNS
+• Geo-routing
+• Health Checks
+• Failover Logic]
+        WAF[🛡️ Web Application Firewall
+• OWASP Protection
+• Rate Limiting
+• Bot Detection]
     end
     
     subgraph "🇺🇸 US East (Virginia)"
         direction TB
-        US_LB[⚖️ Application Load Balancer<br/>• Multi-AZ<br/>• Health Checks<br/>• SSL Offloading]
+        US_LB[⚖️ Application Load Balancer
+• Multi-AZ
+• Health Checks
+• SSL Offloading]
         
         subgraph "US Kubernetes Cluster"
-            US_ZKP[🔐 ZKP Service<br/>• 3 Replicas<br/>• 2 CPU, 4GB RAM<br/>• Auto-scaling]
-            US_API[🤖 Curation API<br/>• 5 Replicas<br/>• 4 CPU, 8GB RAM<br/>• HPA Enabled]
-            US_BML[🧠 BoundaryML<br/>• 3 Replicas<br/>• 8 CPU, 16GB RAM<br/>• GPU: V100]
-            US_ANA[📊 Analytics<br/>• 2 Replicas<br/>• 2 CPU, 4GB RAM<br/>• Kafka Consumer]
+            US_ZKP[🔐 ZKP Service
+• 3 Replicas
+• 2 CPU, 4GB RAM
+• Auto-scaling]
+            US_API[🤖 Curation API
+• 5 Replicas
+• 4 CPU, 8GB RAM
+• HPA Enabled]
+            US_BML[🧠 BoundaryML
+• 3 Replicas
+• 8 CPU, 16GB RAM
+• GPU: V100]
+            US_ANA[📊 Analytics
+• 2 Replicas
+• 2 CPU, 4GB RAM
+• Kafka Consumer]
         end
         
-        US_RDS[(🗄️ RDS PostgreSQL<br/>• Multi-AZ<br/>• db.r5.2xlarge<br/>• Automated Backups)]
-        US_REDIS[(⚡ ElastiCache Redis<br/>• Cluster Mode<br/>• 3 Nodes<br/>• cache.r6g.large)]
-        US_S3[(📦 S3 Storage<br/>• Intelligent Tiering<br/>• Versioning<br/>• Cross-Region Replication)]
+        US_RDS[(🗄️ RDS PostgreSQL
+• Multi-AZ
+• db.r5.2xlarge
+• Automated Backups)]
+        US_REDIS[(⚡ ElastiCache Redis
+• Cluster Mode
+• 3 Nodes
+• cache.r6g.large)]
+        US_S3[(📦 S3 Storage
+• Intelligent Tiering
+• Versioning
+• Cross-Region Replication)]
     end
     
     subgraph "🇪🇺 EU Central (Frankfurt)"
         direction TB
-        EU_LB[⚖️ Application Load Balancer<br/>• GDPR Compliant<br/>• Data Residency<br/>• Privacy by Design]
+        EU_LB[⚖️ Application Load Balancer
+• GDPR Compliant
+• Data Residency
+• Privacy by Design]
         
         subgraph "EU Kubernetes Cluster"
-            EU_ZKP[🔐 ZKP Service<br/>• 3 Replicas<br/>• GDPR Compliant<br/>• Data Minimization]
-            EU_API[🤖 Curation API<br/>• 5 Replicas<br/>• DSA Compliant<br/>• Risk Assessment]
-            EU_BML[🧠 BoundaryML<br/>• 3 Replicas<br/>• Privacy Preserving<br/>• Local Processing]
-            EU_ANA[📊 Analytics<br/>• 2 Replicas<br/>• GDPR Logging<br/>• Data Protection]
+            EU_ZKP[🔐 ZKP Service
+• 3 Replicas
+• GDPR Compliant
+• Data Minimization]
+            EU_API[🤖 Curation API
+• 5 Replicas
+• DSA Compliant
+• Risk Assessment]
+            EU_BML[🧠 BoundaryML
+• 3 Replicas
+• Privacy Preserving
+• Local Processing]
+            EU_ANA[📊 Analytics
+• 2 Replicas
+• GDPR Logging
+• Data Protection]
         end
         
-        EU_RDS[(🗄️ RDS PostgreSQL<br/>• EU Data Residency<br/>• Encryption at Rest<br/>• GDPR Compliant)]
-        EU_REDIS[(⚡ ElastiCache Redis<br/>• In-Transit Encryption<br/>• VPC Isolated<br/>• EU Region Only)]
-        EU_S3[(📦 S3 Storage<br/>• EU Sovereignty<br/>• GDPR Retention<br/>• Right to Erasure)]
+        EU_RDS[(🗄️ RDS PostgreSQL
+• EU Data Residency
+• Encryption at Rest
+• GDPR Compliant)]
+        EU_REDIS[(⚡ ElastiCache Redis
+• In-Transit Encryption
+• VPC Isolated
+• EU Region Only)]
+        EU_S3[(📦 S3 Storage
+• EU Sovereignty
+• GDPR Retention
+• Right to Erasure)]
     end
     
     subgraph "🌏 Asia Pacific (Singapore)"
         direction TB
-        AS_LB[⚖️ Application Load Balancer<br/>• Low Latency<br/>• Regional Compliance<br/>• Multi-AZ Setup]
+        AS_LB[⚖️ Application Load Balancer
+• Low Latency
+• Regional Compliance
+• Multi-AZ Setup]
         
         subgraph "Asia Kubernetes Cluster"
-            AS_ZKP[🔐 ZKP Service<br/>• 3 Replicas<br/>• Regional Identity<br/>• Local Validation]
-            AS_API[🤖 Curation API<br/>• 5 Replicas<br/>• Cultural Context<br/>• Language Support]
-            AS_BML[🧠 BoundaryML<br/>• 3 Replicas<br/>• Multi-language<br/>• Cultural Sensitivity]
-            AS_ANA[📊 Analytics<br/>• 2 Replicas<br/>• Regional Metrics<br/>• Compliance Reporting]
+            AS_ZKP[🔐 ZKP Service
+• 3 Replicas
+• Regional Identity
+• Local Validation]
+            AS_API[🤖 Curation API
+• 5 Replicas
+• Cultural Context
+• Language Support]
+            AS_BML[🧠 BoundaryML
+• 3 Replicas
+• Multi-language
+• Cultural Sensitivity]
+            AS_ANA[📊 Analytics
+• 2 Replicas
+• Regional Metrics
+• Compliance Reporting]
         end
         
-        AS_RDS[(🗄️ RDS PostgreSQL<br/>• Regional Setup<br/>• Cross-AZ Backup<br/>• Performance Optimized)]
-        AS_REDIS[(⚡ ElastiCache Redis<br/>• High Availability<br/>• Regional Caching<br/>• Performance Tuned)]
-        AS_S3[(📦 S3 Storage<br/>• Regional Storage<br/>• Disaster Recovery<br/>• Cost Optimized)]
+        AS_RDS[(🗄️ RDS PostgreSQL
+• Regional Setup
+• Cross-AZ Backup
+• Performance Optimized)]
+        AS_REDIS[(⚡ ElastiCache Redis
+• High Availability
+• Regional Caching
+• Performance Tuned)]
+        AS_S3[(📦 S3 Storage
+• Regional Storage
+• Disaster Recovery
+• Cost Optimized)]
     end
     
     subgraph "🔍 Centralized Monitoring"
-        PROM[📈 Prometheus<br/>• Multi-cluster<br/>• Federation<br/>• Long-term Storage]
-        GRAF[📊 Grafana<br/>• Global Dashboards<br/>• Alerting<br/>• SLA Monitoring]
-        JAEGER[🔍 Jaeger<br/>• Distributed Tracing<br/>• Performance Analysis<br/>• Error Tracking]
-        ELK[📝 ELK Stack<br/>• Centralized Logging<br/>• Log Analysis<br/>• Audit Trails]
+        PROM[📈 Prometheus
+• Multi-cluster
+• Federation
+• Long-term Storage]
+        GRAF[📊 Grafana
+• Global Dashboards
+• Alerting
+• SLA Monitoring]
+        JAEGER[🔍 Jaeger
+• Distributed Tracing
+• Performance Analysis
+• Error Tracking]
+        ELK[📝 ELK Stack
+• Centralized Logging
+• Log Analysis
+• Audit Trails]
     end
     
     CDN --> DNS
@@ -275,7 +419,8 @@ sequenceDiagram
     ID->>ZKP: Return Age Assertion
     
     Note over ZKP: Generate ZK Proof
-    ZKP->>ZKP: Create Age Token<br/>(without revealing birthdate)
+    ZKP->>ZKP: Create Age Token
+(without revealing birthdate)
     
     ZKP->>Bio: Request Liveness Check
     Bio->>User: Biometric Challenge
@@ -288,12 +433,16 @@ sequenceDiagram
     Cure->>ZKP: Verify Age Token
     ZKP->>Cure: Age Category Confirmed
     
-    Note over Cure: Apply Age-Appropriate<br/>Content Filtering
+    Note over Cure: Apply Age-Appropriate
+Content Filtering
     
     Cure->>App: Return Curated Content
     App->>User: Display Safe Content
     
-    Note over User, Cure: Privacy Preserved:<br/>• No birthdate exposed<br/>• No identity revealed<br/>• Only age category shared
+    Note over User, Cure: Privacy Preserved:
+• No birthdate exposed
+• No identity revealed
+• Only age category shared
 ```
 
 ## 🧠 BoundaryML Classification Process
@@ -303,37 +452,85 @@ sequenceDiagram
 ```mermaid
 flowchart TD
     subgraph "📥 Input Processing"
-        INPUT[Content Input<br/>• Text: Articles, Posts<br/>• Media: Videos, Images<br/>• Metadata: Source, Context]
-        PREP[Content Preprocessing<br/>• Text Extraction<br/>• Language Detection<br/>• Format Normalization]
-        PROMPT[Dynamic Prompt Generation<br/>• Age-Aware Templates<br/>• Jurisdiction-Specific<br/>• Context-Adaptive]
+        INPUT[Content Input
+• Text: Articles, Posts
+• Media: Videos, Images
+• Metadata: Source, Context]
+        PREP[Content Preprocessing
+• Text Extraction
+• Language Detection
+• Format Normalization]
+        PROMPT[Dynamic Prompt Generation
+• Age-Aware Templates
+• Jurisdiction-Specific
+• Context-Adaptive]
     end
     
     subgraph "🤖 BoundaryML Processing"
         direction TB
         
         subgraph "Parallel Classification"
-            SAFE_LLM[🛡️ Safety LLM<br/>• Violence Analysis<br/>• Toxicity Detection<br/>• Age Appropriateness<br/>• Hate Speech Scan]
-            EDU_LLM[📚 Educational LLM<br/>• Learning Value<br/>• Cognitive Level<br/>• Subject Classification<br/>• Accuracy Check]
-            VIEW_LLM[🏛️ Viewpoint LLM<br/>• Bias Detection<br/>• Political Leaning<br/>• Source Credibility<br/>• Echo Chamber Risk]
+            SAFE_LLM[🛡️ Safety LLM
+• Violence Analysis
+• Toxicity Detection
+• Age Appropriateness
+• Hate Speech Scan]
+            EDU_LLM[📚 Educational LLM
+• Learning Value
+• Cognitive Level
+• Subject Classification
+• Accuracy Check]
+            VIEW_LLM[🏛️ Viewpoint LLM
+• Bias Detection
+• Political Leaning
+• Source Credibility
+• Echo Chamber Risk]
         end
         
         subgraph "Schema Enforcement"
-            JSON_FIX[🔧 JSON Correction<br/>• Syntax Repair<br/>• Quote Fixing<br/>• Comma Handling]
-            TYPE_COERCE[📋 Type Coercion<br/>• Number Conversion<br/>• Boolean Parsing<br/>• Enum Validation]
-            VALIDATE[✅ Validation<br/>• Required Fields<br/>• Range Checking<br/>• Consistency Verify]
+            JSON_FIX[🔧 JSON Correction
+• Syntax Repair
+• Quote Fixing
+• Comma Handling]
+            TYPE_COERCE[📋 Type Coercion
+• Number Conversion
+• Boolean Parsing
+• Enum Validation]
+            VALIDATE[✅ Validation
+• Required Fields
+• Range Checking
+• Consistency Verify]
         end
     end
     
     subgraph "📊 Output Generation"
-        COMBINE[🔄 Result Combination<br/>• Merge Classifications<br/>• Calculate Confidence<br/>• Generate Reasoning]
-        COMPLY[⚖️ Compliance Check<br/>• GDPR Validation<br/>• COPPA Compliance<br/>• DPDPA Adherence]
-        FINAL[📈 Final Output<br/>• Structured JSON<br/>• Confidence Scores<br/>• Audit Trail]
+        COMBINE[🔄 Result Combination
+• Merge Classifications
+• Calculate Confidence
+• Generate Reasoning]
+        COMPLY[⚖️ Compliance Check
+• GDPR Validation
+• COPPA Compliance
+• DPDPA Adherence]
+        FINAL[📈 Final Output
+• Structured JSON
+• Confidence Scores
+• Audit Trail]
     end
     
     subgraph "⚡ Performance Optimization"
-        CACHE[💾 Result Caching<br/>• Redis Storage<br/>• TTL Management<br/>• Cache Invalidation]
-        PARALLEL[🔄 Parallel Processing<br/>• Async Execution<br/>• Load Balancing<br/>• Error Handling]
-        MONITOR[📊 Performance Monitoring<br/>• Latency Tracking<br/>• Accuracy Metrics<br/>• Cost Analysis]
+        CACHE[💾 Result Caching
+• Redis Storage
+• TTL Management
+• Cache Invalidation]
+        PARALLEL[🔄 Parallel Processing
+• Async Execution
+• Load Balancing
+• Error Handling]
+        MONITOR[📊 Performance Monitoring
+• Latency Tracking
+• Accuracy Metrics
+• Cost Analysis]
     end
     
     INPUT --> PREP
@@ -373,29 +570,68 @@ flowchart TD
 ```mermaid
 graph LR
     subgraph "👥 Algorithm Providers"
-        DEV1[🏢 Safety-First Inc.<br/>• Child Protection Focus<br/>• Conservative Filtering<br/>• High Precision]
-        DEV2[🎓 EduTech Solutions<br/>• Educational Content<br/>• Learning Optimization<br/>• Curriculum Alignment]
-        DEV3[🌈 Diversity Labs<br/>• Viewpoint Balance<br/>• Echo Chamber Breaking<br/>• Perspective Broadening]
-        DEV4[🛡️ Compliance Corp<br/>• Regulatory Focus<br/>• Multi-Jurisdiction<br/>• Audit-Ready]
+        DEV1[🏢 Safety-First Inc.
+• Child Protection Focus
+• Conservative Filtering
+• High Precision]
+        DEV2[🎓 EduTech Solutions
+• Educational Content
+• Learning Optimization
+• Curriculum Alignment]
+        DEV3[🌈 Diversity Labs
+• Viewpoint Balance
+• Echo Chamber Breaking
+• Perspective Broadening]
+        DEV4[🛡️ Compliance Corp
+• Regulatory Focus
+• Multi-Jurisdiction
+• Audit-Ready]
     end
     
     subgraph "🏪 Algorithm Marketplace"
         direction TB
-        STORE[🏬 Algorithm Store<br/>• Browse & Search<br/>• Ratings & Reviews<br/>• Performance Metrics]
-        VERIFY[✅ Verification System<br/>• Code Auditing<br/>• Security Scanning<br/>• Performance Testing]
-        DEPLOY[🚀 Deployment Engine<br/>• Container Packaging<br/>• Version Management<br/>• Rollback Support]
+        STORE[🏬 Algorithm Store
+• Browse & Search
+• Ratings & Reviews
+• Performance Metrics]
+        VERIFY[✅ Verification System
+• Code Auditing
+• Security Scanning
+• Performance Testing]
+        DEPLOY[🚀 Deployment Engine
+• Container Packaging
+• Version Management
+• Rollback Support]
     end
     
     subgraph "👤 User Selection"
-        BROWSE[🔍 Browse Algorithms<br/>• Filter by Category<br/>• Compare Features<br/>• Read Reviews]
-        CONFIG[⚙️ Configuration<br/>• Personal Preferences<br/>• Safety Levels<br/>• Content Types]
-        INSTALL[📥 Installation<br/>• One-Click Deploy<br/>• A/B Testing<br/>• Gradual Rollout]
+        BROWSE[🔍 Browse Algorithms
+• Filter by Category
+• Compare Features
+• Read Reviews]
+        CONFIG[⚙️ Configuration
+• Personal Preferences
+• Safety Levels
+• Content Types]
+        INSTALL[📥 Installation
+• One-Click Deploy
+• A/B Testing
+• Gradual Rollout]
     end
     
     subgraph "🎯 Personalized Curation"
-        USER_ALG[🤖 User's Algorithm<br/>• Custom Configuration<br/>• Personal Preferences<br/>• Adaptive Learning]
-        CONTENT[📊 Curated Feed<br/>• Filtered Content<br/>• Diverse Perspectives<br/>• Age-Appropriate]
-        FEEDBACK[🔄 Feedback Loop<br/>• User Ratings<br/>• Engagement Metrics<br/>• Continuous Improvement]
+        USER_ALG[🤖 User's Algorithm
+• Custom Configuration
+• Personal Preferences
+• Adaptive Learning]
+        CONTENT[📊 Curated Feed
+• Filtered Content
+• Diverse Perspectives
+• Age-Appropriate]
+        FEEDBACK[🔄 Feedback Loop
+• User Ratings
+• Engagement Metrics
+• Continuous Improvement]
     end
     
     DEV1 --> STORE
@@ -432,34 +668,82 @@ graph LR
 ```mermaid
 graph TB
     subgraph "📈 Performance Metrics"
-        PERF1[🚀 API Response Time<br/>• Average: 150ms<br/>• P95: 300ms<br/>• P99: 500ms]
-        PERF2[📊 Classification Accuracy<br/>• Safety: 94.2%<br/>• Educational: 91.8%<br/>• Viewpoint: 88.7%]
-        PERF3[⚡ Throughput<br/>• 10K requests/min<br/>• 95% Cache Hit Rate<br/>• Auto-scaling Active]
+        PERF1[🚀 API Response Time
+• Average: 150ms
+• P95: 300ms
+• P99: 500ms]
+        PERF2[📊 Classification Accuracy
+• Safety: 94.2%
+• Educational: 91.8%
+• Viewpoint: 88.7%]
+        PERF3[⚡ Throughput
+• 10K requests/min
+• 95% Cache Hit Rate
+• Auto-scaling Active]
     end
     
     subgraph "⚖️ Compliance Status"
-        COMP1[🇪🇺 GDPR Compliance<br/>• ✅ Data Minimization<br/>• ✅ Right to Erasure<br/>• ✅ Privacy by Design]
-        COMP2[🇺🇸 COPPA Compliance<br/>• ✅ Parental Consent<br/>• ✅ Age Verification<br/>• ✅ Data Protection]
-        COMP3[🇮🇳 DPDPA Compliance<br/>• ✅ Under-18 Consent<br/>• ✅ No Targeted Ads<br/>• ✅ Data Localization]
-        COMP4[🇨🇳 Minor Mode<br/>• ✅ Time Restrictions<br/>• ✅ Content Filtering<br/>• ✅ Real-name Auth]
+        COMP1[🇪🇺 GDPR Compliance
+• ✅ Data Minimization
+• ✅ Right to Erasure
+• ✅ Privacy by Design]
+        COMP2[🇺🇸 COPPA Compliance
+• ✅ Parental Consent
+• ✅ Age Verification
+• ✅ Data Protection]
+        COMP3[🇮🇳 DPDPA Compliance
+• ✅ Under-18 Consent
+• ✅ No Targeted Ads
+• ✅ Data Localization]
+        COMP4[🇨🇳 Minor Mode
+• ✅ Time Restrictions
+• ✅ Content Filtering
+• ✅ Real-name Auth]
     end
     
     subgraph "🔍 Quality Assurance"
-        QA1[🎯 Classification Quality<br/>• Confidence Scores<br/>• Error Rate: 2.1%<br/>• Manual Review: 0.5%]
-        QA2[🛡️ Safety Metrics<br/>• False Positives: 1.8%<br/>• False Negatives: 0.3%<br/>• User Reports: 12/day]
-        QA3[📚 Educational Value<br/>• Curriculum Alignment<br/>• Learning Outcomes<br/>• Teacher Feedback]
+        QA1[🎯 Classification Quality
+• Confidence Scores
+• Error Rate: 2.1%
+• Manual Review: 0.5%]
+        QA2[🛡️ Safety Metrics
+• False Positives: 1.8%
+• False Negatives: 0.3%
+• User Reports: 12/day]
+        QA3[📚 Educational Value
+• Curriculum Alignment
+• Learning Outcomes
+• Teacher Feedback]
     end
     
     subgraph "⚠️ Alerts and Incidents"
-        ALERT1[🚨 Active Alerts<br/>• High Error Rate: 0<br/>• Performance Issues: 0<br/>• Security Incidents: 0]
-        ALERT2[📋 Recent Incidents<br/>• Last 24h: 2 resolved<br/>• MTTR: 15 minutes<br/>• SLA: 99.9% uptime]
-        ALERT3[🔄 Auto-Recovery<br/>• Circuit Breakers: Active<br/>• Failover: Ready<br/>• Rollback: Available]
+        ALERT1[🚨 Active Alerts
+• High Error Rate: 0
+• Performance Issues: 0
+• Security Incidents: 0]
+        ALERT2[📋 Recent Incidents
+• Last 24h: 2 resolved
+• MTTR: 15 minutes
+• SLA: 99.9% uptime]
+        ALERT3[🔄 Auto-Recovery
+• Circuit Breakers: Active
+• Failover: Ready
+• Rollback: Available]
     end
     
     subgraph "👥 User Analytics"
-        USER1[📊 User Engagement<br/>• Daily Active: 2.3M<br/>• Satisfaction: 4.6/5<br/>• Retention: 89%]
-        USER2[🌍 Global Distribution<br/>• US: 35%<br/>• EU: 28%<br/>• Asia: 37%]
-        USER3[👶 Age Demographics<br/>• Under 13: 15%<br/>• 13-17: 25%<br/>• 18+: 60%]
+        USER1[📊 User Engagement
+• Daily Active: 2.3M
+• Satisfaction: 4.6/5
+• Retention: 89%]
+        USER2[🌍 Global Distribution
+• US: 35%
+• EU: 28%
+• Asia: 37%]
+        USER3[👶 Age Demographics
+• Under 13: 15%
+• 13-17: 25%
+• 18+: 60%]
     end
     
     style PERF1 fill:#e8f5e8

@@ -121,7 +121,9 @@ graph TB
 ai-curation-engine/
 ├── 📄 AI_Curation_Engine_Architecture.md     # Complete system architecture
 ├── 📊 Advanced_Architecture_Diagrams.md       # Enhanced visual diagrams
-├── 🐍 BoundaryML_Integration_Implementation.py # AI classification (conceptual)
+├── 🤖 baml_src/                              # BAML function definitions
+├── 🐍 BAML_Integration_Implementation.py      # Real BAML Python implementation
+├── 🐍 BoundaryML_Integration_Implementation.py # Legacy implementation (deprecated)
 ├── 📖 REAL_PROJECT_OVERVIEW.md               # Project status and roadmap
 ├── 📋 DIAGRAM_UPDATES_SUMMARY.md             # Documentation improvements
 └── 💻 curation-engine-ui/                    # Main application
@@ -164,6 +166,7 @@ ai-curation-engine/
 ### Architecture Documents
 - 📄 **[Complete Architecture](AI_Curation_Engine_Architecture.md)**: Comprehensive system design
 - 📊 **[Visual Diagrams](Advanced_Architecture_Diagrams.md)**: Interactive Mermaid diagrams
+- 🤖 **[BAML Integration](BAML_README.md)**: BoundaryML implementation guide
 - 📖 **[Project Overview](REAL_PROJECT_OVERVIEW.md)**: Real vs. conceptual components
 - 📋 **[Implementation Guide](curation-engine-ui/README.md)**: Detailed setup instructions
 
@@ -180,14 +183,29 @@ This project provides a **functional foundation** with:
 - ✅ **Real Backend**: Working API with database
 - ✅ **Real Frontend**: Complete UI with authentication
 - ✅ **Real Data Models**: Production-ready database schema
-- ⚠️ **Conceptual AI**: BoundaryML integration needs real API
+- ✅ **Real AI**: BoundaryML BAML language integration
 - ⚠️ **Mock Age Verification**: ZKP implementation needs real service
 
-### BoundaryML Integration
-The AI classification system uses **conceptual BoundaryML integration**. For production:
-1. Sign up at [BoundaryML](https://boundaryml.com)
-2. Get real API keys and documentation
-3. Replace mock implementation in `BoundaryML_Integration_Implementation.py`
+### BoundaryML (BAML) Integration
+The AI classification system uses **real BoundaryML BAML language**:
+1. **BAML Functions**: Content classification defined in `baml_src/content_classification.baml`
+2. **Generated Client**: Python client auto-generated from BAML functions
+3. **Multi-Provider**: OpenAI, Anthropic, Google model support
+4. **Setup Guide**: Run `./setup_baml.sh` for automated setup
+5. **Documentation**: See `BAML_README.md` for comprehensive guide
+
+**Setup Instructions**:
+```bash
+# Install BAML CLI
+npm install -g @boundaryml/baml
+
+# Generate Python client
+baml-cli generate --from ./baml_src --lang python
+
+# Set API keys in .env
+OPENAI_API_KEY=your_key_here
+ANTHROPIC_API_KEY=your_key_here
+```
 
 ## 🤝 Contributing
 

@@ -191,19 +191,26 @@ graph TB
 ```mermaid
 flowchart TD
     subgraph "🆔 Identity Providers"
-        AADHAAR[🇮🇳 Aadhaar<br/>India Digital ID]
-        EID[🇪🇺 eID<br/>European Identity]
-        NATIONAL[🌍 National ID<br/>Global Systems]
+        AADHAAR[🇮🇳 Aadhaar
+India Digital ID]
+        EID[🇪🇺 eID
+European Identity]
+        NATIONAL[🌍 National ID
+Global Systems]
     end
     
     subgraph "🔐 ZKP Proof Generation Service"
         direction TB
-        CIRCUIT[⚙️ Age Assertion Circuit<br/>zk-SNARK/STARK Technology]
+        CIRCUIT[⚙️ Age Assertion Circuit
+zk-SNARK/STARK Technology]
         
         subgraph "Age Validation Rules"
-            COPPA[👶 Age >= 13<br/>US COPPA Compliance]
-            GDPR[🧒 Age >= 16<br/>EU GDPR Compliance] 
-            GLOBAL[👦 Age >= 18<br/>Global Adult]
+            COPPA[👶 Age >= 13
+US COPPA Compliance]
+            GDPR[🧒 Age >= 16
+EU GDPR Compliance] 
+            GLOBAL[👦 Age >= 18
+Global Adult]
         end
         
         CIRCUIT --> COPPA
@@ -212,14 +219,14 @@ flowchart TD
     end
     
     subgraph "🎫 ZKP Age Token Output"
-        TOKEN[📄 Cryptographic Proof<br/>
-        {<br/>
-          proof: zkp_proof_data<br/>
-          age_assertion: over_18<br/>
-          jurisdiction: IN<br/>
-          timestamp: 2025-09-25T10:00:00Z<br/>
-          validity: 24h<br/>
-        }]
+        TOKEN["📄 Cryptographic Proof
+        {
+          proof: zkp_proof_data
+          age_assertion: over_18
+          jurisdiction: IN
+          timestamp: 2025-09-25T10:00:00Z
+          validity: 24h
+        }"]
     end
     
     AADHAAR --> CIRCUIT
@@ -288,44 +295,65 @@ interface BiometricChallenge {
 - **Privacy Protection**: Biometric templates never leave the device
 - **Account Integrity**: Prevents token sharing and account compromise
 
-## BoundaryML Integration for LLM-Based Content Classification
+## BoundaryML (BAML) Integration for LLM-Based Content Classification
 
 ### Overview
-BoundaryML provides advanced LLM-based content classification with structured data extraction, JSON error correction, and schema coercion. This integration enables precise, consistent, and reliable content analysis for the curation engine.
+**IMPORTANT UPDATE**: After reviewing the actual [BoundaryML GitHub repository](https://github.com/BoundaryML/baml), this implementation now uses the real BAML (BoundaryML's AI Markup Language) - a domain-specific language for structured LLM interactions.
+
+BAML provides:
+- **Type-safe LLM Functions**: Define prompts as functions with structured inputs/outputs
+- **Multi-provider Support**: OpenAI, Anthropic, Google, Azure, and more
+- **Schema-Aligned Parsing (SAP)**: Reliable structured output parsing even with model variations
+- **Streaming Support**: Real-time classification with type-safe partial results
+- **IDE Integration**: VSCode extension with prompt playground for fast iteration
 
 ### BoundaryML Architecture Integration
 
 ```mermaid
 flowchart TD
     subgraph "🔄 Content Ingestion Pipeline"
-        TXT[📝 Text Content<br/>Extraction]
-        VID[🎥 Video/Audio<br/>Transcription]
-        IMG[🖼️ Images<br/>OCR/Alt Text]
-        DOC[📄 Document<br/>Parsing]
+        TXT[📝 Text Content
+Extraction]
+        VID[🎥 Video/Audio
+Transcription]
+        IMG[🖼️ Images
+OCR/Alt Text]
+        DOC[📄 Document
+Parsing]
     end
     
     subgraph "🤖 BoundaryML Classification Engine"
         subgraph "📊 Multi-Modal Analysis"
-            SAFE[🛡️ Safety<br/>Classifier]
-            EDU[📚 Educational<br/>Value Assessor]
-            VIEW[🏛️ Viewpoint<br/>Bias Analyzer]
+            SAFE[🛡️ Safety
+Classifier]
+            EDU[📚 Educational
+Value Assessor]
+            VIEW[🏛️ Viewpoint
+Bias Analyzer]
         end
         
         subgraph "🔍 Detailed Assessment"
-            TOX[☠️ Toxicity<br/>Detector]
-            READ[📖 Reading<br/>Level Analyzer]
-            EMO[😊 Emotional<br/>Intensity Meter]
+            TOX[☠️ Toxicity
+Detector]
+            READ[📖 Reading
+Level Analyzer]
+            EMO[😊 Emotional
+Intensity Meter]
         end
         
         subgraph "⚙️ Schema Enforcement"
-            JSON[🔧 JSON<br/>Correction]
-            SCHEMA[📋 Schema<br/>Coercion]
-            VALID[✅ Output<br/>Validation]
+            JSON[🔧 JSON
+Correction]
+            SCHEMA[📋 Schema
+Coercion]
+            VALID[✅ Output
+Validation]
         end
     end
     
     subgraph "📤 Structured Output"
-        RESULT[📊 Classification Results<br/>JSON Schema Compliant]
+        RESULT[📊 Classification Results
+JSON Schema Compliant]
     end
     
     TXT --> SAFE
@@ -595,257 +623,93 @@ interface ViewpointClassificationSchema {
 }
 ```
 
-### BoundaryML Classification Implementation
+### Real BAML Implementation
 
-#### Content Classifier Service
-```python
-from typing import Dict, List, Any
-import json
-import asyncio
-from boundaryml import BoundaryMLClient, ClassificationSchema
+#### BAML Function Definitions
+Content classification is defined using BAML's structured syntax in `baml_src/content_classification.baml`:
 
-class BoundaryMLContentClassifier:
-    def __init__(self, api_key: str, model_name: str = "gpt-4"):
-        self.client = BoundaryMLClient(api_key=api_key)
-        self.model_name = model_name
-        
-    async def classify_safety(self, content: str, user_context: Dict[str, Any]) -> Dict[str, Any]:
-        """Classify content safety using BoundaryML with schema enforcement"""
-        
-        prompt = f"""
-        Analyze the following content for safety and appropriateness:
-        
-        Content: "{content}"
-        User Context: Age={user_context.get('age_category')}, Jurisdiction={user_context.get('jurisdiction')}
-        
-        Consider:
-        1. Violence levels and graphic content
-        2. Adult themes and sexual content
-        3. Hate speech and discrimination
-        4. Misinformation and conspiracy theories
-        5. Age-appropriate language and concepts
-        
-        Provide a comprehensive safety analysis with confidence scores.
-        """
-        
-        result = await self.client.classify_with_schema(
-            content=prompt,
-            schema=SafetyClassificationSchema,
-            model=self.model_name
-        )
-        
-        return result
-    
-    async def classify_educational_value(self, content: str) -> Dict[str, Any]:
-        """Assess educational value using structured LLM analysis"""
-        
-        prompt = f"""
-        Evaluate the educational value of this content:
-        
-        Content: "{content}"
-        
-        Analyze:
-        1. Learning objectives and outcomes
-        2. Subject matter expertise
-        3. Cognitive complexity (Bloom's taxonomy)
-        4. Reading level and accessibility
-        5. Factual accuracy and evidence quality
-        6. Pedagogical effectiveness
-        
-        Provide detailed educational assessment with confidence metrics.
-        """
-        
-        result = await self.client.classify_with_schema(
-            content=prompt,
-            schema=EducationalClassificationSchema,
-            model=self.model_name
-        )
-        
-        return result
-    
-    async def classify_viewpoint(self, content: str) -> Dict[str, Any]:
-        """Analyze viewpoint and bias using LLM classification"""
-        
-        prompt = f"""
-        Analyze the viewpoint and potential bias in this content:
-        
-        Content: "{content}"
-        
-        Examine:
-        1. Political perspective and ideological position
-        2. Bias indicators and loaded language
-        3. Perspective diversity and balance
-        4. Controversial elements
-        5. Source credibility indicators
-        6. Echo chamber reinforcement potential
-        
-        Provide balanced viewpoint analysis with confidence scores.
-        """
-        
-        result = await self.client.classify_with_schema(
-            content=prompt,
-            schema=ViewpointClassificationSchema,
-            model=self.model_name
-        )
-        
-        return result
+```baml
+// BAML Safety Classification Function
+function ClassifySafety(content: string, user_context: UserContext) -> SafetyClassification {
+  client GPT4
+  prompt #"
+    You are an expert content safety analyst. Analyze the following content for safety and appropriateness.
 
-    async def comprehensive_classify(self, content: str, user_profile: UserProfile) -> ContentAnalysis:
-        """Perform comprehensive content classification"""
-        
-        # Run classifications in parallel
-        safety_result, educational_result, viewpoint_result = await asyncio.gather(
-            self.classify_safety(content, user_profile.to_dict()),
-            self.classify_educational_value(content),
-            self.classify_viewpoint(content)
-        )
-        
-        # Combine results into unified analysis
-        return ContentAnalysis(
-            safety_score=safety_result['safety_score'],
-            toxicity_score=safety_result.get('hate_speech', 0),
-            educational_value=educational_result['educational_value'],
-            reading_level=educational_result['reading_level'],
-            emotional_intensity=safety_result.get('violence_level', 0),
-            viewpoint_classification=viewpoint_result['political_leaning'],
-            factual_accuracy=educational_result.get('factual_accuracy', 0.5),
-            age_appropriateness=safety_result['age_appropriateness'],
-            bias_score=viewpoint_result['bias_score'],
-            source_credibility=viewpoint_result['source_credibility']
-        )
+    Content to analyze:
+    """
+    {{ content }}
+    """
+
+    User Context:
+    - Age Category: {{ user_context.age_category }}
+    - Jurisdiction: {{ user_context.jurisdiction }}
+    - Parental Controls: {{ user_context.parental_controls }}
+    - Sensitivity Level: {{ user_context.sensitivity_level }}
+
+    {{ ctx.output_format }}
+  "#
+}
+
+class SafetyClassification {
+  safety_score float @description("Overall safety score from 0.0 to 1.0")
+  violence_level float @description("Violence content level from 0.0 to 1.0")
+  adult_content bool @description("Contains adult/sexual content")
+  hate_speech float @description("Hate speech detection score from 0.0 to 1.0")
+  misinformation_risk float @description("Risk of misinformation from 0.0 to 1.0")
+  age_appropriateness string @description("Recommended minimum age")
+  reasoning string @description("Explanation of the safety assessment")
+  content_warnings string[] @description("List of specific content warnings")
+}
 ```
 
-#### Decision Boundary Analysis
+#### Python Implementation Using Generated BAML Client
 ```python
-class BoundaryAnalyzer:
-    def __init__(self, classifier: BoundaryMLContentClassifier):
-        self.classifier = classifier
-    
-    async def analyze_classification_boundaries(self, content_examples: List[ClassificationExample]) -> BoundaryAnalysis:
-        """Analyze decision boundaries for content classification"""
-        
-        # Create binary classification tasks with varying difficulty
-        boundary_tasks = self._create_boundary_tasks(content_examples)
-        
-        boundary_insights = []
-        for task in boundary_tasks:
-            accuracy_scores = []
-            
-            for example in task.examples:
-                prediction = await self.classifier.classify_safety(
-                    example.content, 
-                    example.user_context
-                )
-                
-                # Calculate accuracy for this boundary
-                is_correct = self._evaluate_prediction(prediction, example.ground_truth)
-                accuracy_scores.append(is_correct)
-            
-            boundary_insight = BoundaryInsight(
-                task_difficulty=task.difficulty,
-                accuracy=sum(accuracy_scores) / len(accuracy_scores),
-                confidence_distribution=self._analyze_confidence(task.examples),
-                error_patterns=self._identify_error_patterns(task.examples)
-            )
-            
-            boundary_insights.append(boundary_insight)
-        
-        return BoundaryAnalysis(
-            insights=boundary_insights,
-            overall_boundary_stability=self._calculate_stability(boundary_insights),
-            recommendations=self._generate_recommendations(boundary_insights)
-        )
-```
+# Import the generated BAML client
+from baml_client import b
+from baml_client.types import SafetyClassification, UserContext
 
-### Advanced Prompt Engineering for Classification
-
-#### Dynamic Prompt Templates
-```python
-class AdaptivePromptEngine:
+class BAMLContentAnalyzer:
     def __init__(self):
-        self.prompt_templates = {
-            'safety_analysis': {
-                'child_focused': """
-                Analyze this content specifically for child safety (age {age}):
-                
-                Content: "{content}"
-                
-                Critical safety factors for children:
-                1. Age-inappropriate themes or concepts
-                2. Scary or disturbing imagery/descriptions
-                3. Complex emotional content beyond developmental stage
-                4. Educational vs entertainment value
-                5. Potential negative behavioral modeling
-                
-                Consider the child's cognitive development and emotional readiness.
-                """,
-                
-                'teen_focused': """
-                Evaluate this content for teenage users (age {age}):
-                
-                Content: "{content}"
-                
-                Teen-specific considerations:
-                1. Identity development impact
-                2. Peer influence and social pressure themes
-                3. Risk-taking behavior promotion
-                4. Mental health implications
-                5. Academic and career relevance
-                
-                Balance autonomy with protective guidance.
-                """,
-                
-                'adult_focused': """
-                Assess this content for adult users with focus on:
-                
-                Content: "{content}"
-                
-                Adult safety considerations:
-                1. Misinformation and conspiracy theories
-                2. Extremist content and radicalization risk
-                3. Financial scams and fraud
-                4. Privacy and security implications
-                5. Echo chamber reinforcement
-                
-                Emphasize informed choice and critical thinking.
-                """
-            }
-        }
-    
-    def generate_adaptive_prompt(self, classification_type: str, user_profile: UserProfile, content: str) -> str:
-        """Generate context-aware prompts based on user profile"""
+        self.baml_available = True
         
-        age_category = user_profile.age_category
-        jurisdiction = user_profile.jurisdiction
-        
-        # Select appropriate template based on age
-        if age_category in ['under_13', 'under_16']:
-            template_key = 'child_focused'
-        elif age_category == 'under_18':
-            template_key = 'teen_focused'
-        else:
-            template_key = 'adult_focused'
-        
-        base_prompt = self.prompt_templates[classification_type][template_key]
-        
-        # Add jurisdiction-specific considerations
-        jurisdiction_addendum = self._get_jurisdiction_addendum(jurisdiction)
-        
-        return base_prompt.format(
-            age=self._get_age_display(age_category),
-            content=content
-        ) + jurisdiction_addendum
-    
-    def _get_jurisdiction_addendum(self, jurisdiction: str) -> str:
-        """Add jurisdiction-specific regulatory considerations"""
-        addenda = {
-            'EU': "\n\nEU Regulatory Context: Apply GDPR privacy principles and DSA risk assessment frameworks.",
-            'US': "\n\nUS Regulatory Context: Consider COPPA compliance and state-level social media restrictions.",
-            'IN': "\n\nIndia Regulatory Context: Apply DPDPA stringent consent requirements and advertising restrictions.",
-            'CN': "\n\nChina Regulatory Context: Enforce Minor Mode restrictions and content supervision standards."
-        }
-        return addenda.get(jurisdiction, '')
+    async def classify_safety(self, content: str, user_context: UserContext) -> SafetyClassification:
+        """Classify content safety using the BAML ClassifySafety function"""
+        try:
+            result = await b.ClassifySafety(content=content, user_context=user_context)
+            return result
+        except Exception as e:
+            logger.error(f"Error in safety classification: {e}")
+            raise
+            
+    async def comprehensive_analysis(self, content: str, user_context: UserContext) -> ComprehensiveClassification:
+        """Perform comprehensive content analysis using BAML"""
+        return await b.ComprehensiveContentAnalysis(content=content, user_context=user_context)
 ```
+
+#### Setup Instructions
+1. **Install BAML CLI**: `npm install -g @boundaryml/baml`
+2. **Generate Python Client**: `baml-cli generate --from ./baml_src --lang python`
+3. **Set Environment Variables**: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`
+4. **Run Setup Script**: `./setup_baml.sh`
+
+### Files Created for BAML Integration
+- `baml_src/content_classification.baml` - BAML function definitions
+- `BAML_Integration_Implementation.py` - Real BAML client implementation
+- `baml_types.ts` - TypeScript type definitions
+- `setup_baml.sh` - Automated setup script
+
+### Key BAML Features Used
+
+1. **Structured Function Definitions**: Content classification defined as typed functions
+2. **Multi-Client Support**: Automatic fallback between OpenAI, Anthropic, etc.
+3. **Schema Validation**: Type-safe outputs with automatic parsing
+4. **Streaming Support**: Real-time classification updates
+5. **Boundary Analysis**: Understanding classification edge cases
+
+For complete implementation details, see:
+- `BAML_Integration_Implementation.py` - Full Python implementation
+- `baml_src/content_classification.baml` - BAML function definitions
+- `setup_baml.sh` - Setup and installation script
 
 ## Layer 2: AI Curation Engine
 
@@ -857,21 +721,30 @@ graph TB
         direction TB
         
         subgraph "🧠 Cognitive Assessment Layer"
-            READING[📖 Reading Level<br/>Analysis]
-            EMOTIONAL[😊 Emotional<br/>Maturity Check]
-            CRITICAL[🎯 Critical<br/>Thinking Assessment]
+            READING[📖 Reading Level
+Analysis]
+            EMOTIONAL[😊 Emotional
+Maturity Check]
+            CRITICAL[🎯 Critical
+Thinking Assessment]
         end
         
         subgraph "🔍 Content Analysis Layer"
-            TOXICITY[☠️ Toxicity<br/>Detection]
-            VIOLENCE[⚔️ Violence<br/>Assessment]
-            EDUCATIONAL[📚 Educational<br/>Value Analysis]
+            TOXICITY[☠️ Toxicity
+Detection]
+            VIOLENCE[⚔️ Violence
+Assessment]
+            EDUCATIONAL[📚 Educational
+Value Analysis]
         end
         
         subgraph "🌈 Diversity Optimization Layer"
-            VIEWPOINT[🗳️ Viewpoint<br/>Diversity]
-            SOURCE[📰 Source<br/>Variety]
-            ECHO[🔄 Echo Chamber<br/>Detection]
+            VIEWPOINT[🗳️ Viewpoint
+Diversity]
+            SOURCE[📰 Source
+Variety]
+            ECHO[🔄 Echo Chamber
+Detection]
         end
         
         subgraph "⚙️ Decision Engine"
@@ -1321,29 +1194,56 @@ graph TB
         direction TB
         
         subgraph "🇪🇺 European Union"
-            GDPR[📋 GDPR<br/>• Under 16 Consent<br/>• Data Minimization<br/>• Right to Erasure]
-            DSA[⚖️ DSA<br/>• Risk Assessment<br/>• Systemic Risks<br/>• Transparency Reports]
+            GDPR[📋 GDPR
+• Under 16 Consent
+• Data Minimization
+• Right to Erasure]
+            DSA[⚖️ DSA
+• Risk Assessment
+• Systemic Risks
+• Transparency Reports]
         end
         
         subgraph "🇺🇸 United States"
-            COPPA[👶 COPPA<br/>• Under 13 Consent<br/>• Parental Controls<br/>• Data Protection]
-            STATE[🏛️ State Laws<br/>• California CCPA<br/>• Social Media Age<br/>• Privacy Rights]
+            COPPA[👶 COPPA
+• Under 13 Consent
+• Parental Controls
+• Data Protection]
+            STATE[🏛️ State Laws
+• California CCPA
+• Social Media Age
+• Privacy Rights]
         end
         
         subgraph "🇮🇳 India"
-            DPDPA[🔒 DPDPA<br/>• Under 18 Consent<br/>• No Targeted Ads<br/>• Data Localization]
-            IT_RULES[📜 IT Rules<br/>• Content Moderation<br/>• Grievance Officer<br/>• Compliance Reports]
+            DPDPA[🔒 DPDPA
+• Under 18 Consent
+• No Targeted Ads
+• Data Localization]
+            IT_RULES[📜 IT Rules
+• Content Moderation
+• Grievance Officer
+• Compliance Reports]
         end
         
         subgraph "🇨🇳 China"
-            PIPL[🛡️ PIPL<br/>• Data Protection<br/>• Cross-border Transfer<br/>• Consent Requirements]
-            MINOR_MODE[👦 Minor Mode<br/>• Time Restrictions<br/>• Content Filtering<br/>• Real-name Auth]
+            PIPL[🛡️ PIPL
+• Data Protection
+• Cross-border Transfer
+• Consent Requirements]
+            MINOR_MODE[👦 Minor Mode
+• Time Restrictions
+• Content Filtering
+• Real-name Auth]
         end
         
         subgraph "🔄 Compliance Engine"
-            ORCHESTRATOR[🎯 Compliance<br/>Orchestrator]
-            VALIDATOR[✅ Rule<br/>Validator]
-            REPORTER[📊 Compliance<br/>Reporter]
+            ORCHESTRATOR[🎯 Compliance
+Orchestrator]
+            VALIDATOR[✅ Rule
+Validator]
+            REPORTER[📊 Compliance
+Reporter]
         end
     end
     
@@ -1497,21 +1397,48 @@ graph LR
         direction TB
         
         subgraph "🔐 ZKP Age Verification System"
-            ZKP1[🔧 Implement ZKP Circuits<br/>• Age assertion logic<br/>• Cryptographic proofs<br/>• Privacy protection]
-            ZKP2[🤝 Identity Provider Integration<br/>• Aadhaar pilot<br/>• eID connections<br/>• API development]
-            ZKP3[📱 Mobile SDK Development<br/>• Token generation<br/>• User interface<br/>• Security features]
+            ZKP1[🔧 Implement ZKP Circuits
+• Age assertion logic
+• Cryptographic proofs
+• Privacy protection]
+            ZKP2[🤝 Identity Provider Integration
+• Aadhaar pilot
+• eID connections
+• API development]
+            ZKP3[📱 Mobile SDK Development
+• Token generation
+• User interface
+• Security features]
         end
         
         subgraph "🤖 Core Curation Engine"
-            CORE1[🧠 Content Analysis Pipeline<br/>• Safety classification<br/>• Educational assessment<br/>• Basic AI models]
-            CORE2[🛡️ Safety-First Algorithm<br/>• Child protection<br/>• Content filtering<br/>• Age-appropriate rules]
-            CORE3[🔗 Platform Integration<br/>• API framework<br/>• Content ingestion<br/>• Standardized interfaces]
+            CORE1[🧠 Content Analysis Pipeline
+• Safety classification
+• Educational assessment
+• Basic AI models]
+            CORE2[🛡️ Safety-First Algorithm
+• Child protection
+• Content filtering
+• Age-appropriate rules]
+            CORE3[🔗 Platform Integration
+• API framework
+• Content ingestion
+• Standardized interfaces]
         end
         
         subgraph "🚀 Pilot Platform Integration"
-            PILOT1[🤝 Platform Partnerships<br/>• 2-3 pilot platforms<br/>• Integration agreements<br/>• Test environments]
-            PILOT2[📡 Standardized API<br/>• Content endpoints<br/>• Metadata enrichment<br/>• Performance optimization]
-            PILOT3[🧪 Sandbox Deployment<br/>• Testing environment<br/>• Performance validation<br/>• User feedback]
+            PILOT1[🤝 Platform Partnerships
+• 2-3 pilot platforms
+• Integration agreements
+• Test environments]
+            PILOT2[📡 Standardized API
+• Content endpoints
+• Metadata enrichment
+• Performance optimization]
+            PILOT3[🧪 Sandbox Deployment
+• Testing environment
+• Performance validation
+• User feedback]
         end
     end
     
@@ -1535,21 +1462,48 @@ graph LR
         direction TB
         
         subgraph "🧠 Advanced AI Models"
-            AI1[🎯 Cognitive Assessment<br/>• Child development models<br/>• Learning capabilities<br/>• Emotional maturity]
-            AI2[🌈 Diversity Optimization<br/>• Echo chamber detection<br/>• Viewpoint balancing<br/>• Bias mitigation]
-            AI3[🎬 Multi-Modal Analysis<br/>• Video content analysis<br/>• Image recognition<br/>• Audio processing]
+            AI1[🎯 Cognitive Assessment
+• Child development models
+• Learning capabilities
+• Emotional maturity]
+            AI2[🌈 Diversity Optimization
+• Echo chamber detection
+• Viewpoint balancing
+• Bias mitigation]
+            AI3[🎬 Multi-Modal Analysis
+• Video content analysis
+• Image recognition
+• Audio processing]
         end
         
         subgraph "🏪 Algorithm Marketplace"
-            MARKET1[🏬 Distribution Platform<br/>• Algorithm hosting<br/>• Version management<br/>• User reviews]
-            MARKET2[✅ Verification & Auditing<br/>• Code review<br/>• Security scanning<br/>• Performance testing]
-            MARKET3[🚀 Launch Portfolio<br/>• 5-10 verified algorithms<br/>• Different specializations<br/>• User choice]
+            MARKET1[🏬 Distribution Platform
+• Algorithm hosting
+• Version management
+• User reviews]
+            MARKET2[✅ Verification & Auditing
+• Code review
+• Security scanning
+• Performance testing]
+            MARKET3[🚀 Launch Portfolio
+• 5-10 verified algorithms
+• Different specializations
+• User choice]
         end
         
         subgraph "⚖️ Regulatory Compliance"
-            REG1[🌍 Global Implementation<br/>• EU GDPR/DSA<br/>• US COPPA<br/>• India DPDPA]
-            REG2[🔍 Audit & Certification<br/>• Compliance testing<br/>• Regulatory approval<br/>• Documentation]
-            REG3[📊 Monitoring Systems<br/>• Real-time compliance<br/>• Automated reporting<br/>• Violation detection]
+            REG1[🌍 Global Implementation
+• EU GDPR/DSA
+• US COPPA
+• India DPDPA]
+            REG2[🔍 Audit & Certification
+• Compliance testing
+• Regulatory approval
+• Documentation]
+            REG3[📊 Monitoring Systems
+• Real-time compliance
+• Automated reporting
+• Violation detection]
         end
     end
     
@@ -1573,21 +1527,48 @@ graph LR
         direction TB
         
         subgraph "🚀 Global Deployment"
-            GLOBAL1[🌐 Platform Expansion<br/>• Major social platforms<br/>• Educational content<br/>• News & media]
-            GLOBAL2[🆔 Identity Provider Network<br/>• Multi-country support<br/>• Regional compliance<br/>• Local partnerships]
-            GLOBAL3[🗺️ Multi-Jurisdiction Launch<br/>• Regional rollouts<br/>• Cultural adaptation<br/>• Local regulations]
+            GLOBAL1[🌐 Platform Expansion
+• Major social platforms
+• Educational content
+• News & media]
+            GLOBAL2[🆔 Identity Provider Network
+• Multi-country support
+• Regional compliance
+• Local partnerships]
+            GLOBAL3[🗺️ Multi-Jurisdiction Launch
+• Regional rollouts
+• Cultural adaptation
+• Local regulations]
         end
         
         subgraph "🛠️ Ecosystem Development"
-            ECO1[👨‍💻 Developer Platform<br/>• Algorithm SDK<br/>• Documentation<br/>• Community support]
-            ECO2[🧰 Developer Tools<br/>• Testing frameworks<br/>• Debugging tools<br/>• Performance analytics]
-            ECO3[🏆 Certification Program<br/>• Algorithm standards<br/>• Quality assurance<br/>• Best practices]
+            ECO1[👨‍💻 Developer Platform
+• Algorithm SDK
+• Documentation
+• Community support]
+            ECO2[🧰 Developer Tools
+• Testing frameworks
+• Debugging tools
+• Performance analytics]
+            ECO3[🏆 Certification Program
+• Algorithm standards
+• Quality assurance
+• Best practices]
         end
         
         subgraph "🔮 Advanced Features"
-            ADV1[⚡ Real-Time Analysis<br/>• Live content filtering<br/>• Instant classification<br/>• Stream processing]
-            ADV2[🔮 Predictive Safety<br/>• Risk prediction<br/>• Proactive filtering<br/>• Trend analysis]
-            ADV3[🤝 Federated Learning<br/>• Distributed training<br/>• Privacy-preserving ML<br/>• Collaborative improvement]
+            ADV1[⚡ Real-Time Analysis
+• Live content filtering
+• Instant classification
+• Stream processing]
+            ADV2[🔮 Predictive Safety
+• Risk prediction
+• Proactive filtering
+• Trend analysis]
+            ADV3[🤝 Federated Learning
+• Distributed training
+• Privacy-preserving ML
+• Collaborative improvement]
         end
     end
     
@@ -1611,33 +1592,78 @@ graph TB
         direction TB
         
         subgraph "🛡️ Application Security"
-            AUTH[🔐 Authentication<br/>• JWT Tokens<br/>• Multi-Factor Auth<br/>• Session Management]
-            AUTHZ[⚖️ Authorization<br/>• Role-Based Access<br/>• Permission Matrix<br/>• Resource Controls]
-            INPUT[🔍 Input Validation<br/>• Schema Validation<br/>• Sanitization<br/>• Injection Prevention]
+            AUTH[🔐 Authentication
+• JWT Tokens
+• Multi-Factor Auth
+• Session Management]
+            AUTHZ[⚖️ Authorization
+• Role-Based Access
+• Permission Matrix
+• Resource Controls]
+            INPUT[🔍 Input Validation
+• Schema Validation
+• Sanitization
+• Injection Prevention]
         end
         
         subgraph "🔐 ZKP Security"
-            CIRCUIT[⚙️ Circuit Security<br/>• Formal Verification<br/>• Trusted Setup<br/>• Audit Trail]
-            KEYS[🔑 Key Management<br/>• HSM Storage<br/>• Key Rotation<br/>• Distributed Generation]
-            PROOF[📋 Proof Validation<br/>• Cryptographic Verification<br/>• Replay Prevention<br/>• Expiry Management]
+            CIRCUIT[⚙️ Circuit Security
+• Formal Verification
+• Trusted Setup
+• Audit Trail]
+            KEYS[🔑 Key Management
+• HSM Storage
+• Key Rotation
+• Distributed Generation]
+            PROOF[📋 Proof Validation
+• Cryptographic Verification
+• Replay Prevention
+• Expiry Management]
         end
         
         subgraph "🏰 Infrastructure Security"
-            NETWORK[🌐 Network Security<br/>• TLS/SSL Encryption<br/>• VPN Access<br/>• Firewall Rules]
-            CONTAINER[📦 Container Security<br/>• Image Scanning<br/>• Runtime Protection<br/>• Isolation]
-            MONITOR[👁️ Security Monitoring<br/>• SIEM Integration<br/>• Threat Detection<br/>• Incident Response]
+            NETWORK[🌐 Network Security
+• TLS/SSL Encryption
+• VPN Access
+• Firewall Rules]
+            CONTAINER[📦 Container Security
+• Image Scanning
+• Runtime Protection
+• Isolation]
+            MONITOR[👁️ Security Monitoring
+• SIEM Integration
+• Threat Detection
+• Incident Response]
         end
         
         subgraph "🗄️ Data Security"
-            ENCRYPT[🔒 Encryption<br/>• Data at Rest<br/>• Data in Transit<br/>• Key Management]
-            PRIVACY[🛡️ Privacy Protection<br/>• Data Minimization<br/>• Anonymization<br/>• Right to Erasure]
-            BACKUP[💾 Backup Security<br/>• Encrypted Backups<br/>• Access Controls<br/>• Recovery Testing]
+            ENCRYPT[🔒 Encryption
+• Data at Rest
+• Data in Transit
+• Key Management]
+            PRIVACY[🛡️ Privacy Protection
+• Data Minimization
+• Anonymization
+• Right to Erasure]
+            BACKUP[💾 Backup Security
+• Encrypted Backups
+• Access Controls
+• Recovery Testing]
         end
         
         subgraph "🤖 Algorithm Security"
-            SIGNING[✅ Code Signing<br/>• Digital Signatures<br/>• Authenticity Verification<br/>• Tamper Detection]
-            SANDBOX[🏖️ Sandboxing<br/>• Isolated Execution<br/>• Resource Limits<br/>• Data Exfiltration Prevention]
-            AUDIT[🔍 Algorithm Auditing<br/>• Code Review<br/>• Vulnerability Scanning<br/>• Performance Monitoring]
+            SIGNING[✅ Code Signing
+• Digital Signatures
+• Authenticity Verification
+• Tamper Detection]
+            SANDBOX[🏖️ Sandboxing
+• Isolated Execution
+• Resource Limits
+• Data Exfiltration Prevention]
+            AUDIT[🔍 Algorithm Auditing
+• Code Review
+• Vulnerability Scanning
+• Performance Monitoring]
         end
     end
     
@@ -1782,28 +1808,67 @@ graph TB
         direction TB
         
         subgraph "🚀 Multi-Region Deployment"
-            US_REGION[🇺🇸 US Region<br/>• Data Residency<br/>• Low Latency<br/>• Disaster Recovery]
-            EU_REGION[🇪🇺 EU Region<br/>• GDPR Compliance<br/>• Data Sovereignty<br/>• Regional Processing]
-            ASIA_REGION[🌏 Asia Region<br/>• Local Compliance<br/>• Performance Optimization<br/>• Cultural Adaptation]
+            US_REGION[🇺🇸 US Region
+• Data Residency
+• Low Latency
+• Disaster Recovery]
+            EU_REGION[🇪🇺 EU Region
+• GDPR Compliance
+• Data Sovereignty
+• Regional Processing]
+            ASIA_REGION[🌏 Asia Region
+• Local Compliance
+• Performance Optimization
+• Cultural Adaptation]
         end
         
         subgraph "☸️ Container Orchestration"
-            K8S[Kubernetes Clusters<br/>• Auto-scaling<br/>• Load Balancing<br/>• Blue-Green Deployment]
-            DOCKER[Docker Containers<br/>• Microservices<br/>• Isolation<br/>• Portability]
-            HELM[Helm Charts<br/>• Configuration Management<br/>• Version Control<br/>• Rollback Support]
+            K8S[Kubernetes Clusters
+• Auto-scaling
+• Load Balancing
+• Blue-Green Deployment]
+            DOCKER[Docker Containers
+• Microservices
+• Isolation
+• Portability]
+            HELM[Helm Charts
+• Configuration Management
+• Version Control
+• Rollback Support]
         end
         
         subgraph "📊 Monitoring & Observability"
-            PROMETHEUS[📈 Prometheus<br/>• Metrics Collection<br/>• Alerting Rules<br/>• Time Series DB]
-            GRAFANA[📊 Grafana<br/>• Dashboards<br/>• Visualization<br/>• Real-time Monitoring]
-            JAEGER[🔍 Jaeger<br/>• Distributed Tracing<br/>• Performance Analysis<br/>• Request Flow]
-            ELK[📝 ELK Stack<br/>• Centralized Logging<br/>• Log Analysis<br/>• Audit Trails]
+            PROMETHEUS[📈 Prometheus
+• Metrics Collection
+• Alerting Rules
+• Time Series DB]
+            GRAFANA[📊 Grafana
+• Dashboards
+• Visualization
+• Real-time Monitoring]
+            JAEGER[🔍 Jaeger
+• Distributed Tracing
+• Performance Analysis
+• Request Flow]
+            ELK[📝 ELK Stack
+• Centralized Logging
+• Log Analysis
+• Audit Trails]
         end
         
         subgraph "🔄 CI/CD Pipeline"
-            GITHUB[📦 GitHub Actions<br/>• Automated Testing<br/>• Code Quality<br/>• Security Scanning]
-            DEPLOY[🚀 Deployment Pipeline<br/>• Staging Environment<br/>• Production Rollout<br/>• Rollback Capability]
-            SECURITY[🔒 Security Scanning<br/>• Vulnerability Assessment<br/>• Compliance Checks<br/>• Secret Management]
+            GITHUB[📦 GitHub Actions
+• Automated Testing
+• Code Quality
+• Security Scanning]
+            DEPLOY[🚀 Deployment Pipeline
+• Staging Environment
+• Production Rollout
+• Rollback Capability]
+            SECURITY[🔒 Security Scanning
+• Vulnerability Assessment
+• Compliance Checks
+• Secret Management]
         end
     end
     
@@ -1837,27 +1902,39 @@ graph TB
 ```mermaid
 graph LR
     subgraph "⚖️ Compliance Monitoring"
-        AUTO_CHECK[🤖 Automated<br/>Compliance Checking]
-        AUDIT_REVIEW[📋 Regular<br/>Audit Reviews]
-        INCIDENT_RESP[🚨 Incident<br/>Response Procedures]
+        AUTO_CHECK[🤖 Automated
+Compliance Checking]
+        AUDIT_REVIEW[📋 Regular
+Audit Reviews]
+        INCIDENT_RESP[🚨 Incident
+Response Procedures]
     end
     
     subgraph "🔄 Algorithm Management"
-        STAGED_ROLLOUT[🎯 Staged<br/>Algorithm Rollout]
-        AB_TESTING[📊 A/B Testing<br/>& Validation]
-        ROLLBACK[↩️ Rollback<br/>Procedures]
+        STAGED_ROLLOUT[🎯 Staged
+Algorithm Rollout]
+        AB_TESTING[📊 A/B Testing
+& Validation]
+        ROLLBACK[↩️ Rollback
+Procedures]
     end
     
     subgraph "🔒 Security Operations"
-        MONITORING_24_7[👁️ 24/7 Security<br/>Monitoring]
-        THREAT_DETECTION[🛡️ Threat Detection<br/>& Response]
-        PENETRATION_TEST[🔍 Regular<br/>Penetration Testing]
+        MONITORING_24_7[👁️ 24/7 Security
+Monitoring]
+        THREAT_DETECTION[🛡️ Threat Detection
+& Response]
+        PENETRATION_TEST[🔍 Regular
+Penetration Testing]
     end
     
     subgraph "📈 Performance Management"
-        METRICS[📊 Performance<br/>Metrics Collection]
-        OPTIMIZATION[⚡ System<br/>Optimization]
-        CAPACITY[📈 Capacity<br/>Planning]
+        METRICS[📊 Performance
+Metrics Collection]
+        OPTIMIZATION[⚡ System
+Optimization]
+        CAPACITY[📈 Capacity
+Planning]
     end
     
     AUTO_CHECK --> AUDIT_REVIEW
