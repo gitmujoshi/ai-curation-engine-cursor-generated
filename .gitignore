@@ -123,3 +123,4 @@ venv.bak/
 private_keys/
 certificates/
 secrets/
+data/
