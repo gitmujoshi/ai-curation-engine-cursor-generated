@@ -18,28 +18,28 @@ BAML (BoundaryML's AI Markup Language) is a domain-specific language for structu
 
 ```mermaid
 flowchart TD
-    subgraph "🔄 BAML Development Workflow"
-        BAML[📝 BAML Files
-(.baml)]
-        CLI[⚙️ BAML CLI
-Compiler]
-        CLIENT[🐍 Generated
-Python Client]
-        APP[🚀 Application
-Code]
+    subgraph "BAML Development Workflow"
+        BAML["BAML Files
+        .baml format"]
+        CLI["BAML CLI
+        Compiler"]
+        CLIENT["Generated
+        Python Client"]
+        APP["Application
+        Code"]
     end
     
-    subgraph "🤖 Content Classification Pipeline"
-        CONTENT[📄 Input Content]
-        CONTEXT[👤 User Context]
-        SAFETY[🛡️ Safety
-Classification]
-        EDU[📚 Educational
-Analysis]
-        VIEW[🏛️ Viewpoint
-Analysis]
-        COMP[📊 Comprehensive
-Result]
+    subgraph "Content Classification Pipeline"
+        CONTENT["Input Content"]
+        CONTEXT["User Context"]
+        SAFETY["Safety
+        Classification"]
+        EDU["Educational
+        Analysis"]
+        VIEW["Viewpoint
+        Analysis"]
+        COMP["Comprehensive
+        Result"]
     end
     
     BAML --> CLI
