@@ -66,8 +66,16 @@ def test_baml_integration():
     """Test BAML integration."""
     try:
         sys.path.insert(0, str(Path(__file__).parent))
-        from BAML_Integration_Implementation import BAMLContentAnalyzer
-        print_status("✅ BAML integration module importable", "success")
+        from BAML_Integration_Real import RealBAMLContentAnalyzer
+        print_status("✅ Real BAML integration module importable", "success")
+        
+        # Check if generated client exists
+        baml_client_path = Path(__file__).parent / "baml_client_python" / "baml_client"
+        if baml_client_path.exists():
+            print_status("✅ BAML Python client generated successfully", "success")
+        else:
+            print_status("⚠️ BAML Python client not found, using fallback", "warning")
+        
         return True
     except ImportError as e:
         print_status(f"⚠️ BAML integration not available: {e}", "warning")
@@ -81,8 +89,8 @@ def check_demo_structure():
         ("integrated-backend/server.js", "Backend server"),
         ("integrated-backend/package.json", "Backend package config"),
         ("demo-frontend/app.js", "Demo frontend"),
-        ("baml_src/content_classification.baml", "BAML functions"),
-        ("baml_src/llama_content_classification.baml", "Llama BAML functions"),
+        ("baml_src/content_classification.baml", "BAML functions (unified)"),
+        ("BAML_Integration_Real.py", "Real BAML integration"),
         ("DEMO_GUIDE.md", "Demo guide"),
         ("LOCAL_DEPLOYMENT_GUIDE.md", "Deployment guide"),
         ("enhanced-child-profile-setup.jsx", "Enhanced UI component")

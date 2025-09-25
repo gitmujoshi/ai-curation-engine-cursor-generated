@@ -178,11 +178,24 @@ setup_baml() {
     # Generate BAML Python client
     if [ -f "baml_src/content_classification.baml" ]; then
         print_info "Generating BAML Python client..."
-        baml-cli generate --from ./baml_src > /dev/null 2>&1 && {
-            print_success "BAML Python client generated successfully"
-        } || {
+        
+        # Clean any existing client first
+        rm -rf baml_client_python/baml_client 2>/dev/null || true
+        
+        # Generate client and check for actual success
+        if baml-cli generate --from ./baml_src > /dev/null 2>&1; then
+            # Verify client was actually generated
+            if [ -d "baml_client_python/baml_client" ] && [ -f "baml_client_python/baml_client/__init__.py" ]; then
+                print_success "BAML Python client generated successfully"
+                print_info "Client location: baml_client_python/baml_client/"
+            else
+                print_warning "BAML generation completed but client files not found"
+            fi
+        else
             print_warning "BAML client generation failed - demo will use fallback mode"
-        }
+        fi
+    else
+        print_warning "BAML source file not found - skipping client generation"
     fi
     
     # Install required BAML Python package
@@ -360,6 +373,12 @@ show_demo_info() {
         echo "   • Demo Frontend: ✅ Running"
     else
         echo "   • Demo Frontend: ❌ Not running"
+    fi
+    
+    if [ -d "baml_client_python/baml_client" ]; then
+        echo "   • BAML Client:   ✅ Generated (Real AI)"
+    else
+        echo "   • BAML Client:   ⚠️  Using Fallback"
     fi
     
     echo ""
