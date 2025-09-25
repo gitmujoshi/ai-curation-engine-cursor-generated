@@ -125,3 +125,4 @@ certificates/
 secrets/
 data/
 baml_src/types.baml
+baml_client_python/
