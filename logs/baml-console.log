@@ -1,0 +1,496 @@
+2025-09-25 21:36:06,107 - INFO - 🔍 BAML logging configured - logs will be saved to logs/baml.log
+2025-09-25 21:36:06,185 - INFO - ✅ Real BAML client imported successfully
+2025-09-25 21:36:06,186 - INFO - 🔍 BAML logging configured - logs will be saved to ../logs/baml.log
+2025-09-25 21:36:06,186 - INFO - 🧠 RealBAMLContentAnalyzer initialized with actual BAML client
+2025-09-25 21:36:06,186 - INFO - 🚀 ContentCurationPipeline initialized
+✅ Real BAML integration imported successfully
+🚀 Using real BAML ContentCurationPipeline
+✅ Templates created successfully
+🚀 Starting AI Curation Engine Demo...
+📱 Demo Interface: http://localhost:5000
+🔍 Content Testing: http://localhost:5000/content-test
+👨‍👩‍👧‍👦 Child Setup: http://localhost:5000/child-setup
+
+✅ Backend connected - Full functionality available
+✅ BAML integration available - Real AI classification
+
+🎯 Demo Features:
+   • Parent dashboard with child profiles
+   • Real-time content classification
+   • BAML AI integration
+   • Safety analytics
+   • Child profile management
+ * Serving Flask app 'app'
+ * Debug mode: on
+2025-09-25 21:36:06,228 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.0.151:5001
+2025-09-25 21:36:06,228 - INFO - [33mPress CTRL+C to quit[0m
+2025-09-25 21:36:06,229 - INFO -  * Restarting with stat
+2025-09-25 21:36:06,361 - INFO - 🔍 BAML logging configured - logs will be saved to logs/baml.log
+2025-09-25 21:36:06,419 - INFO - ✅ Real BAML client imported successfully
+2025-09-25 21:36:06,420 - INFO - 🔍 BAML logging configured - logs will be saved to ../logs/baml.log
+2025-09-25 21:36:06,420 - INFO - 🧠 RealBAMLContentAnalyzer initialized with actual BAML client
+2025-09-25 21:36:06,420 - INFO - 🚀 ContentCurationPipeline initialized
+2025-09-25 21:36:06,445 - WARNING -  * Debugger is active!
+2025-09-25 21:36:06,451 - INFO -  * Debugger PIN: 991-188-024
+2025-09-25 21:36:17,967 - INFO - 127.0.0.1 - - [25/Sep/2025 21:36:17] "GET /api/health HTTP/1.1" 200 -
+2025-09-25 21:36:17,978 - INFO - 🔍 Performing comprehensive analysis for content
+2025-09-25T21:36:24.720 [BAML INFO] Function ComprehensiveContentAnalysis:
+    Client: Ollama (llama3.2:latest) - 6739ms. StopReason: stop. Tokens(in/out): 579/266
+    ---PROMPT---
+    user: Analyze this content and return ONLY valid JSON. No explanations, no disclaimers, just JSON.
+    
+    Content: Testing BAML log capture
+    Age: UNDER_18
+    
+    Answer in JSON using this schema:
+    {
+      safety: {
+        // Overall safety score from 0.0 to 1.0
+        safety_score: float,
+        // Violence content level from 0.0 to 1.0
+        violence_level: float,
+        // Contains adult/sexual content
+        adult_content: bool,
+        // Hate speech detection score from 0.0 to 1.0
+        hate_speech: float,
+        // Risk of misinformation from 0.0 to 1.0
+        misinformation_risk: float,
+        // Recommended minimum age
+        age_appropriateness: string,
+        // Explanation of the safety assessment
+        reasoning: string,
+        // List of specific content warnings
+        content_warnings: string[],
+      },
+      educational: {
+        // Educational value score from 0.0 to 1.0
+        educational_score: float,
+        // Identified learning objectives
+        learning_objectives: string[],
+        // Academic subject areas covered
+        subject_areas: string[],
+        // Cognitive complexity level
+        cognitive_level: string,
+        // Grade-level reading difficulty
+        reading_level: int,
+        // Factual accuracy assessment from 0.0 to 1.0
+        factual_accuracy: float,
+        // Explanation of the educational assessment
+        reasoning: string,
+      },
+      viewpoint: {
+        // Political leaning (left, right, neutral)
+        political_leaning: string,
+        // Overall bias score from 0.0 to 1.0
+        bias_score: float,
+        // Diversity of perspectives from 0.0 to 1.0
+        perspective_diversity: float,
+        // Level of controversy from 0.0 to 1.0
+        controversy_level: float,
+        // Source credibility from 0.0 to 1.0
+        source_credibility: float,
+        // Explanation of the viewpoint assessment
+        reasoning: string,
+      },
+      // Overall confidence score from 0.0 to 1.0
+      overall_confidence: float,
+      // Final recommendation: allow, caution, or block
+      recommendation: string,
+      // Summary of the comprehensive analysis
+      summary_reasoning: string,
+    }
+    
+    Rules:
+    - Return ONLY the JSON object above
+    - For mature content: safety_score < 0.5, adult_content = true, recommendation = "block"  
+    - For safe content: safety_score > 0.7, recommendation = "allow"
+    - Always include reasoning in the reasoning fields
+    
+    ---LLM REPLY---
+    {
+      "safety": {
+        "safety_score": 0.4,
+        "violence_level": 0.2,
+        "adult_content": true,
+        "hate_speech": 0.1,
+        "misinformation_risk": 0.3,
+        "age_appropriateness": "UNDER_18",
+        "reasoning": "Testing BAML log capture",
+        "content_warnings": ["Mature content"]
+      },
+      "educational": {
+        "educational_score": 0.8,
+        "learning_objectives": [],
+        "subject_areas": [],
+        "cognitive_level": "medium",
+        "reading_level": 6,
+        "factual_accuracy": 0.9,
+        "reasoning": ""
+      },
+      "viewpoint": {
+        "political_leaning": "neutral",
+        "bias_score": 0.5,
+        "perspective_diversity": 0.4,
+        "controversy_level": 0.2,
+        "source_credibility": 0.6,
+        "reasoning": ""
+      },
+      "overall_confidence": 0.7,
+      "recommendation": "block",
+      "summary_reasoning": "Testing BAML log capture"
+    }
+    ---Parsed Response (class ComprehensiveClassification)---
+    {
+      "safety": {
+        "safety_score": 0.4,
+        "violence_level": 0.2,
+        "adult_content": true,
+        "hate_speech": 0.1,
+        "misinformation_risk": 0.3,
+        "age_appropriateness": "UNDER_18",
+        "reasoning": "Testing BAML log capture",
+        "content_warnings": [
+          "Mature content"
+        ]
+      },
+      "educational": {
+        "educational_score": 0.8,
+        "learning_objectives": [],
+        "subject_areas": [],
+        "cognitive_level": "medium",
+        "reading_level": 6,
+        "factual_accuracy": 0.9,
+        "reasoning": ""
+      },
+      "viewpoint": {
+        "political_leaning": "neutral",
+        "bias_score": 0.5,
+        "perspective_diversity": 0.4,
+        "controversy_level": 0.2,
+        "source_credibility": 0.6,
+        "reasoning": ""
+      },
+      "overall_confidence": 0.7,
+      "recommendation": "block",
+      "summary_reasoning": "Testing BAML log capture"
+    }
+2025-09-25 21:36:24,722 - INFO - ✅ Content curation completed in 6.74s - Recommendation: block
+2025-09-25 21:36:24,723 - INFO - 127.0.0.1 - - [25/Sep/2025 21:36:24] "POST /api/classify HTTP/1.1" 200 -
+2025-09-25 21:39:23,589 - INFO -  * Detected change in '/Users/mukeshjoshi/gitprojects/AISafety/BAML_Integration_Real.py', reloading
+✅ Real BAML integration imported successfully
+🚀 Using real BAML ContentCurationPipeline
+✅ Templates created successfully
+🚀 Starting AI Curation Engine Demo...
+📱 Demo Interface: http://localhost:5000
+🔍 Content Testing: http://localhost:5000/content-test
+👨‍👩‍👧‍👦 Child Setup: http://localhost:5000/child-setup
+
+✅ Backend connected - Full functionality available
+✅ BAML integration available - Real AI classification
+
+🎯 Demo Features:
+   • Parent dashboard with child profiles
+   • Real-time content classification
+   • BAML AI integration
+   • Safety analytics
+   • Child profile management
+2025-09-25 21:39:23,622 - INFO -  * Restarting with stat
+2025-09-25 21:39:23,805 - INFO - 🔍 BAML logging configured - logs will be saved to logs/baml.log
+2025-09-25 21:39:23,874 - INFO - ✅ Real BAML client imported successfully
+2025-09-25 21:39:23,874 - INFO - 🔍 BAML logging configured - logs will be saved to ../logs/baml.log
+2025-09-25 21:39:23,875 - INFO - 🧠 RealBAMLContentAnalyzer initialized with actual BAML client
+2025-09-25 21:39:23,875 - INFO - 🚀 ContentCurationPipeline initialized
+2025-09-25 21:39:23,902 - WARNING -  * Debugger is active!
+2025-09-25 21:39:23,906 - INFO -  * Debugger PIN: 991-188-024
+2025-09-25 21:39:42,058 - INFO -  * Detected change in '/Users/mukeshjoshi/gitprojects/AISafety/BAML_Integration_Real.py', reloading
+✅ Real BAML integration imported successfully
+🚀 Using real BAML ContentCurationPipeline
+✅ Templates created successfully
+🚀 Starting AI Curation Engine Demo...
+📱 Demo Interface: http://localhost:5000
+🔍 Content Testing: http://localhost:5000/content-test
+👨‍👩‍👧‍👦 Child Setup: http://localhost:5000/child-setup
+
+✅ Backend connected - Full functionality available
+✅ BAML integration available - Real AI classification
+
+🎯 Demo Features:
+   • Parent dashboard with child profiles
+   • Real-time content classification
+   • BAML AI integration
+   • Safety analytics
+   • Child profile management
+2025-09-25 21:39:42,086 - INFO -  * Restarting with stat
+2025-09-25 21:39:42,251 - INFO - 🔍 BAML logging configured - logs will be saved to logs/baml.log
+2025-09-25 21:39:42,305 - INFO - ✅ Real BAML client imported successfully
+2025-09-25 21:39:42,305 - INFO - 🔍 BAML logging configured - logs will be saved to ../logs/baml.log
+2025-09-25 21:39:42,307 - INFO - 🧠 RealBAMLContentAnalyzer initialized with actual BAML client
+2025-09-25 21:39:42,307 - INFO - 📋 BAML Collector configured for detailed logging
+2025-09-25 21:39:42,307 - INFO - 🚀 ContentCurationPipeline initialized
+2025-09-25 21:39:42,329 - WARNING -  * Debugger is active!
+2025-09-25 21:39:42,333 - INFO -  * Debugger PIN: 991-188-024
+2025-09-25 21:39:55,449 - INFO -  * Detected change in '/Users/mukeshjoshi/gitprojects/AISafety/BAML_Integration_Real.py', reloading
+✅ Real BAML integration imported successfully
+🚀 Using real BAML ContentCurationPipeline
+✅ Templates created successfully
+🚀 Starting AI Curation Engine Demo...
+📱 Demo Interface: http://localhost:5000
+🔍 Content Testing: http://localhost:5000/content-test
+👨‍👩‍👧‍👦 Child Setup: http://localhost:5000/child-setup
+
+✅ Backend connected - Full functionality available
+✅ BAML integration available - Real AI classification
+
+🎯 Demo Features:
+   • Parent dashboard with child profiles
+   • Real-time content classification
+   • BAML AI integration
+   • Safety analytics
+   • Child profile management
+2025-09-25 21:39:55,492 - INFO -  * Restarting with stat
+2025-09-25 21:39:55,618 - INFO - 🔍 BAML logging configured - logs will be saved to logs/baml.log
+2025-09-25 21:39:55,671 - INFO - ✅ Real BAML client imported successfully
+2025-09-25 21:39:55,671 - INFO - 🔍 BAML logging configured - logs will be saved to ../logs/baml.log
+2025-09-25 21:39:55,672 - INFO - 🧠 RealBAMLContentAnalyzer initialized with actual BAML client
+2025-09-25 21:39:55,672 - INFO - 📋 BAML Collector configured for detailed logging
+2025-09-25 21:39:55,672 - INFO - 🚀 ContentCurationPipeline initialized
+2025-09-25 21:39:55,695 - WARNING -  * Debugger is active!
+2025-09-25 21:39:55,699 - INFO -  * Debugger PIN: 991-188-024
+2025-09-25 21:40:00,742 - INFO -  * Detected change in '/Users/mukeshjoshi/gitprojects/AISafety/BAML_Integration_Real.py', reloading
+✅ Real BAML integration imported successfully
+🚀 Using real BAML ContentCurationPipeline
+✅ Templates created successfully
+🚀 Starting AI Curation Engine Demo...
+📱 Demo Interface: http://localhost:5000
+🔍 Content Testing: http://localhost:5000/content-test
+👨‍👩‍👧‍👦 Child Setup: http://localhost:5000/child-setup
+
+✅ Backend connected - Full functionality available
+✅ BAML integration available - Real AI classification
+
+🎯 Demo Features:
+   • Parent dashboard with child profiles
+   • Real-time content classification
+   • BAML AI integration
+   • Safety analytics
+   • Child profile management
+2025-09-25 21:40:00,782 - INFO -  * Restarting with stat
+2025-09-25 21:40:00,907 - INFO - 🔍 BAML logging configured - logs will be saved to logs/baml.log
+2025-09-25 21:40:00,959 - INFO - ✅ Real BAML client imported successfully
+2025-09-25 21:40:00,959 - INFO - 🔍 BAML logging configured - logs will be saved to ../logs/baml.log
+2025-09-25 21:40:00,960 - INFO - 🧠 RealBAMLContentAnalyzer initialized with actual BAML client
+2025-09-25 21:40:00,960 - INFO - 📋 BAML Collector configured for detailed logging
+2025-09-25 21:40:00,960 - INFO - 🚀 ContentCurationPipeline initialized
+2025-09-25 21:40:00,982 - WARNING -  * Debugger is active!
+2025-09-25 21:40:00,986 - INFO -  * Debugger PIN: 991-188-024
+2025-09-25 21:40:06,030 - INFO -  * Detected change in '/Users/mukeshjoshi/gitprojects/AISafety/BAML_Integration_Real.py', reloading
+✅ Real BAML integration imported successfully
+🚀 Using real BAML ContentCurationPipeline
+✅ Templates created successfully
+🚀 Starting AI Curation Engine Demo...
+📱 Demo Interface: http://localhost:5000
+🔍 Content Testing: http://localhost:5000/content-test
+👨‍👩‍👧‍👦 Child Setup: http://localhost:5000/child-setup
+
+✅ Backend connected - Full functionality available
+✅ BAML integration available - Real AI classification
+
+🎯 Demo Features:
+   • Parent dashboard with child profiles
+   • Real-time content classification
+   • BAML AI integration
+   • Safety analytics
+   • Child profile management
+2025-09-25 21:40:06,154 - INFO -  * Restarting with stat
+2025-09-25 21:40:06,291 - INFO - 🔍 BAML logging configured - logs will be saved to logs/baml.log
+2025-09-25 21:40:06,343 - INFO - ✅ Real BAML client imported successfully
+2025-09-25 21:40:06,344 - INFO - 🔍 BAML logging configured - logs will be saved to ../logs/baml.log
+2025-09-25 21:40:06,344 - INFO - 🧠 RealBAMLContentAnalyzer initialized with actual BAML client
+2025-09-25 21:40:06,344 - INFO - 📋 BAML Collector configured for detailed logging
+2025-09-25 21:40:06,344 - INFO - 🚀 ContentCurationPipeline initialized
+2025-09-25 21:40:06,368 - WARNING -  * Debugger is active!
+2025-09-25 21:40:06,373 - INFO -  * Debugger PIN: 991-188-024
+2025-09-25 21:40:27,458 - INFO - 127.0.0.1 - - [25/Sep/2025 21:40:27] "GET /api/health HTTP/1.1" 200 -
+2025-09-25 21:40:27,468 - INFO - 🔍 Performing comprehensive analysis for content
+2025-09-25T21:40:34.588 [BAML INFO] Function ComprehensiveContentAnalysis:
+    Client: Ollama (llama3.2:latest) - 7117ms. StopReason: stop. Tokens(in/out): 579/276
+    ---PROMPT---
+    user: Analyze this content and return ONLY valid JSON. No explanations, no disclaimers, just JSON.
+    
+    Content: Testing BAML Collector logging
+    Age: UNDER_18
+    
+    Answer in JSON using this schema:
+    {
+      safety: {
+        // Overall safety score from 0.0 to 1.0
+        safety_score: float,
+        // Violence content level from 0.0 to 1.0
+        violence_level: float,
+        // Contains adult/sexual content
+        adult_content: bool,
+        // Hate speech detection score from 0.0 to 1.0
+        hate_speech: float,
+        // Risk of misinformation from 0.0 to 1.0
+        misinformation_risk: float,
+        // Recommended minimum age
+        age_appropriateness: string,
+        // Explanation of the safety assessment
+        reasoning: string,
+        // List of specific content warnings
+        content_warnings: string[],
+      },
+      educational: {
+        // Educational value score from 0.0 to 1.0
+        educational_score: float,
+        // Identified learning objectives
+        learning_objectives: string[],
+        // Academic subject areas covered
+        subject_areas: string[],
+        // Cognitive complexity level
+        cognitive_level: string,
+        // Grade-level reading difficulty
+        reading_level: int,
+        // Factual accuracy assessment from 0.0 to 1.0
+        factual_accuracy: float,
+        // Explanation of the educational assessment
+        reasoning: string,
+      },
+      viewpoint: {
+        // Political leaning (left, right, neutral)
+        political_leaning: string,
+        // Overall bias score from 0.0 to 1.0
+        bias_score: float,
+        // Diversity of perspectives from 0.0 to 1.0
+        perspective_diversity: float,
+        // Level of controversy from 0.0 to 1.0
+        controversy_level: float,
+        // Source credibility from 0.0 to 1.0
+        source_credibility: float,
+        // Explanation of the viewpoint assessment
+        reasoning: string,
+      },
+      // Overall confidence score from 0.0 to 1.0
+      overall_confidence: float,
+      // Final recommendation: allow, caution, or block
+      recommendation: string,
+      // Summary of the comprehensive analysis
+      summary_reasoning: string,
+    }
+    
+    Rules:
+    - Return ONLY the JSON object above
+    - For mature content: safety_score < 0.5, adult_content = true, recommendation = "block"  
+    - For safe content: safety_score > 0.7, recommendation = "allow"
+    - Always include reasoning in the reasoning fields
+    
+    ---LLM REPLY---
+    {
+      "safety": {
+        "safety_score": 0.4,
+        "violence_level": 0.2,
+        "adult_content": true,
+        "hate_speech": 0.1,
+        "misinformation_risk": 0.3,
+        "age_appropriateness": "UNDER_18",
+        "reasoning": "Testing BAML Collector logging",
+        "content_warnings": ["Mature content"]
+      },
+      "educational": {
+        "educational_score": 0.8,
+        "learning_objectives": [],
+        "subject_areas": [],
+        "cognitive_level": "medium",
+        "reading_level": 5,
+        "factual_accuracy": 0.9,
+        "reasoning": ""
+      },
+      "viewpoint": {
+        "political_leaning": "neutral",
+        "bias_score": 0.6,
+        "perspective_diversity": 0.7,
+        "controversy_level": 0.4,
+        "source_credibility": 0.8,
+        "reasoning": ""
+      },
+      "overall_confidence": 0.5,
+      "recommendation": "caution",
+      "summary_reasoning": "The content has some mature elements, but overall it is educational and informative."
+    }
+    ---Parsed Response (class ComprehensiveClassification)---
+    {
+      "safety": {
+        "safety_score": 0.4,
+        "violence_level": 0.2,
+        "adult_content": true,
+        "hate_speech": 0.1,
+        "misinformation_risk": 0.3,
+        "age_appropriateness": "UNDER_18",
+        "reasoning": "Testing BAML Collector logging",
+        "content_warnings": [
+          "Mature content"
+        ]
+      },
+      "educational": {
+        "educational_score": 0.8,
+        "learning_objectives": [],
+        "subject_areas": [],
+        "cognitive_level": "medium",
+        "reading_level": 5,
+        "factual_accuracy": 0.9,
+        "reasoning": ""
+      },
+      "viewpoint": {
+        "political_leaning": "neutral",
+        "bias_score": 0.6,
+        "perspective_diversity": 0.7,
+        "controversy_level": 0.4,
+        "source_credibility": 0.8,
+        "reasoning": ""
+      },
+      "overall_confidence": 0.5,
+      "recommendation": "caution",
+      "summary_reasoning": "The content has some mature elements, but overall it is educational and informative."
+    }
+2025-09-25 21:40:34,590 - ERROR - ❌ Comprehensive analysis failed: 'baml_py.baml_py.FunctionLog' object has no attribute 'duration_ms'
+2025-09-25 21:40:34,591 - INFO - ✅ Content curation completed in 7.12s - Recommendation: allow
+2025-09-25 21:40:34,591 - INFO - 127.0.0.1 - - [25/Sep/2025 21:40:34] "POST /api/classify HTTP/1.1" 200 -
+2025-09-25 21:40:48,523 - INFO - 127.0.0.1 - - [25/Sep/2025 21:40:48] "GET /api/health HTTP/1.1" 200 -
+2025-09-25 21:41:00,189 - INFO - 127.0.0.1 - - [25/Sep/2025 21:41:00] "GET /content-test HTTP/1.1" 200 -
+2025-09-25 21:41:00,217 - INFO - 127.0.0.1 - - [25/Sep/2025 21:41:00] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-09-25 21:41:09,250 - INFO - 🔍 Performing comprehensive analysis for content
+2025-09-25 21:41:12,899 - INFO -  * Detected change in '/Users/mukeshjoshi/gitprojects/AISafety/BAML_Integration_Real.py', reloading
+✅ Real BAML integration imported successfully
+🚀 Using real BAML ContentCurationPipeline
+✅ Templates created successfully
+🚀 Starting AI Curation Engine Demo...
+📱 Demo Interface: http://localhost:5000
+🔍 Content Testing: http://localhost:5000/content-test
+👨‍👩‍👧‍👦 Child Setup: http://localhost:5000/child-setup
+
+✅ Backend connected - Full functionality available
+✅ BAML integration available - Real AI classification
+
+🎯 Demo Features:
+   • Parent dashboard with child profiles
+   • Real-time content classification
+   • BAML AI integration
+   • Safety analytics
+   • Child profile management
+2025-09-25 21:41:12,933 - INFO -  * Restarting with stat
+2025-09-25 21:41:13,125 - INFO - 🔍 BAML logging configured - logs will be saved to logs/baml.log
+2025-09-25 21:41:13,208 - INFO - ✅ Real BAML client imported successfully
+2025-09-25 21:41:13,208 - INFO - 🔍 BAML logging configured - logs will be saved to ../logs/baml.log
+2025-09-25 21:41:13,209 - INFO - 🧠 RealBAMLContentAnalyzer initialized with actual BAML client
+2025-09-25 21:41:13,209 - INFO - 📋 BAML Collector configured for detailed logging
+2025-09-25 21:41:13,209 - INFO - 🚀 ContentCurationPipeline initialized
+2025-09-25 21:41:13,236 - WARNING -  * Debugger is active!
+2025-09-25 21:41:13,241 - INFO -  * Debugger PIN: 991-188-024
+2025-09-25 21:41:16,348 - INFO - 🔍 Performing comprehensive analysis for content
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

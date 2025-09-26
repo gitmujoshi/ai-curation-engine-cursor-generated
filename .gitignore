@@ -70,9 +70,12 @@ jspm_packages/
 .yarn/install-state.gz
 .pnp.*
 
-# Logs
-logs
+# Logs (allow BAML logs for tracking AI classification activity)
+logs/*
 *.log
+!logs/baml*.log
+!logs/*baml*.log
+!**/logs/baml*.log
 
 # Database
 *.sqlite
@@ -99,8 +102,8 @@ Thumbs.db
 *.bak
 *.tmp
 
-# Application specific
-logs/
+# Application specific (allow BAML logs for AI tracking)
+# logs/ - commented out to allow BAML logs
 uploads/
 temp/
 
