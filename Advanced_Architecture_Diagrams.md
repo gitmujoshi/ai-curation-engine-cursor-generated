@@ -432,16 +432,12 @@ sequenceDiagram
     Cure->>ZKP: Verify Age Token
     ZKP->>Cure: Age Category Confirmed
     
-    Note over Cure: Apply Age-Appropriate
-Content Filtering
+    Note over Cure: Apply Age-Appropriate Content Filtering
     
     Cure->>App: Return Curated Content
     App->>User: Display Safe Content
     
-    Note over User, Cure: Privacy Preserved:
-• No birthdate exposed
-• No identity revealed
-• Only age category shared
+    Note over User, Cure: Privacy Preserved: No birthdate exposed, No identity revealed, Only age category shared
 ```
 
 ## 🧠 BoundaryML Classification Process
