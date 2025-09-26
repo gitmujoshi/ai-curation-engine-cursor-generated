@@ -130,6 +130,25 @@ DEMO_DATA = {
             'dailyTimeLimit': 180,
             'sessionTimeLimit': 45,
             'parentId': 'demo_parent'
+        },
+        {
+            'id': 'adult_1',
+            'name': 'Michael',
+            'nickname': 'Mike',
+            'age': 25,
+            'safetyLevel': 'minimal',
+            'allowedCategories': ['educational', 'entertainment', 'games', 'social', 'news', 'technology', 'business'],
+            'blockedCategories': ['extreme_violence', 'illegal'],
+            'dailyTimeLimit': 480,
+            'sessionTimeLimit': 120,
+            'parentId': 'demo_parent',
+            'profileType': 'adult',
+            'preferences': {
+                'contentMaturity': 'mature',
+                'adultContent': 'allowed',
+                'politicalContent': 'allowed',
+                'controversialTopics': 'allowed'
+            }
         }
     ],
     'sample_content': {
@@ -148,6 +167,14 @@ DEMO_DATA = {
         'news': {
             'title': 'Technology News',
             'content': '''Scientists have developed a new artificial intelligence system that can help doctors diagnose diseases more accurately. The AI analyzes medical images and can detect problems that human doctors might miss. This technology could improve healthcare outcomes for millions of people worldwide.'''
+        },
+        'business': {
+            'title': 'Market Analysis',
+            'content': '''The technology sector experienced significant volatility this quarter, with artificial intelligence companies leading both gains and losses. Investment strategies are shifting toward sustainable tech solutions, while cryptocurrency markets remain highly speculative. Economic indicators suggest a complex landscape for venture capital funding in emerging technologies.'''
+        },
+        'mature': {
+            'title': 'Adult Discussion Topic',
+            'content': '''This discussion covers complex social and political issues including healthcare policy reform, economic inequality, and international relations. The content explores multiple perspectives on controversial topics and assumes adult-level understanding of systemic societal challenges and their interconnected nature.'''
         }
     }
 }
@@ -214,16 +241,31 @@ class DemoBAMLIntegration:
         
         # Prepare user context
         if child_profile:
+            # Determine age category
+            age = child_profile['age']
+            if age < 13:
+                age_category = 'UNDER_13'
+            elif age < 16:
+                age_category = 'UNDER_16'
+            elif age < 18:
+                age_category = 'UNDER_18'
+            else:
+                age_category = 'ADULT'
+            
+            # Determine parental controls based on profile type and age
+            is_adult_profile = child_profile.get('profileType') == 'adult' or age >= 18
+            parental_controls = not is_adult_profile
+            
             user_context = UserContext(
-                age_category='child' if child_profile['age'] < 13 else 'teen' if child_profile['age'] < 18 else 'adult',
+                age_category=age_category,
                 jurisdiction='US',
-                parental_controls=True,
+                parental_controls=parental_controls,
                 content_preferences=child_profile.get('allowedCategories', []),
                 sensitivity_level=child_profile.get('safetyLevel', 'moderate')
             )
         else:
             user_context = UserContext(
-                age_category='adult',
+                age_category='ADULT',
                 jurisdiction='US',
                 parental_controls=False,
                 content_preferences=[],
