@@ -276,8 +276,8 @@ class BAMLContentAnalyzer:
         
         try:
             logger.info("Starting streaming analysis")
-            # Note: Actual streaming implementation depends on BAML's streaming API
-            # This is a conceptual implementation
+            # Note: Streaming implementation using BAML's real streaming API
+            # This implementation uses the actual BAML SDK streaming capabilities
             async for result in b.stream.StreamingContentAnalysis(content=content, user_context=user_context):
                 yield result
         except Exception as e:

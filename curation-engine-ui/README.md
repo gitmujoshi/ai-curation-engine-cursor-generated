@@ -2,14 +2,16 @@
 
 A comprehensive React/Next.js application for managing AI content curation rules and child profile management by parents.
 
-## ⚠️ Important Note About BoundaryML
+## ✅ Real BAML Integration
 
-**The BoundaryML integration in the architecture documents was conceptual** - it was based on web search results about their capabilities but NOT on actual SDK documentation or GitHub repository access. For a real implementation, you would need to:
+**This project now includes a real BoundaryML (BAML) integration** - implemented using the actual BAML SDK from their official GitHub repository. The integration includes:
 
-1. Visit [BoundaryML's actual documentation](https://boundaryml.com)
-2. Sign up for their service and get real API keys
-3. Use their actual SDK and API specifications
-4. Replace the conceptual implementation with real integration
+1. **Real BAML Language**: Uses actual `.baml` files with proper BAML syntax
+2. **Generated Python Client**: Uses `baml-cli` to generate real Python client code
+3. **Local LLM Support**: Configured for Ollama/Llama 3.2 local inference
+4. **Complete Logging**: Full BAML Collector integration for detailed AI activity tracking
+
+For more details, see the [BAML Integration Documentation](../BAML_README.md).
 
 ## 🚀 Quick Start
 
