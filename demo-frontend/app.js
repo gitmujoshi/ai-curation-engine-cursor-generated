@@ -175,6 +175,18 @@ DEMO_DATA = {
         'mature': {
             'title': 'Adult Discussion Topic',
             'content': '''This discussion covers complex social and political issues including healthcare policy reform, economic inequality, and international relations. The content explores multiple perspectives on controversial topics and assumes adult-level understanding of systemic societal challenges and their interconnected nature.'''
+        },
+        'extreme_left': {
+            'title': 'Extreme Left-Wing Propaganda',
+            'content': '''The capitalist system is fundamentally evil and must be completely dismantled through revolutionary action. All private property should be seized and redistributed immediately. The wealthy elite are parasites who exploit workers and deserve no mercy. Traditional institutions like family, religion, and national borders are tools of oppression that must be abolished. Only through violent overthrow of the current system can true equality be achieved. Anyone who disagrees is either brainwashed or complicit in maintaining systemic oppression.'''
+        },
+        'extreme_right': {
+            'title': 'Extreme Right-Wing Propaganda',
+            'content': '''Our nation is under attack from foreign invaders and domestic traitors who seek to destroy our traditional values and way of life. Only through strong authoritarian leadership can we restore order and purity to our society. Certain groups are inherently inferior and pose an existential threat to our civilization. Democracy has failed and must be replaced with absolute rule by our rightful leaders. Violence against enemies of the state is not only justified but necessary for survival. Anyone who opposes our movement is an enemy of the people.'''
+        },
+        'conspiracy': {
+            'title': 'Conspiracy Theory Content',
+            'content': '''A secret global cabal of elites controls all governments, media, and financial institutions to manipulate world events for their sinister agenda. They use mind control technologies, engineered diseases, and staged events to maintain power over the masses. Mainstream science and medicine are lies designed to keep people sick and dependent. Only those who reject official narratives and embrace alternative truths can see through their deception. The end times are near, and only the awakened will survive what is coming.'''
         }
     }
 }
