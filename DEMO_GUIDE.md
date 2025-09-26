@@ -55,12 +55,20 @@ Once running, access these URLs:
 **URL**: http://localhost:5001/content-test
 
 **Features**:
-- Real-time content classification
-- Child-specific filtering
-- Sample content library
+- Real-time content classification with BAML AI
+- Complete political spectrum testing (Far-left ➜ Center-left ➜ Neutral ➜ Center-right ➜ Far-right)
+- Extreme adult content classification
+- Child-specific filtering (Ages 8, 14, 25)
+- Comprehensive sample content library:
+  - Educational content (Space, STEM, Technology)
+  - Political discussions (Progressive, Conservative, Extremist)
+  - Adult content (Mature themes, Explicit material)
+  - Conspiracy theories and misinformation
+  - Social media and entertainment content
 - Safety scoring and analysis
 - Educational value assessment
-- Viewpoint bias analysis
+- Political bias detection and scoring
+- Age-appropriate recommendations
 
 ### 👨‍👩‍👧‍👦 Child Profile Setup
 **URL**: http://localhost:5001/child-setup

@@ -524,8 +524,8 @@ case "$1" in
             echo "❌ Backend: Not running"
         fi
         
-        if port_in_use 5000; then
-            echo "✅ Demo Frontend: Running on port 5000"
+        if port_in_use 5001; then
+            echo "✅ Demo Frontend: Running on port 5001"
         else
             echo "❌ Demo Frontend: Not running"
         fi
