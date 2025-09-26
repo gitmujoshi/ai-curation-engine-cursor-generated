@@ -187,6 +187,18 @@ DEMO_DATA = {
         'conspiracy': {
             'title': 'Conspiracy Theory Content',
             'content': '''A secret global cabal of elites controls all governments, media, and financial institutions to manipulate world events for their sinister agenda. They use mind control technologies, engineered diseases, and staged events to maintain power over the masses. Mainstream science and medicine are lies designed to keep people sick and dependent. Only those who reject official narratives and embrace alternative truths can see through their deception. The end times are near, and only the awakened will survive what is coming.'''
+        },
+        'extreme_adult': {
+            'title': 'Extreme Adult Content',
+            'content': '''This content contains explicit sexual descriptions, graphic violence, substance abuse themes, and disturbing psychological material. It includes detailed depictions of intimate encounters, violent scenarios involving weapons and bodily harm, extensive drug use and addiction narratives, and deeply disturbing psychological manipulation. The material contains strong profanity, hate speech targeting multiple groups, and glorification of dangerous criminal behavior. This content is designed for mature audiences only and contains triggering material that could be harmful to vulnerable individuals.'''
+        },
+        'center_left': {
+            'title': 'Center-Left Political Discussion',
+            'content': '''Progressive taxation and expanded social programs can help reduce income inequality while maintaining economic growth. Universal healthcare coverage, funded through a combination of taxes and public-private partnerships, would improve outcomes while controlling costs. Climate change requires coordinated government action including carbon pricing and green energy investments. Education funding should be increased to ensure equal opportunities for all students. Labor unions play an important role in protecting worker rights, though they should work collaboratively with employers. Immigration enriches our society and economy, though it should be managed through fair and humane policies.'''
+        },
+        'center_right': {
+            'title': 'Center-Right Political Discussion',
+            'content': '''Free market competition drives innovation and economic prosperity better than government intervention. Lower taxes on businesses and individuals stimulate investment and job creation. Private sector solutions are often more efficient than government programs for delivering services. School choice and competition improve educational outcomes for students. Strong law enforcement and secure borders are essential for national security and public safety. Traditional values and institutions provide important social stability. Fiscal responsibility requires limiting government spending and reducing national debt. Regulatory reform should eliminate unnecessary bureaucratic barriers to business growth.'''
         }
     }
 }
