@@ -11,12 +11,31 @@ import asyncio
 import os
 import sys
 import logging
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, Optional
 
-# Configure logging
+# Configure logging with BAML file logging
+os.makedirs('logs', exist_ok=True)
+
+# Setup BAML file logging
+baml_file_handler = logging.FileHandler('logs/baml.log')
+baml_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+baml_file_handler.setFormatter(baml_formatter)
+baml_file_handler.setLevel(logging.DEBUG)
+
+# Configure root logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+# Add BAML loggers
+baml_loggers = ['baml', 'baml_client', 'baml_py', 'BAML', 'BoundaryML']
+for logger_name in baml_loggers:
+    baml_logger = logging.getLogger(logger_name)
+    baml_logger.addHandler(baml_file_handler)
+    baml_logger.setLevel(logging.DEBUG)
+
+logger.info("🔍 BAML logging configured - logs will be saved to logs/baml.log")
 
 # Add the generated BAML client to Python path
 baml_client_path = Path(__file__).parent / "baml_client_python"
@@ -30,6 +49,7 @@ try:
         UserContext, SafetyClassification, EducationalValue, 
         ViewpointAnalysis, ComprehensiveClassification
     )
+    import baml_py
     BAML_AVAILABLE = True
     logger.info("✅ Real BAML client imported successfully")
 except ImportError as e:
@@ -54,10 +74,22 @@ class RealBAMLContentAnalyzer:
     
     def __init__(self):
         self.baml_available = BAML_AVAILABLE
+        
         if self.baml_available:
+            # Set up BAML Collector for logging
+            self.collector = baml_py.baml_py.Collector("content-analyzer-collector")
+            self.log_file = open('logs/baml-collector.log', 'a', encoding='utf-8')
             logger.info("🧠 RealBAMLContentAnalyzer initialized with actual BAML client")
+            logger.info("📋 BAML Collector configured for detailed logging")
         else:
+            self.collector = None
+            self.log_file = None
             logger.warning("⚠️  RealBAMLContentAnalyzer falling back to mock mode")
+    
+    def __del__(self):
+        """Clean up resources."""
+        if self.log_file:
+            self.log_file.close()
     
     def create_user_context(self, age: int = 16, jurisdiction: str = "US", 
                           parental_controls: str = "MODERATE", 
@@ -173,7 +205,52 @@ class RealBAMLContentAnalyzer:
         
         try:
             logger.info(f"🔍 Performing comprehensive analysis for content")
-            result = await b.ComprehensiveContentAnalysis(content=content, user_context=user_context)
+            
+            # Call BAML function with collector for logging
+            if self.collector:
+                logger.info(f"🔍 Using BAML Collector: {self.collector.id}")
+                result = await b.ComprehensiveContentAnalysis(
+                    content=content, 
+                    user_context=user_context,
+                    baml_options={"collector": self.collector}
+                )
+                
+                # Debug: Log collector state
+                logger.info(f"📊 Collector after call - Last: {self.collector.last}, Logs count: {len(self.collector.logs)}")
+                
+                # Always write something to verify file access
+                debug_entry = f"{datetime.now().isoformat()} - BAML Function Called\n"
+                debug_entry += f"Content: {content[:50]}...\n"
+                debug_entry += f"Collector ID: {self.collector.id}\n"
+                debug_entry += f"Collector Last: {self.collector.last}\n"
+                debug_entry += f"Logs Count: {len(self.collector.logs)}\n"
+                debug_entry += "=" * 50 + "\n"
+                self.log_file.write(debug_entry)
+                self.log_file.flush()
+                logger.info(f"📝 Debug log written to baml-collector.log")
+                
+                # Save collector logs to file if available
+                if self.collector.last:
+                    log_entry = f"{datetime.now().isoformat()} - BAML Function Call:\n"
+                    log_entry += f"Function: ComprehensiveContentAnalysis\n"
+                    log_entry += f"Content: {content[:100]}...\n"
+                    log_entry += f"Collector ID: {self.collector.id}\n"
+                    log_entry += "=" * 80 + "\n"
+                    self.log_file.write(log_entry)
+                    self.log_file.flush()
+                    logger.info(f"📝 BAML logs saved to baml-collector.log")
+                
+                # Also log all collected logs
+                if len(self.collector.logs) > 0:
+                    for log_entry_item in self.collector.logs:
+                        detailed_log = f"{datetime.now().isoformat()} - BAML Log Entry:\n"
+                        detailed_log += f"Log: {log_entry_item}\n"
+                        detailed_log += "-" * 40 + "\n"
+                        self.log_file.write(detailed_log)
+                    self.log_file.flush()
+            else:
+                logger.warning("⚠️ No collector available, calling BAML without collector")
+                result = await b.ComprehensiveContentAnalysis(content=content, user_context=user_context)
             
             return {
                 'safety': {

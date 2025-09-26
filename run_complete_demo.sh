@@ -6,6 +6,11 @@
 
 set -e  # Exit on any error
 
+# Set BAML logging environment variables
+export BAML_LOG_LEVEL=INFO
+export BAML_LOG_DIR="$(pwd)/logs"
+export BAML_LOG_FILE="$(pwd)/logs/baml.log"
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -198,9 +203,9 @@ setup_baml() {
         print_warning "BAML source file not found - skipping client generation"
     fi
     
-    # Install required BAML Python package
-    print_info "Installing BAML Python package..."
-    pip install baml-py==0.208.5 > /dev/null 2>&1 || {
+    # Install required BAML Python packages
+    print_info "Installing BAML Python packages..."
+    pip install baml-py==0.208.5 pydantic > /dev/null 2>&1 || {
         print_warning "BAML Python package installation failed"
     }
     
@@ -293,19 +298,17 @@ start_demo_frontend() {
     print_section "Starting Demo Frontend"
     
     # Kill any existing frontend process
-    kill_port 5000
+    kill_port 5001
     
     # Activate Python environment
     source venv/bin/activate
     
-    # Start demo frontend
-    cd demo-frontend
-    print_info "Starting demo frontend..."
-    nohup python3 app.js > ../logs/demo-frontend.log 2>&1 &
-    cd ..
+    # Start demo frontend with BAML logging
+    print_info "Starting demo frontend with BAML logging..."
+    nohup python3 start_baml_logging.py > logs/demo-frontend.log 2>&1 &
     
-    wait_for_service "http://localhost:5000/api/health" "Demo Frontend"
-    print_success "Demo frontend started on port 5000"
+    wait_for_service "http://localhost:5001/api/health" "Demo Frontend"
+    print_success "Demo frontend started on port 5001"
 }
 
 # Create demo data
@@ -335,9 +338,9 @@ show_demo_info() {
     echo -e "${GREEN}🎉 AI Curation Engine Demo is Ready!${NC}"
     echo ""
     echo -e "${CYAN}📱 Demo Applications:${NC}"
-    echo "   🌐 Main Demo:           http://localhost:5000"
-    echo "   🔍 Content Testing:     http://localhost:5000/content-test"
-    echo "   👨‍👩‍👧‍👦 Child Setup:        http://localhost:5000/child-setup"
+    echo "   🌐 Main Demo:           http://localhost:5001"
+    echo "   🔍 Content Testing:     http://localhost:5001/content-test"
+    echo "   👨‍👩‍👧‍👦 Child Setup:        http://localhost:5001/child-setup"
     echo ""
     echo -e "${CYAN}🔌 API Endpoints:${NC}"
     echo "   🚀 Backend API:         http://localhost:3001"
@@ -369,7 +372,7 @@ show_demo_info() {
         echo "   • Backend:       ❌ Not running"
     fi
     
-    if curl -s http://localhost:5000/api/health > /dev/null 2>&1; then
+    if curl -s http://localhost:5001/api/health > /dev/null 2>&1; then
         echo "   • Demo Frontend: ✅ Running"
     else
         echo "   • Demo Frontend: ❌ Not running"
@@ -407,7 +410,7 @@ show_demo_info() {
     echo "   • mongodb.log - Database logs"
     echo "   • ollama.log - AI model logs"
     echo ""
-    echo -e "${GREEN}🎯 Ready for Demo! Open http://localhost:5000 to begin${NC}"
+    echo -e "${GREEN}🎯 Ready for Demo! Open http://localhost:5001 to begin${NC}"
     echo ""
 }
 
@@ -422,7 +425,7 @@ cleanup() {
     print_section "Stopping Services"
     
     print_info "Stopping demo frontend..."
-    kill_port 5000
+    kill_port 5001
     
     print_info "Stopping backend API..."
     kill_port 3001

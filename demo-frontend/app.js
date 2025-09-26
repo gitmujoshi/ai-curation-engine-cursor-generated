@@ -30,6 +30,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 # Web framework
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session, flash
 from flask_cors import CORS
+import json
 
 # Import our real BAML integration
 try:
@@ -40,14 +41,48 @@ except ImportError:
     BAML_AVAILABLE = False
     print("⚠️  Real BAML integration not available. Using fallback mode.")
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+# Configure logging with BAML log capture
+import logging.handlers
+
+# Ensure logs directory exists
+os.makedirs('../logs', exist_ok=True)
+
+# Configure logging formatters
+detailed_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+simple_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+# Configure root logger
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+
+# Configure BAML-specific logging to file
+baml_handler = logging.FileHandler('../logs/baml.log')
+baml_handler.setFormatter(detailed_formatter)
+baml_handler.setLevel(logging.DEBUG)
+
+# Add BAML loggers
+baml_loggers = ['baml', 'baml_client', 'baml_py', 'BAML', 'BoundaryML']
+for logger_name in baml_loggers:
+    baml_logger = logging.getLogger(logger_name)
+    baml_logger.addHandler(baml_handler)
+    baml_logger.setLevel(logging.DEBUG)
+    baml_logger.propagate = False  # Prevent duplicate console output
+
 logger = logging.getLogger(__name__)
+logger.info("🔍 BAML logging configured - logs will be saved to ../logs/baml.log")
 
 # Initialize Flask app
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'demo-secret-key-change-in-production')
 CORS(app)
+
+# Add custom Jinja2 filter for JSON serialization
+@app.template_filter('tojsonfilter')
+def to_json_filter(obj):
+    from markupsafe import Markup
+    return Markup(json.dumps(obj))
 
 # Configuration
 BACKEND_URL = os.environ.get('BACKEND_URL', 'http://localhost:3001')
@@ -1145,4 +1180,4 @@ if __name__ == '__main__':
     print("   • Safety analytics")
     print("   • Child profile management")
     
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5001)

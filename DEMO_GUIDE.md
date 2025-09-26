@@ -42,7 +42,7 @@ This script will:
 Once running, access these URLs:
 
 ### 🌐 Main Demo Interface
-**URL**: http://localhost:5000
+**URL**: http://localhost:5001
 
 **Features**:
 - Parent dashboard with child profiles
@@ -52,7 +52,7 @@ Once running, access these URLs:
 - Navigation to other demo features
 
 ### 🔍 Content Testing
-**URL**: http://localhost:5000/content-test
+**URL**: http://localhost:5001/content-test
 
 **Features**:
 - Real-time content classification
@@ -63,7 +63,7 @@ Once running, access these URLs:
 - Viewpoint bias analysis
 
 ### 👨‍👩‍👧‍👦 Child Profile Setup
-**URL**: http://localhost:5000/child-setup
+**URL**: http://localhost:5001/child-setup
 
 **Features**:
 - Enhanced profile creation wizard
@@ -75,7 +75,7 @@ Once running, access these URLs:
 ## 🧪 Demo Scenarios
 
 ### Scenario 1: Parent Dashboard Overview
-1. **Open**: http://localhost:5000
+1. **Open**: http://localhost:5001
 2. **Observe**: 
    - Two sample children (Emma, 8 years old; Alex, 14 years old)
    - Different safety levels (Strict vs Moderate)
@@ -83,7 +83,7 @@ Once running, access these URLs:
    - Visual child profile cards
 
 ### Scenario 2: Content Classification Testing
-1. **Open**: http://localhost:5000/content-test
+1. **Open**: http://localhost:5001/content-test
 2. **Test Sample Content**:
    - Click "Learning About Space" → Should be allowed for all children
    - Click "Friend's Social Post" → Allowed for Alex (14), may be restricted for Emma (8)
@@ -389,4 +389,4 @@ After the demo, consider:
 
 The AI Curation Engine demo showcases the future of family digital safety. Experience comprehensive, AI-powered content curation that adapts to each child's age, maturity, and family values.
 
-**Ready to start?** Run `./run_complete_demo.sh` and open http://localhost:5000!
+**Ready to start?** Run `./run_complete_demo.sh` and open http://localhost:5001!

@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Classification Test - AI Curation Engine</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .result-card { margin: 10px 0; }
+        .score-badge { font-size: 0.9em; margin: 2px; }
+        .loading { display: none; }
+        .recommendation-allow { background-color: #d4edda; border-color: #c3e6cb; }
+        .recommendation-caution { background-color: #fff3cd; border-color: #ffeaa7; }
+        .recommendation-block { background-color: #f8d7da; border-color: #f5c6cb; }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-shield-alt me-2"></i>AI Curation Engine
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">
+                    <i class="fas fa-home me-1"></i>Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h2><i class="fas fa-search me-2"></i>Content Classification Test</h2>
+                <p class="text-muted">Test the AI-powered content classification system with real BAML integration</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Input Section -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-edit me-2"></i>Content Input</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Child Selection -->
+                        <div class="mb-3">
+                            <label class="form-label">Test for Child Profile</label>
+                            <select id="childSelect" class="form-select">
+                                <option value="">No specific child (adult view)</option>
+                                {% for child in children %}
+                                <option value="{{ child.id }}">{{ child.name }} ({{ child.age }} years old)</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Sample Content Buttons -->
+                        <div class="mb-3">
+                            <label class="form-label">Quick Test Samples</label>
+                            <div class="d-grid gap-2">
+                                {% for category, content in sample_content.items() %}
+                                <button class="btn btn-outline-primary" onclick="loadSample('{{ category }}')">
+                                    {{ content.title }}
+                                </button>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Content Input -->
+                        <div class="mb-3">
+                            <label for="contentInput" class="form-label">Content to Analyze</label>
+                            <textarea id="contentInput" class="form-control" rows="8" 
+                                    placeholder="Enter text content to analyze for safety, educational value, and appropriateness..."></textarea>
+                        </div>
+
+                        <!-- Analyze Button -->
+                        <button id="analyzeBtn" class="btn btn-primary btn-lg w-100" onclick="analyzeContent()">
+                            <i class="fas fa-brain me-2"></i>Analyze with AI
+                        </button>
+                        
+                        <div id="loading" class="loading text-center mt-2">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Analyzing...</span>
+                            </div>
+                            <p class="mt-2">AI analyzing content...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-chart-line me-2"></i>Classification Results</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="resultsContainer">
+                            <div class="text-center text-muted">
+                                <i class="fas fa-chart-bar fa-3x mb-3"></i>
+                                <p>Results will appear here after content analysis</p>
+                                <small>The AI will analyze safety, educational value, and viewpoint</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const sampleContent = {{ sample_content | tojsonfilter }};
+
+        function loadSample(category) {
+            if (sampleContent[category]) {
+                document.getElementById('contentInput').value = sampleContent[category].content;
+            }
+        }
+
+        async function analyzeContent() {
+            const content = document.getElementById('contentInput').value.trim();
+            if (!content) {
+                alert('Please enter content to analyze');
+                return;
+            }
+
+            const childId = document.getElementById('childSelect').value;
+
+            // Show loading
+            document.getElementById('analyzeBtn').disabled = true;
+            document.getElementById('loading').style.display = 'block';
+
+            try {
+                const response = await fetch('/api/classify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content, childId })
+                });
+
+                const result = await response.json();
+                displayResults(result);
+
+            } catch (error) {
+                console.error('Error:', error);
+                displayError(error.message);
+            } finally {
+                document.getElementById('analyzeBtn').disabled = false;
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        function displayResults(result) {
+            const container = document.getElementById('resultsContainer');
+            
+            if (result.error) {
+                displayError(result.error);
+                return;
+            }
+
+            const safety = result.safety || {};
+            const educational = result.educational || {};
+            const viewpoint = result.viewpoint || {};
+
+            const recommendationClass = 
+                result.recommendation === 'allow' ? 'recommendation-allow' :
+                result.recommendation === 'caution' ? 'recommendation-caution' : 'recommendation-block';
+
+            container.innerHTML = `
+                <!-- Overall Recommendation -->
+                <div class="alert ${recommendationClass} mb-3">
+                    <h6><i class="fas fa-thumbs-${result.recommendation === 'allow' ? 'up' : result.recommendation === 'caution' ? 'sideways' : 'down'} me-2"></i>
+                    Recommendation: ${result.recommendation.toUpperCase()}</h6>
+                    <p class="mb-1">${safety.reasoning || 'AI analysis completed'}</p>
+                    <small>Confidence: ${(result.confidence * 100).toFixed(1)}%</small>
+                </div>
+
+                <!-- Safety Analysis -->
+                <div class="mb-3">
+                    <h6><i class="fas fa-shield-alt me-2"></i>Safety Analysis</h6>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="text-center">
+                                <div class="h4 mb-1 ${safety.score > 0.7 ? 'text-success' : safety.score > 0.4 ? 'text-warning' : 'text-danger'}">
+                                    ${(safety.score * 100).toFixed(1)}%
+                                </div>
+                                <small class="text-muted">Safety Score</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <div class="h6 mb-1">${safety.age_appropriate || 'All ages'}</div>
+                                <small class="text-muted">Age Rating</small>
+                            </div>
+                        </div>
+                    </div>
+                    ${safety.warnings && safety.warnings.length > 0 ? `
+                    <div class="mt-2">
+                        <small><strong>Warnings:</strong></small>
+                        <div class="mt-1">
+                            ${safety.warnings.map(w => `<span class="badge bg-warning me-1">${w}</span>`).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+
+                <!-- Educational Analysis -->
+                <div class="mb-3">
+                    <h6><i class="fas fa-graduation-cap me-2"></i>Educational Value</h6>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="text-center">
+                                <div class="h4 mb-1 ${educational.score > 0.7 ? 'text-success' : educational.score > 0.4 ? 'text-warning' : 'text-secondary'}">
+                                    ${(educational.score * 100).toFixed(1)}%
+                                </div>
+                                <small class="text-muted">Educational Score</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <div class="h6 mb-1">${educational.cognitive_level || 'Basic'}</div>
+                                <small class="text-muted">Cognitive Level</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Viewpoint Analysis -->
+                <div class="mb-3">
+                    <h6><i class="fas fa-balance-scale me-2"></i>Viewpoint Analysis</h6>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="text-center">
+                                <div class="h6 mb-1">${viewpoint.political_leaning || 'Neutral'}</div>
+                                <small class="text-muted">Political Leaning</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <div class="h4 mb-1 ${viewpoint.bias_score < 0.3 ? 'text-success' : viewpoint.bias_score < 0.6 ? 'text-warning' : 'text-danger'}">
+                                    ${(viewpoint.bias_score * 100).toFixed(1)}%
+                                </div>
+                                <small class="text-muted">Bias Score</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Processing Info -->
+                <div class="text-center mt-3 pt-2 border-top">
+                    <small class="text-muted">
+                        <i class="fas fa-clock me-1"></i>Processed in ${result.processing_time}s
+                        <span class="mx-2">•</span>
+                        <i class="fas fa-robot me-1"></i>Model: ${result.model}
+                    </small>
+                </div>
+            `;
+        }
+
+        function displayError(error) {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = `
+                <div class="alert alert-danger">
+                    <h6><i class="fas fa-exclamation-triangle me-2"></i>Analysis Error</h6>
+                    <p class="mb-0">${error}</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
+    

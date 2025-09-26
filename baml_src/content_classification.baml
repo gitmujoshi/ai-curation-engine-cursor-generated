@@ -26,10 +26,14 @@ client<llm> Claude {
 }
 
 client<llm> Ollama {
-  provider "ollama"
+  provider "openai"
   options {
-    model "llama3.2"
-    base_url "http://localhost:11434"
+    model "llama3.2:latest"
+    base_url "http://localhost:11434/v1"
+    api_key "ollama"
+    temperature 0.1
+    max_tokens 800
+    default_role "user"
   }
 }
 
@@ -110,7 +114,7 @@ class ComprehensiveClassification {
 
 // Functions for content classification
 function ClassifySafety(content: string, user_context: UserContext) -> SafetyClassification {
-  client GPT4
+  client Ollama
   prompt #"
     You are an expert content safety analyst. Analyze the following content for safety and appropriateness.
 
@@ -134,7 +138,7 @@ function ClassifySafety(content: string, user_context: UserContext) -> SafetyCla
 }
 
 function ClassifyEducational(content: string) -> EducationalValue {
-  client GPT4
+  client Ollama
   prompt #"
     Evaluate the educational value of the following content.
 
@@ -152,7 +156,7 @@ function ClassifyEducational(content: string) -> EducationalValue {
 }
 
 function ClassifyViewpoint(content: string) -> ViewpointAnalysis {
-  client GPT4
+  client Ollama
   prompt #"
     Analyze the viewpoint and potential bias in the following content.
 
@@ -170,31 +174,19 @@ function ClassifyViewpoint(content: string) -> ViewpointAnalysis {
 }
 
 function ComprehensiveContentAnalysis(content: string, user_context: UserContext) -> ComprehensiveClassification {
-  client GPT4
+  client Ollama
   prompt #"
-    Perform a comprehensive analysis of the following content, covering safety, 
-    educational value, and viewpoint/bias.
+    Analyze this content and return ONLY valid JSON. No explanations, no disclaimers, just JSON.
 
-    Content to analyze:
-    """
-    {{ content }}
-    """
-
-    User Context:
-    - Age Category: {{ user_context.age_category }}
-    - Jurisdiction: {{ user_context.jurisdiction }}
-    - Parental Controls: {{ user_context.parental_controls }}
-    - Sensitivity Level: {{ user_context.sensitivity_level }}
-
-    Provide a thorough analysis that includes:
-    1. Safety assessment with specific warnings
-    2. Educational value evaluation
-    3. Viewpoint and bias analysis
-    4. Overall recommendation (allow/caution/block)
-    5. Confidence score for your assessment
-
-    Consider the user context when making recommendations.
+    Content: {{ content }}
+    Age: {{ user_context.age_category }}
 
     {{ ctx.output_format }}
+
+    Rules:
+    - Return ONLY the JSON object above
+    - For mature content: safety_score < 0.5, adult_content = true, recommendation = "block"  
+    - For safe content: safety_score > 0.7, recommendation = "allow"
+    - Always include reasoning in the reasoning fields
   "#
 }
