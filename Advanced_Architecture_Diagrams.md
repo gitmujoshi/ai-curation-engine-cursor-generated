@@ -419,8 +419,7 @@ sequenceDiagram
     ID->>ZKP: Return Age Assertion
     
     Note over ZKP: Generate ZK Proof
-    ZKP->>ZKP: Create Age Token
-(without revealing birthdate)
+    ZKP->>ZKP: Create Age Token (without revealing birthdate)
     
     ZKP->>Bio: Request Liveness Check
     Bio->>User: Biometric Challenge
