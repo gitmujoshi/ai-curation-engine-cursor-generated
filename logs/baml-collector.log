@@ -1,1 +1,171 @@
 Test log entry
+2025-09-25T22:43:07.998814 - BAML Function Called
+Content: AI helps doctors diagnose diseases faster...
+Collector ID: <built-in method id of baml_py.baml_py.Collector object at 0x1017263f0>
+Collector Last: FunctionLog(id=bfcall_01k61ye01cfp6r8vwhrh3c398k, function_name=ComprehensiveContentAnalysis, type=call, timing=Timing(start_time_utc_ms=1758854578220, duration_ms=9773), usage=Usage(input_tokens=580, output_tokens=316, cached_input_tokens=None), calls=[LLMCall(provider=openai, client_name=Ollama, selected=true, usage=Usage(input_tokens=580, output_tokens=316, cached_input_tokens=None), timing=Timing(start_time_utc_ms=1758854578223, duration_ms=9769), http_request=HTTPRequest(url=http://localhost:11434/v1/chat/completions, method=POST, headers={
+  "content-type": "application/json",
+  "authorization": "Bearer ollama",
+  "baml-original-url": "http://localhost:11434/v1"
+}, body={
+  "model": "llama3.2:latest",
+  "temperature": 0.1,
+  "max_tokens": 800,
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Analyze this content and return ONLY valid JSON. No explanations, no disclaimers, just JSON.\n\nContent: AI helps doctors diagnose diseases faster\nAge: UNDER_18\n\nAnswer in JSON using this schema:\n{\n  safety: {\n    // Overall safety score from 0.0 to 1.0\n    safety_score: float,\n    // Violence content level from 0.0 to 1.0\n    violence_level: float,\n    // Contains adult/sexual content\n    adult_content: bool,\n    // Hate speech detection score from 0.0 to 1.0\n    hate_speech: float,\n    // Risk of misinformation from 0.0 to 1.0\n    misinformation_risk: float,\n    // Recommended minimum age\n    age_appropriateness: string,\n    // Explanation of the safety assessment\n    reasoning: string,\n    // List of specific content warnings\n    content_warnings: string[],\n  },\n  educational: {\n    // Educational value score from 0.0 to 1.0\n    educational_score: float,\n    // Identified learning objectives\n    learning_objectives: string[],\n    // Academic subject areas covered\n    subject_areas: string[],\n    // Cognitive complexity level\n    cognitive_level: string,\n    // Grade-level reading difficulty\n    reading_level: int,\n    // Factual accuracy assessment from 0.0 to 1.0\n    factual_accuracy: float,\n    // Explanation of the educational assessment\n    reasoning: string,\n  },\n  viewpoint: {\n    // Political leaning (left, right, neutral)\n    political_leaning: string,\n    // Overall bias score from 0.0 to 1.0\n    bias_score: float,\n    // Diversity of perspectives from 0.0 to 1.0\n    perspective_diversity: float,\n    // Level of controversy from 0.0 to 1.0\n    controversy_level: float,\n    // Source credibility from 0.0 to 1.0\n    source_credibility: float,\n    // Explanation of the viewpoint assessment\n    reasoning: string,\n  },\n  // Overall confidence score from 0.0 to 1.0\n  overall_confidence: float,\n  // Final recommendation: allow, caution, or block\n  recommendation: string,\n  // Summary of the comprehensive analysis\n  summary_reasoning: string,\n}\n\nRules:\n- Return ONLY the JSON object above\n- For mature content: safety_score < 0.5, adult_content = true, recommendation = \"block\"  \n- For safe content: safety_score > 0.7, recommendation = \"allow\"\n- Always include reasoning in the reasoning fields"
+        }
+      ]
+    }
+  ]
+}), http_response=HTTPResponse(status=200, headers={
+  "content-type": "application/json",
+  "date": "Fri, 26 Sep 2025 02:43:07 GMT",
+  "content-length": "1482"
+}, body={
+  "id": "chatcmpl-948",
+  "object": "chat.completion",
+  "created": 1758854587,
+  "model": "llama3.2:latest",
+  "system_fingerprint": "fp_ollama",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"safety\": {\n    \"safety_score\": 1.0,\n    \"violence_level\": 0.0,\n    \"adult_content\": false,\n    \"hate_speech\": 0.0,\n    \"misinformation_risk\": 0.0,\n    \"age_appropriateness\": \"UNDER_18\",\n    \"reasoning\": \"AI helps doctors diagnose diseases faster is a safe and informative topic.\",\n    \"content_warnings\": []\n  },\n  \"educational\": {\n    \"educational_score\": 1.0,\n    \"learning_objectives\": [\n      \"Diagnosing diseases\"\n    ],\n    \"subject_areas\": [\n      \"Medicine\"\n    ],\n    \"cognitive_level\": \"Advanced\",\n    \"reading_level\": 12,\n    \"factual_accuracy\": 1.0,\n    \"reasoning\": \"The topic is informative and educational, covering a specific medical concept.\"\n  },\n  \"viewpoint\": {\n    \"political_leaning\": \"Neutral\",\n    \"bias_score\": 0.5,\n    \"perspective_diversity\": 0.8,\n    \"controversy_level\": 0.2,\n    \"source_credibility\": 1.0,\n    \"reasoning\": \"The topic presents a balanced view, with no apparent bias.\"\n  },\n  \"overall_confidence\": 1.0,\n  \"recommendation\": \"allow\",\n  \"summary_reasoning\": \"AI helps doctors diagnose diseases faster is a safe and informative topic.\""
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 580,
+    "completion_tokens": 316,
+    "total_tokens": 896
+  }
+}))>], raw_llm_response={
+  "safety": {
+    "safety_score": 1.0,
+    "violence_level": 0.0,
+    "adult_content": false,
+    "hate_speech": 0.0,
+    "misinformation_risk": 0.0,
+    "age_appropriateness": "UNDER_18",
+    "reasoning": "AI helps doctors diagnose diseases faster is a safe and informative topic.",
+    "content_warnings": []
+  },
+  "educational": {
+    "educational_score": 1.0,
+    "learning_objectives": [
+      "Diagnosing diseases"
+    ],
+    "subject_areas": [
+      "Medicine"
+    ],
+    "cognitive_level": "Advanced",
+    "reading_level": 12,
+    "factual_accuracy": 1.0,
+    "reasoning": "The topic is informative and educational, covering a specific medical concept."
+  },
+  "viewpoint": {
+    "political_leaning": "Neutral",
+    "bias_score": 0.5,
+    "perspective_diversity": 0.8,
+    "controversy_level": 0.2,
+    "source_credibility": 1.0,
+    "reasoning": "The topic presents a balanced view, with no apparent bias."
+  },
+  "overall_confidence": 1.0,
+  "recommendation": "allow",
+  "summary_reasoning": "AI helps doctors diagnose diseases faster is a safe and informative topic.")
+Logs Count: 1
+==================================================
+2025-09-25T22:43:07.999839 - BAML Function Call:
+Function: ComprehensiveContentAnalysis
+Content: AI helps doctors diagnose diseases faster...
+Collector ID: <built-in method id of baml_py.baml_py.Collector object at 0x1017263f0>
+================================================================================
+2025-09-25T22:43:07.999910 - BAML Log Entry:
+Log: FunctionLog(id=bfcall_01k61ye01cfp6r8vwhrh3c398k, function_name=ComprehensiveContentAnalysis, type=call, timing=Timing(start_time_utc_ms=1758854578220, duration_ms=9773), usage=Usage(input_tokens=580, output_tokens=316, cached_input_tokens=None), calls=[LLMCall(provider=openai, client_name=Ollama, selected=true, usage=Usage(input_tokens=580, output_tokens=316, cached_input_tokens=None), timing=Timing(start_time_utc_ms=1758854578223, duration_ms=9769), http_request=HTTPRequest(url=http://localhost:11434/v1/chat/completions, method=POST, headers={
+  "content-type": "application/json",
+  "authorization": "Bearer ollama",
+  "baml-original-url": "http://localhost:11434/v1"
+}, body={
+  "model": "llama3.2:latest",
+  "temperature": 0.1,
+  "max_tokens": 800,
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Analyze this content and return ONLY valid JSON. No explanations, no disclaimers, just JSON.\n\nContent: AI helps doctors diagnose diseases faster\nAge: UNDER_18\n\nAnswer in JSON using this schema:\n{\n  safety: {\n    // Overall safety score from 0.0 to 1.0\n    safety_score: float,\n    // Violence content level from 0.0 to 1.0\n    violence_level: float,\n    // Contains adult/sexual content\n    adult_content: bool,\n    // Hate speech detection score from 0.0 to 1.0\n    hate_speech: float,\n    // Risk of misinformation from 0.0 to 1.0\n    misinformation_risk: float,\n    // Recommended minimum age\n    age_appropriateness: string,\n    // Explanation of the safety assessment\n    reasoning: string,\n    // List of specific content warnings\n    content_warnings: string[],\n  },\n  educational: {\n    // Educational value score from 0.0 to 1.0\n    educational_score: float,\n    // Identified learning objectives\n    learning_objectives: string[],\n    // Academic subject areas covered\n    subject_areas: string[],\n    // Cognitive complexity level\n    cognitive_level: string,\n    // Grade-level reading difficulty\n    reading_level: int,\n    // Factual accuracy assessment from 0.0 to 1.0\n    factual_accuracy: float,\n    // Explanation of the educational assessment\n    reasoning: string,\n  },\n  viewpoint: {\n    // Political leaning (left, right, neutral)\n    political_leaning: string,\n    // Overall bias score from 0.0 to 1.0\n    bias_score: float,\n    // Diversity of perspectives from 0.0 to 1.0\n    perspective_diversity: float,\n    // Level of controversy from 0.0 to 1.0\n    controversy_level: float,\n    // Source credibility from 0.0 to 1.0\n    source_credibility: float,\n    // Explanation of the viewpoint assessment\n    reasoning: string,\n  },\n  // Overall confidence score from 0.0 to 1.0\n  overall_confidence: float,\n  // Final recommendation: allow, caution, or block\n  recommendation: string,\n  // Summary of the comprehensive analysis\n  summary_reasoning: string,\n}\n\nRules:\n- Return ONLY the JSON object above\n- For mature content: safety_score < 0.5, adult_content = true, recommendation = \"block\"  \n- For safe content: safety_score > 0.7, recommendation = \"allow\"\n- Always include reasoning in the reasoning fields"
+        }
+      ]
+    }
+  ]
+}), http_response=HTTPResponse(status=200, headers={
+  "content-type": "application/json",
+  "date": "Fri, 26 Sep 2025 02:43:07 GMT",
+  "content-length": "1482"
+}, body={
+  "id": "chatcmpl-948",
+  "object": "chat.completion",
+  "created": 1758854587,
+  "model": "llama3.2:latest",
+  "system_fingerprint": "fp_ollama",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"safety\": {\n    \"safety_score\": 1.0,\n    \"violence_level\": 0.0,\n    \"adult_content\": false,\n    \"hate_speech\": 0.0,\n    \"misinformation_risk\": 0.0,\n    \"age_appropriateness\": \"UNDER_18\",\n    \"reasoning\": \"AI helps doctors diagnose diseases faster is a safe and informative topic.\",\n    \"content_warnings\": []\n  },\n  \"educational\": {\n    \"educational_score\": 1.0,\n    \"learning_objectives\": [\n      \"Diagnosing diseases\"\n    ],\n    \"subject_areas\": [\n      \"Medicine\"\n    ],\n    \"cognitive_level\": \"Advanced\",\n    \"reading_level\": 12,\n    \"factual_accuracy\": 1.0,\n    \"reasoning\": \"The topic is informative and educational, covering a specific medical concept.\"\n  },\n  \"viewpoint\": {\n    \"political_leaning\": \"Neutral\",\n    \"bias_score\": 0.5,\n    \"perspective_diversity\": 0.8,\n    \"controversy_level\": 0.2,\n    \"source_credibility\": 1.0,\n    \"reasoning\": \"The topic presents a balanced view, with no apparent bias.\"\n  },\n  \"overall_confidence\": 1.0,\n  \"recommendation\": \"allow\",\n  \"summary_reasoning\": \"AI helps doctors diagnose diseases faster is a safe and informative topic.\""
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 580,
+    "completion_tokens": 316,
+    "total_tokens": 896
+  }
+}))>], raw_llm_response={
+  "safety": {
+    "safety_score": 1.0,
+    "violence_level": 0.0,
+    "adult_content": false,
+    "hate_speech": 0.0,
+    "misinformation_risk": 0.0,
+    "age_appropriateness": "UNDER_18",
+    "reasoning": "AI helps doctors diagnose diseases faster is a safe and informative topic.",
+    "content_warnings": []
+  },
+  "educational": {
+    "educational_score": 1.0,
+    "learning_objectives": [
+      "Diagnosing diseases"
+    ],
+    "subject_areas": [
+      "Medicine"
+    ],
+    "cognitive_level": "Advanced",
+    "reading_level": 12,
+    "factual_accuracy": 1.0,
+    "reasoning": "The topic is informative and educational, covering a specific medical concept."
+  },
+  "viewpoint": {
+    "political_leaning": "Neutral",
+    "bias_score": 0.5,
+    "perspective_diversity": 0.8,
+    "controversy_level": 0.2,
+    "source_credibility": 1.0,
+    "reasoning": "The topic presents a balanced view, with no apparent bias."
+  },
+  "overall_confidence": 1.0,
+  "recommendation": "allow",
+  "summary_reasoning": "AI helps doctors diagnose diseases faster is a safe and informative topic.")
+----------------------------------------

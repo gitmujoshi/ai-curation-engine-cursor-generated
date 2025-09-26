@@ -32,14 +32,20 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for, s
 from flask_cors import CORS
 import json
 
-# Import our real BAML integration
+# Import our pluggable curation engine and BAML integration
 try:
     from BAML_Integration_Real import RealBAMLContentAnalyzer, ContentCurationPipeline
+    from curation_engine_pluggable import CurationEngine, CurationStrategy
+    
+    # Initialize with hybrid strategy by default
+    curation_engine = CurationEngine(strategy=CurationStrategy.HYBRID)
     BAML_AVAILABLE = True
-    print("✅ Real BAML integration imported successfully")
-except ImportError:
+    print("✅ Pluggable Curation Engine imported successfully")
+    print("🚀 Using Hybrid Strategy (combines multi-layer + LLM)")
+except ImportError as e:
+    curation_engine = None
     BAML_AVAILABLE = False
-    print("⚠️  Real BAML integration not available. Using fallback mode.")
+    print(f"⚠️  Curation engine not available: {e}. Using fallback mode.")
 
 # Configure logging with BAML log capture
 import logging.handlers
@@ -474,46 +480,136 @@ def classify_content():
     if child_id:
         child_profile = next((c for c in DEMO_DATA['children'] if c['id'] == child_id), None)
     
-    # Classify content
+    # Classify content using pluggable curation engine
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     try:
-        if BAML_AVAILABLE and hasattr(baml_demo, 'curate_content'):
-            # Use real BAML pipeline
+        if curation_engine:
+            # Use pluggable curation engine
             if child_profile:
-                # Create user context from child profile
-                user_context = baml_demo.analyzer.create_user_context(
-                    age=child_profile.get('age', 16),
-                    jurisdiction='US',
-                    parental_controls=child_profile.get('safetyLevel', 'MODERATE').upper(),
-                    sensitivity='MEDIUM'
+                # Determine age category
+                age = child_profile['age']
+                if age < 13:
+                    age_category = 'UNDER_13'
+                elif age < 16:
+                    age_category = 'UNDER_16'
+                elif age < 18:
+                    age_category = 'UNDER_18'
+                else:
+                    age_category = 'ADULT'
+                
+                # Determine parental controls based on profile type and age
+                is_adult_profile = child_profile.get('profileType') == 'adult' or age >= 18
+                parental_controls = not is_adult_profile
+                
+                # Import UserContext and enums here to avoid import issues
+                from BAML_Integration_Real import UserContext, AgeCategory, Jurisdiction, ParentalControls, SensitivityLevel
+                
+                # Map age category to enum
+                age_category_enum = getattr(AgeCategory, age_category, AgeCategory.ADULT)
+                
+                # Map parental controls - convert boolean to appropriate enum
+                if parental_controls:
+                    # Child profile with parental controls
+                    safety_level = child_profile.get('safetyLevel', 'moderate').upper()
+                    parental_controls_enum = getattr(ParentalControls, safety_level, ParentalControls.MODERATE)
+                else:
+                    # Adult profile without parental controls
+                    parental_controls_enum = ParentalControls.NONE
+                
+                # Map sensitivity level from child profile to enum
+                sensitivity_map = {
+                    'strict': SensitivityLevel.HIGH,
+                    'moderate': SensitivityLevel.MEDIUM,
+                    'relaxed': SensitivityLevel.LOW,
+                    'minimal': SensitivityLevel.LOW
+                }
+                sensitivity_level = child_profile.get('safetyLevel', 'moderate').lower()
+                sensitivity_enum = sensitivity_map.get(sensitivity_level, SensitivityLevel.MEDIUM)
+                
+                user_context = UserContext(
+                    age_category=age_category_enum,
+                    jurisdiction=Jurisdiction.US,
+                    parental_controls=parental_controls_enum,
+                    content_preferences=child_profile.get('allowedCategories', []),
+                    sensitivity_level=sensitivity_enum
                 )
             else:
-                user_context = None
+                from BAML_Integration_Real import UserContext, AgeCategory, Jurisdiction, ParentalControls, SensitivityLevel
+                user_context = UserContext(
+                    age_category=AgeCategory.ADULT,
+                    jurisdiction=Jurisdiction.US,
+                    parental_controls=ParentalControls.NONE,
+                    content_preferences=[],
+                    sensitivity_level=SensitivityLevel.MEDIUM
+                )
             
-            pipeline_result = loop.run_until_complete(baml_demo.curate_content(content, user_context))
+            # Use the pluggable curation engine
+            curation_result = loop.run_until_complete(curation_engine.curate_content(content, user_context))
             
-            if pipeline_result['status'] == 'success':
-                classification = pipeline_result['classification']
-                result = {
-                    'safety': classification['safety'],
-                    'educational': classification['educational'],
-                    'viewpoint': classification['viewpoint'],
-                    'recommendation': classification.get('recommendation', 'allow'),
-                    'confidence': classification.get('confidence', 0.8),
-                    'processing_time': pipeline_result.get('processing_time_seconds', 0),
-                    'model': classification.get('model', 'BAML-Real')
+            # Extract comprehensive analysis from BAML metadata if available
+            full_analysis = curation_result.metadata.get('full_analysis', {}) if curation_result.metadata else {}
+            
+            # Extract educational analysis - only use fields that actually exist in BAML
+            educational_data = full_analysis.get('educational', {})
+            if educational_data:
+                educational_result = {
+                    'score': educational_data.get('score'),
+                    'learning_objectives': educational_data.get('learning_objectives', []),
+                    'subject_areas': educational_data.get('subject_areas', []),
+                    'cognitive_level': educational_data.get('cognitive_level')
+                    # Note: reasoning, reading_level, factual_accuracy not provided by current BAML implementation
                 }
             else:
-                # Handle error case
+                educational_result = {'error': 'No educational analysis available from BAML'}
+            
+            # Extract viewpoint analysis - only use fields that actually exist in BAML
+            viewpoint_data = full_analysis.get('viewpoint', {})
+            if viewpoint_data:
+                viewpoint_result = {
+                    'political_leaning': viewpoint_data.get('political_leaning'),
+                    'bias_score': viewpoint_data.get('bias_score'),
+                    'reasoning': viewpoint_data.get('reasoning'),
+                    'source_credibility': viewpoint_data.get('credibility')
+                    # Note: perspective_diversity, controversy_level not provided by current BAML implementation
+                }
+            else:
+                viewpoint_result = {'error': 'No viewpoint analysis available from BAML'}
+            
+            # Extract safety analysis - only use fields that actually exist in BAML
+            safety_data = full_analysis.get('safety', {})
+            if safety_data:
+                safety_result = {
+                    'safety_score': safety_data.get('score'),
+                    'reasoning': safety_data.get('reasoning'),
+                    'content_warnings': safety_data.get('warnings', []),
+                    'age_appropriate': safety_data.get('age_appropriate')
+                }
+            else:
+                safety_result = {'error': 'No safety analysis available from BAML'}
+            
+            # Convert CurationResult to expected format
+            classification = {
+                'safety': safety_result,
+                'recommendation': curation_result.action,
+                'overall_confidence': curation_result.confidence,
+                'summary_reasoning': full_analysis.get('summary', curation_result.reason)
+            }
+            
+            # Add strategy information to metadata
+            strategy_info = curation_engine.get_strategy_info()
+            
+            if True:  # Always successful with pluggable engine
                 result = {
-                    'safety': {'score': 0.5, 'warnings': ['Analysis failed'], 'reasoning': pipeline_result.get('error', 'Unknown error')},
-                    'educational': {'score': 0.5},
-                    'viewpoint': {'political_leaning': 'neutral', 'bias_score': 0.5},
-                    'recommendation': 'caution',
-                    'confidence': 0.0,
-                    'processing_time': pipeline_result.get('processing_time_seconds', 0),
-                    'model': 'Error-Fallback'
+                    'safety': classification['safety'],
+                    'educational': educational_result,
+                    'viewpoint': viewpoint_result,
+                    'recommendation': classification.get('recommendation', 'allow'),
+                    'confidence': classification.get('overall_confidence', 0.8),
+                    'processing_time': curation_result.processing_time_ms / 1000.0,  # Convert to seconds
+                    'model': f"{strategy_info['strategy_name']} ({curation_result.strategy_used})",
+                    'strategy_info': strategy_info,
+                    'curation_metadata': curation_result.metadata
                 }
         else:
             # Use demo integration
@@ -558,6 +654,11 @@ def health_check():
     """Health check endpoint."""
     backend_health = check_backend_health()
     
+    # Get current strategy info
+    strategy_info = {}
+    if curation_engine:
+        strategy_info = curation_engine.get_strategy_info()
+    
     return jsonify({
         'status': 'healthy',
         'timestamp': datetime.now().isoformat(),
@@ -567,8 +668,40 @@ def health_check():
             'baml': 'available' if BAML_AVAILABLE else 'mock',
             'database': 'demo_mode'
         },
+        'curation_engine': strategy_info,
         'demo_mode': demo_state['demo_mode']
     })
+
+@app.route('/api/strategy', methods=['GET', 'POST'])
+def curation_strategy():
+    """Get or set the curation strategy."""
+    if not curation_engine:
+        return jsonify({'error': 'Curation engine not available'}), 503
+    
+    if request.method == 'GET':
+        return jsonify({
+            'current_strategy': curation_engine.get_strategy_info(),
+            'available_strategies': [strategy.value for strategy in CurationStrategy]
+        })
+    
+    elif request.method == 'POST':
+        data = request.json
+        new_strategy = data.get('strategy')
+        
+        if not new_strategy:
+            return jsonify({'error': 'Strategy not specified'}), 400
+        
+        try:
+            old_strategy = curation_engine.strategy_type.value
+            curation_engine.switch_strategy(new_strategy)
+            
+            return jsonify({
+                'message': f'Strategy switched from {old_strategy} to {new_strategy}',
+                'old_strategy': old_strategy,
+                'new_strategy': curation_engine.get_strategy_info()
+            })
+        except ValueError as e:
+            return jsonify({'error': f'Invalid strategy: {e}'}), 400
 
 # Template creation
 def create_templates():
@@ -901,6 +1034,41 @@ def create_templates():
             </div>
         </div>
 
+        <!-- Strategy Control Panel -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-primary">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-cogs me-2"></i>Curation Engine Strategy Control</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Active Strategy:</label>
+                                <select class="form-select" id="strategySelect">
+                                    <option value="hybrid">🔄 Hybrid (Smart)</option>
+                                    <option value="multi_layer">🏭 Multi-Layer (Fast)</option>
+                                    <option value="llm_only">🧠 LLM-Only (Detailed)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Strategy Description:</label>
+                                <div id="strategyInfo" class="alert alert-info py-2 mb-0">
+                                    <small>Loading strategy information...</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Performance:</label>
+                                <div id="performanceMetrics" class="text-muted">
+                                    <small>No recent classifications</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <!-- Input Section -->
             <div class="col-md-6">
@@ -925,8 +1093,8 @@ def create_templates():
                             <label class="form-label">Quick Test Samples</label>
                             <div class="d-grid gap-2">
                                 {% for category, content in sample_content.items() %}
-                                <button class="btn btn-outline-primary" onclick="loadSample('{{ category }}')">
-                                    {{ content.title }}
+                                <button class="btn btn-outline-primary sample-btn" onclick="loadSample('{{ category }}', this)">
+                                    <i class="fas fa-file-text me-2"></i>{{ content.title }}
                                 </button>
                                 {% endfor %}
                             </div>
@@ -978,9 +1146,189 @@ def create_templates():
     <script>
         const sampleContent = {{ sample_content | tojsonfilter }};
 
-        function loadSample(category) {
+        function loadSample(category, buttonElement) {
             if (sampleContent[category]) {
+                // Load the sample content
                 document.getElementById('contentInput').value = sampleContent[category].content;
+                
+                // Clear previous results
+                clearResults();
+                
+                // Update button highlighting
+                updateSampleButtonHighlight(buttonElement);
+                
+                // Show feedback that sample was loaded
+                showSampleLoadedFeedback(category);
+            }
+        }
+        
+        function clearResults() {
+            const resultsContainer = document.getElementById('resultsContainer');
+            if (resultsContainer) {
+                resultsContainer.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-search fa-2x mb-3"></i>
+                        <p>Results will appear here after content analysis</p>
+                        <small>Select a sample above or enter your own content, then click "Analyze with AI"</small>
+                    </div>
+                `;
+            }
+        }
+        
+        function updateSampleButtonHighlight(activeButton) {
+            // Remove active class from all sample buttons
+            document.querySelectorAll('.sample-btn').forEach(btn => {
+                btn.classList.remove('btn-primary', 'active');
+                btn.classList.add('btn-outline-primary');
+            });
+            
+            // Add active class to the clicked button
+            if (activeButton) {
+                activeButton.classList.remove('btn-outline-primary');
+                activeButton.classList.add('btn-primary', 'active');
+            }
+        }
+        
+        function showSampleLoadedFeedback(category) {
+            const categoryName = sampleContent[category]?.title || category;
+            
+            // Show a brief toast notification
+            const toast = document.createElement('div');
+            toast.className = 'toast position-fixed top-0 end-0 m-3';
+            toast.style.zIndex = '9999';
+            toast.innerHTML = `
+                <div class="toast-header bg-info text-white">
+                    <i class="fas fa-file-text me-2"></i>
+                    <strong class="me-auto">Sample Loaded</strong>
+                </div>
+                <div class="toast-body">
+                    Loaded: ${categoryName}
+                </div>
+            `;
+            document.body.appendChild(toast);
+            
+            // Auto-remove toast after 2 seconds
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 2000);
+        }
+
+        // Performance tracking
+        let performanceHistory = [];
+        
+        // Strategy management functions
+        async function loadCurrentStrategy() {
+            try {
+                const response = await fetch('/api/strategy');
+                const data = await response.json();
+                
+                if (data.current_strategy) {
+                    const strategySelect = document.getElementById('strategySelect');
+                    const strategyInfo = document.getElementById('strategyInfo');
+                    
+                    strategySelect.value = data.current_strategy.strategy_type;
+                    
+                    const descriptions = {
+                        'hybrid': 'Intelligently switches between fast filters and LLM reasoning based on content complexity',
+                        'multi_layer': 'Uses fast rule-based filters → specialized AI → LLM only for edge cases (production-optimized)',
+                        'llm_only': 'Full LLM analysis with comprehensive reasoning (best for AI demos and complex content)'
+                    };
+                    
+                    const colors = {
+                        'hybrid': 'alert-primary',
+                        'multi_layer': 'alert-success', 
+                        'llm_only': 'alert-warning'
+                    };
+                    
+                    strategyInfo.className = `alert py-2 mb-0 ${colors[data.current_strategy.strategy_type]}`;
+                    strategyInfo.innerHTML = `<small><strong>${data.current_strategy.strategy_name}:</strong> ${descriptions[data.current_strategy.strategy_type]}</small>`;
+                    
+                    updatePerformanceDisplay();
+                }
+            } catch (error) {
+                console.error('Failed to load current strategy:', error);
+                document.getElementById('strategyInfo').innerHTML = '<small class="text-danger">Error loading strategy info</small>';
+            }
+        }
+        
+        function updatePerformanceDisplay() {
+            const performanceDiv = document.getElementById('performanceMetrics');
+            
+            if (performanceHistory.length === 0) {
+                performanceDiv.innerHTML = '<small class="text-muted">No classifications yet</small>';
+                return;
+            }
+            
+            const recent = performanceHistory.slice(-5);
+            const avgTime = recent.reduce((sum, p) => sum + p.time, 0) / recent.length;
+            const totalClassifications = performanceHistory.length;
+            
+            performanceDiv.innerHTML = `
+                <small>
+                    <div><strong>${totalClassifications}</strong> classifications</div>
+                    <div>Avg: <strong>${avgTime.toFixed(1)}s</strong></div>
+                    <div class="text-success">Last: <strong>${recent[recent.length - 1]?.time.toFixed(1)}s</strong></div>
+                </small>
+            `;
+        }
+        
+        async function switchStrategy() {
+            const newStrategy = document.getElementById('strategySelect').value;
+            const strategyInfo = document.getElementById('strategyInfo');
+            const performanceDiv = document.getElementById('performanceMetrics');
+            
+            strategyInfo.innerHTML = '<small class="text-warning"><i class="fas fa-spinner fa-spin me-1"></i>Switching strategy...</small>';
+            performanceDiv.innerHTML = '<small class="text-muted">Strategy switching...</small>';
+            
+            try {
+                const response = await fetch('/api/strategy', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ strategy: newStrategy })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Clear performance history when switching strategies
+                    performanceHistory = [];
+                    
+                    // Show success notification
+                    const toast = document.createElement('div');
+                    toast.className = 'toast position-fixed top-0 end-0 m-3';
+                    toast.innerHTML = `
+                        <div class="toast-header bg-success text-white">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <strong class="me-auto">Strategy Switched</strong>
+                        </div>
+                        <div class="toast-body">
+                            Switched from ${data.old_strategy} to ${newStrategy}
+                        </div>
+                    `;
+                    document.body.appendChild(toast);
+                    
+                    // Auto-remove toast after 3 seconds
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.parentNode.removeChild(toast);
+                        }
+                    }, 3000);
+                    
+                    // Reload strategy info
+                    await loadCurrentStrategy();
+                    
+                    console.log('Strategy switched:', data.message);
+                } else {
+                    strategyInfo.innerHTML = '<small class="text-danger">Error switching strategy</small>';
+                    console.error('Strategy switch failed:', data.error);
+                }
+            } catch (error) {
+                strategyInfo.innerHTML = '<small class="text-danger">Error switching strategy</small>';
+                console.error('Strategy switch error:', error);
             }
         }
 
@@ -996,6 +1344,9 @@ def create_templates():
             // Show loading
             document.getElementById('analyzeBtn').disabled = true;
             document.getElementById('loading').style.display = 'block';
+            
+            // Track start time for performance monitoring
+            const startTime = Date.now();
 
             try {
                 const response = await fetch('/api/classify', {
@@ -1005,6 +1356,19 @@ def create_templates():
                 });
 
                 const result = await response.json();
+                
+                // Track performance
+                const endTime = Date.now();
+                const processingTime = (endTime - startTime) / 1000;
+                performanceHistory.push({
+                    time: processingTime,
+                    strategy: result.strategy_info?.strategy_type || 'unknown',
+                    recommendation: result.recommendation
+                });
+                
+                // Update performance display
+                updatePerformanceDisplay();
+                
                 displayResults(result);
 
             } catch (error) {
@@ -1033,6 +1397,26 @@ def create_templates():
                 result.recommendation === 'caution' ? 'recommendation-caution' : 'recommendation-block';
 
             container.innerHTML = `
+                <!-- Strategy & Performance Info -->
+                <div class="alert alert-dark mb-3">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h6><i class="fas fa-cogs me-2"></i>Strategy Used: ${result.model || 'Unknown'}</h6>
+                            <small>
+                                Processing Time: <strong>${result.processing_time?.toFixed(2) || 'N/A'}s</strong> |
+                                Confidence: <strong>${(result.confidence * 100)?.toFixed(1) || 'N/A'}%</strong>
+                                ${result.curation_metadata?.baml_used ? ' | <span class="badge bg-success">BAML AI</span>' : ' | <span class="badge bg-secondary">Mock</span>'}
+                            </small>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <small class="text-muted">
+                                Strategy: <strong>${result.strategy_info?.strategy_type || 'Unknown'}</strong><br>
+                                ${result.curation_metadata?.engine_strategy ? `Engine: ${result.curation_metadata.engine_strategy}` : ''}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- Overall Recommendation -->
                 <div class="alert ${recommendationClass} mb-3">
                     <h6><i class="fas fa-thumbs-${result.recommendation === 'allow' ? 'up' : result.recommendation === 'caution' ? 'sideways' : 'down'} me-2"></i>
@@ -1047,8 +1431,8 @@ def create_templates():
                     <div class="row">
                         <div class="col-6">
                             <div class="text-center">
-                                <div class="h4 mb-1 ${safety.score > 0.7 ? 'text-success' : safety.score > 0.4 ? 'text-warning' : 'text-danger'}">
-                                    ${(safety.score * 100).toFixed(1)}%
+                                <div class="h4 mb-1 ${safety.safety_score > 0.7 ? 'text-success' : safety.safety_score > 0.4 ? 'text-warning' : 'text-danger'}">
+                                    ${(safety.safety_score * 100).toFixed(1)}%
                                 </div>
                                 <small class="text-muted">Safety Score</small>
                             </div>
@@ -1132,6 +1516,32 @@ def create_templates():
                 </div>
             `;
         }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load current strategy on page load
+            loadCurrentStrategy();
+            
+            // Add strategy change listener
+            document.getElementById('strategySelect').addEventListener('change', switchStrategy);
+            
+            // Clear results when user manually edits content
+            const contentInput = document.getElementById('contentInput');
+            if (contentInput) {
+                contentInput.addEventListener('input', function() {
+                    // Clear button highlighting when user types manually
+                    updateSampleButtonHighlight(null);
+                    
+                    // Only clear results if there are existing results
+                    const resultsContainer = document.getElementById('resultsContainer');
+                    if (resultsContainer && resultsContainer.innerHTML.includes('alert')) {
+                        clearResults();
+                    }
+                });
+            }
+            
+            console.log('Page initialized with pluggable curation engine');
+        });
     </script>
 </body>
 </html>
