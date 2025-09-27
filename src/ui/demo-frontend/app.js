@@ -34,6 +34,7 @@ import json
 
 # Import our pluggable curation engine and BAML integration
 try:
+    sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'tools', 'scripts'))
     from BAML_Integration_Real import RealBAMLContentAnalyzer, ContentCurationPipeline
     from curation_engine_pluggable import CurationEngine, CurationStrategy
     

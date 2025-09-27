@@ -70,7 +70,7 @@ def test_baml_integration():
         print_status("✅ Real BAML integration module importable", "success")
         
         # Check if generated client exists
-        baml_client_path = Path(__file__).parent / "baml_client_python" / "baml_client"
+        baml_client_path = Path(__file__).parent.parent.parent / "src" / "core" / "baml_client_python" / "baml_client"
         if baml_client_path.exists():
             print_status("✅ BAML Python client generated successfully", "success")
         else:
@@ -86,10 +86,10 @@ def check_demo_structure():
     """Check if all demo files are in place."""
     files_to_check = [
         ("run_complete_demo.sh", "Main demo script"),
-        ("integrated-backend/server.js", "Backend server"),
-        ("integrated-backend/package.json", "Backend package config"),
-        ("demo-frontend/app.js", "Demo frontend"),
-        ("baml_src/content_classification.baml", "BAML functions (unified)"),
+        ("src/api/integrated-backend/server.js", "Backend server"),
+        ("src/api/integrated-backend/package.json", "Backend package config"),
+        ("src/ui/demo-frontend/app.js", "Demo frontend"),
+        ("config/baml_src/content_classification.baml", "BAML functions (unified)"),
         ("BAML_Integration_Real.py", "Real BAML integration"),
         ("DEMO_GUIDE.md", "Demo guide"),
         ("LOCAL_DEPLOYMENT_GUIDE.md", "Deployment guide"),
@@ -125,9 +125,9 @@ def test_api_endpoints():
     
     # This just tests the demo frontend structure
     try:
-        sys.path.insert(0, str(Path(__file__).parent / "demo-frontend"))
+        sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src" / "ui" / "demo-frontend"))
         # Just test the file can be loaded
-        with open("demo-frontend/app.js", "r") as f:
+        with open("src/ui/demo-frontend/app.js", "r") as f:
             content = f.read()
             if "def classify_content" in content and "/api/classify" in content:
                 print_status("✅ API endpoint structure looks correct", "success")

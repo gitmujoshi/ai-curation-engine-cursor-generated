@@ -79,16 +79,16 @@ install_baml_cli() {
 setup_baml_project() {
     print_status "Setting up BAML project structure..."
     
-    # Create baml_src directory if it doesn't exist
-    if [ ! -d "baml_src" ]; then
-        mkdir -p baml_src
-        print_success "Created baml_src directory"
+    # Create config/baml_src directory if it doesn't exist
+    if [ ! -d "config/baml_src" ]; then
+        mkdir -p config/baml_src
+        print_success "Created config/baml_src directory"
     fi
     
-    # Create baml_client directory for generated code
-    if [ ! -d "baml_client" ]; then
-        mkdir -p baml_client
-        print_success "Created baml_client directory"
+    # Create src/core/baml_client directory for generated code
+    if [ ! -d "src/core/baml_client" ]; then
+        mkdir -p src/core/baml_client
+        print_success "Created src/core/baml_client directory"
     fi
     
     # Create __pycache__ in .gitignore if not present
@@ -97,7 +97,7 @@ setup_baml_project() {
     fi
     
     # Add BAML-specific entries to .gitignore
-    if ! grep -q "baml_client/" .gitignore; then
+    if ! grep -q "src/core/baml_client/" .gitignore; then
         echo "" >> .gitignore
         echo "# BAML generated files" >> .gitignore
         echo "baml_client/" >> .gitignore
@@ -110,14 +110,14 @@ setup_baml_project() {
 generate_python_client() {
     print_status "Generating Python client from BAML files..."
     
-    if [ ! -f "baml_src/content_classification.baml" ]; then
-        print_error "BAML file not found: baml_src/content_classification.baml"
+    if [ ! -f "config/baml_src/content_classification.baml" ]; then
+        print_error "BAML file not found: config/baml_src/content_classification.baml"
         print_warning "Please ensure the BAML file exists before running client generation."
         return 1
     fi
     
     # Generate Python client
-    if baml-cli generate --from ./baml_src --lang python --output ./baml_client; then
+    if baml-cli generate --from ./config/baml_src --lang python --output ./src/core/baml_client; then
         print_success "Python client generated successfully"
     else
         print_error "Failed to generate Python client"
@@ -129,14 +129,14 @@ generate_python_client() {
 generate_typescript_client() {
     print_status "Generating TypeScript client from BAML files..."
     
-    if [ ! -f "baml_src/content_classification.baml" ]; then
-        print_error "BAML file not found: baml_src/content_classification.baml"
+    if [ ! -f "config/baml_src/content_classification.baml" ]; then
+        print_error "BAML file not found: config/baml_src/content_classification.baml"
         print_warning "Please ensure the BAML file exists before running client generation."
         return 1
     fi
     
     # Generate TypeScript client
-    if baml-cli generate --from ./baml_src --lang typescript --output ./baml_client_ts; then
+    if baml-cli generate --from ./config/baml_src --lang typescript --output ./src/core/baml_client_ts; then
         print_success "TypeScript client generated successfully"
     else
         print_error "Failed to generate TypeScript client"
@@ -218,13 +218,13 @@ EOF
 validate_baml_files() {
     print_status "Validating BAML files..."
     
-    if [ ! -f "baml_src/content_classification.baml" ]; then
-        print_error "BAML file not found: baml_src/content_classification.baml"
+    if [ ! -f "config/baml_src/content_classification.baml" ]; then
+        print_error "BAML file not found: config/baml_src/content_classification.baml"
         return 1
     fi
     
     # Use BAML CLI to validate files
-    if baml-cli validate --from ./baml_src; then
+    if baml-cli validate --from ./config/baml_src; then
         print_success "BAML files are valid"
     else
         print_error "BAML file validation failed"
@@ -356,7 +356,7 @@ main() {
     print_status "Next steps:"
     echo "1. Edit .env file and add your API keys"
     echo "2. Run 'python3 test_baml.py' to test the integration"
-    echo "3. Use 'baml-cli generate --from ./baml_src --lang python' to regenerate clients"
+    echo "3. Use 'baml-cli generate --from ./config/baml_src --lang python' to regenerate clients"
     echo ""
     print_warning "Important: Make sure you have valid API keys in your .env file"
     echo ""

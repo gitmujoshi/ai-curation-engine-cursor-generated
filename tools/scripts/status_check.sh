@@ -79,7 +79,7 @@ check_files() {
     echo -e "${PURPLE}Important Files:${NC}"
     
     # BAML Client
-    if [ -f "baml_client/__init__.py" ]; then
+    if [ -f "src/core/baml_client/__init__.py" ]; then
         echo -e "   • BAML Client: ${GREEN}✓ Generated${NC}"
     else
         echo -e "   • BAML Client: ${YELLOW}⚠️  Missing${NC}"

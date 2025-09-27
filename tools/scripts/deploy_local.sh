@@ -130,11 +130,17 @@ start_ollama() {
 generate_baml_client() {
     print_step "Generating BAML client..."
     
-    if [ -d "baml_src" ]; then
+    if [ -d "config/baml_src" ]; then
         if command -v baml-cli &> /dev/null; then
-            baml-cli generate > "$LOG_DIR/baml-generate.log" 2>&1
+            baml-cli generate --from ./config/baml_src > "$LOG_DIR/baml-generate.log" 2>&1
             if [ $? -eq 0 ]; then
-                print_success "✓ BAML client generated"
+                # Copy generated client to the correct location
+                if [ -d "config/baml_client_python/baml_client" ]; then
+                    cp -r config/baml_client_python/baml_client src/core/
+                    print_success "✓ BAML client generated and copied to src/core/"
+                else
+                    print_warning "BAML client generated but not found in expected location"
+                fi
             else
                 print_warning "BAML client generation failed - using fallback mode"
             fi
@@ -156,10 +162,10 @@ start_demo_frontend() {
     sleep 2
     
     # Start the demo frontend
-    cd demo-frontend
-    python3 app.js > "../$LOG_DIR/demo-frontend.log" 2>&1 &
+    cd src/ui/demo-frontend
+    python3 app.js > "../../../$LOG_DIR/demo-frontend.log" 2>&1 &
     DEMO_PID=$!
-    cd ..
+    cd ../../..
     
     # Wait for service to start
     sleep 3
@@ -194,7 +200,7 @@ print_service_status() {
     fi
     
     # BAML Client
-    if [ -f "baml_client/__init__.py" ]; then
+    if [ -f "src/core/baml_client/__init__.py" ]; then
         echo -e "   • BAML Client:   ${GREEN}✓ Generated${NC}"
     else
         echo -e "   • BAML Client:   ${YELLOW}⚠️  Using Fallback${NC}"

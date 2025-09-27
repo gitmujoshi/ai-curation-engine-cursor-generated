@@ -48,14 +48,14 @@ run_pre_build_checks() {
     print_info "Python version: $python_version"
     
     # Check if we're in the right directory
-    if [ ! -f "curation_engine_pluggable.py" ]; then
+    if [ ! -f "tools/scripts/curation_engine_pluggable.py" ]; then
         print_error "Not in AI Curation Engine directory"
         exit 1
     fi
     print_info "✓ In correct project directory"
     
     # Check for required files
-    local required_files=("demo-frontend/app.js" "curation_engine_pluggable.py" "BAML_Integration_Real.py")
+    local required_files=("src/ui/demo-frontend/app.js" "tools/scripts/curation_engine_pluggable.py" "tools/scripts/BAML_Integration_Real.py")
     for file in "${required_files[@]}"; do
         if [ -f "$file" ]; then
             print_info "✓ Found $file"
@@ -107,7 +107,7 @@ generate_baml_files() {
     mkdir -p logs
     
     # Check if BAML source exists
-    if [ -d "baml_src" ]; then
+    if [ -d "config/baml_src" ]; then
         print_info "Found BAML source directory"
         
         # Try to generate BAML client
@@ -134,7 +134,7 @@ run_lint_checks() {
     
     # Check Python syntax
     print_info "Checking Python syntax..."
-    local python_files=("demo-frontend/app.js" "curation_engine_pluggable.py" "BAML_Integration_Real.py")
+    local python_files=("src/ui/demo-frontend/app.js" "tools/scripts/curation_engine_pluggable.py" "tools/scripts/BAML_Integration_Real.py")
     for file in "${python_files[@]}"; do
         if [ -f "$file" ]; then
             python3 -m py_compile "$file" 2>/dev/null
@@ -168,6 +168,8 @@ test_functionality() {
     # Test imports
     print_info "Testing Python imports..."
     python3 -c "
+import sys
+sys.path.append('tools/scripts')
 try:
     from curation_engine_pluggable import CurationEngine, CurationStrategy
     from BAML_Integration_Real import RealBAMLContentAnalyzer
@@ -180,6 +182,8 @@ except Exception as e:
     # Test pluggable engine initialization
     print_info "Testing curation engine initialization..."
     python3 -c "
+import sys
+sys.path.append('tools/scripts')
 try:
     from curation_engine_pluggable import CurationEngine, CurationStrategy
     engine = CurationEngine(CurationStrategy.LLM_ONLY)

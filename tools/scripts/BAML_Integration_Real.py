@@ -38,7 +38,7 @@ for logger_name in baml_loggers:
 logger.info("🔍 BAML logging configured - logs will be saved to logs/baml.log")
 
 # Add the generated BAML client to Python path
-baml_client_path = Path(__file__).parent / "baml_client_python"
+baml_client_path = Path(__file__).parent.parent.parent / "src" / "core" / "baml_client_python"
 sys.path.insert(0, str(baml_client_path))
 
 try:
