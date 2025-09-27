@@ -2,6 +2,15 @@
 
 # AI Curation Engine - Service Status Check
 # ==========================================
+# Usage: ./status_check.sh [--quick]
+
+# Check for quick mode
+QUICK_MODE=false
+if [[ "$1" == "--quick" ]]; then
+    QUICK_MODE=true
+    echo -e "${YELLOW}🚀 Quick Status Check Mode (skipping slow API tests)${NC}"
+    echo ""
+fi
 
 # Colors for output
 RED='\033[0;31m'
@@ -115,25 +124,30 @@ test_api_endpoints() {
     # Health check
     check_service_detailed "Health Check" "http://localhost:5001/health" "Service health status"
     
-    # Quick classification test
-    echo -e "${CYAN}Testing Content Classification:${NC}"
-    local test_response=$(curl -s --max-time 10 -X POST http://localhost:5001/api/classify \
-        -H "Content-Type: application/json" \
-        -d '{"content": "This is a test message", "childId": "child_1"}' 2>/dev/null || echo "ERROR")
-    
-    if [[ "$test_response" == "ERROR" ]] || [[ "$test_response" == *"error"* ]]; then
-        echo -e "   ${RED}✗ Classification API failed${NC}"
+    if [[ "$QUICK_MODE" == "false" ]]; then
+        # Full classification test (may take 15+ seconds for LLM analysis)
+        echo -e "${CYAN}Testing Content Classification (LLM analysis - may take 15s):${NC}"
+        local test_response=$(curl -s --max-time 20 -X POST http://localhost:5001/api/classify \
+            -H "Content-Type: application/json" \
+            -d '{"content": "This is a test message", "childId": "child_1"}' 2>/dev/null || echo "ERROR")
+        
+        if [[ "$test_response" == "ERROR" ]] || [[ "$test_response" == *"error"* ]]; then
+            echo -e "   ${RED}✗ Classification API failed${NC}"
+        else
+            echo -e "   ${GREEN}✓ Classification API working${NC}"
+            # Extract key info
+            local recommendation=$(echo "$test_response" | python3 -c "import json,sys; data=json.load(sys.stdin); print(data.get('recommendation', 'N/A'))" 2>/dev/null || echo "N/A")
+            local processing_time=$(echo "$test_response" | python3 -c "import json,sys; data=json.load(sys.stdin); print(f\"{data.get('processing_time', 0):.2f}s\")" 2>/dev/null || echo "N/A")
+            echo -e "   ${BLUE}Recommendation: $recommendation, Time: $processing_time${NC}"
+        fi
+        echo ""
+        
+        # Strategy endpoint
+        check_service_detailed "Strategy API" "http://localhost:5001/api/strategy" "Curation strategy management"
     else
-        echo -e "   ${GREEN}✓ Classification API working${NC}"
-        # Extract key info
-        local recommendation=$(echo "$test_response" | python3 -c "import json,sys; data=json.load(sys.stdin); print(data.get('recommendation', 'N/A'))" 2>/dev/null || echo "N/A")
-        local processing_time=$(echo "$test_response" | python3 -c "import json,sys; data=json.load(sys.stdin); print(f\"{data.get('processing_time', 0):.2f}s\")" 2>/dev/null || echo "N/A")
-        echo -e "   ${BLUE}Recommendation: $recommendation, Time: $processing_time${NC}"
+        echo -e "${YELLOW}⏩ Skipping slow API tests (use without --quick for full test)${NC}"
+        echo ""
     fi
-    echo ""
-    
-    # Strategy endpoint
-    check_service_detailed "Strategy API" "http://localhost:5001/api/strategy" "Curation strategy management"
 }
 
 print_urls() {

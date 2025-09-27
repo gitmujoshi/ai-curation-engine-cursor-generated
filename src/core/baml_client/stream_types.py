@@ -23,13 +23,14 @@ class StreamState(BaseModel, typing.Generic[StreamStateValueT]):
     value: StreamStateValueT
     state: typing_extensions.Literal["Pending", "Incomplete", "Complete"]
 # #########################################################################
-# Generated classes (5)
+# Generated classes (6)
 # #########################################################################
 
 class ComprehensiveClassification(BaseModel):
     safety: typing.Optional["SafetyClassification"] = None
     educational: typing.Optional["EducationalValue"] = None
     viewpoint: typing.Optional["ViewpointAnalysis"] = None
+    scam_detection: typing.Optional["ScamDetection"] = None
     overall_confidence: typing.Optional[float] = None
     recommendation: typing.Optional[str] = None
     summary_reasoning: typing.Optional[str] = None
@@ -53,11 +54,25 @@ class SafetyClassification(BaseModel):
     reasoning: typing.Optional[str] = None
     content_warnings: typing.List[str]
 
+class ScamDetection(BaseModel):
+    is_scam: typing.Optional[bool] = None
+    scam_types: typing.List[types.ScamType]
+    scam_confidence: typing.Optional[float] = None
+    urgency_tactics: typing.Optional[bool] = None
+    too_good_to_be_true: typing.Optional[bool] = None
+    requests_personal_info: typing.Optional[bool] = None
+    unverified_claims: typing.Optional[bool] = None
+    emotional_manipulation: typing.Optional[bool] = None
+    warning_flags: typing.List[str]
+    protection_recommendation: typing.Optional[str] = None
+
 class UserContext(BaseModel):
     age_category: typing.Optional[types.AgeCategory] = None
     jurisdiction: typing.Optional[types.Jurisdiction] = None
     parental_controls: typing.Optional[types.ParentalControls] = None
     sensitivity_level: typing.Optional[types.SensitivityLevel] = None
+    vulnerability_factors: typing.List[types.VulnerabilityType]
+    protection_level: typing.Optional[str] = None
 
 class ViewpointAnalysis(BaseModel):
     political_leaning: typing.Optional[str] = None

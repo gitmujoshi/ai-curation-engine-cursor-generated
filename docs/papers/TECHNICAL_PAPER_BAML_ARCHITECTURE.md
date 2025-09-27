@@ -1,10 +1,10 @@
 # Protecting Children Online: A Privacy-First AI System for Family-Safe Content Filtering
 
-*Implementation and Evaluation of Local Language Models with Pluggable Architecture for Vulnerable Population Safety*
+*Implementation and Evaluation of Large Language Models with Pluggable Architecture for Vulnerable Population Safety*
 
 ## Abstract
 
-Protecting children and vulnerable populations online requires sophisticated content filtering that balances safety with privacy and educational value. This paper presents a privacy-first AI system designed specifically for family-safe content filtering, eliminating reliance on external services that expose sensitive user data. Our system leverages local language models (Llama 3.2) with structured AI interactions through Boundary Markup Language (BAML) to provide nuanced content analysis while keeping all data processing local to the family environment.
+Protecting children and vulnerable populations online requires sophisticated content filtering that balances safety with privacy and educational value. This paper presents a privacy-first AI system designed specifically for family-safe content filtering, eliminating reliance on external services that expose sensitive user data. Our system leverages large language models (Llama 3.2) running locally with structured AI interactions through Boundary Markup Language (BAML) to provide nuanced content analysis while keeping all data processing local to the family environment.
 
 The system implements three pluggable curation strategies—LLM-Only, Multi-Layer, and Hybrid—that can be switched at runtime to balance accuracy and performance based on content complexity and user context. Real-world evaluation demonstrates processing times of 5-10 seconds for comprehensive content analysis, with intelligent routing achieving sub-second filtering for 40% of content through fast-path optimization.
 
@@ -12,11 +12,11 @@ Key contributions include: (1) a privacy-preserving architecture that protects v
 
 **Note**: This is an implementation-focused technical report demonstrating a practical AI safety system for vulnerable populations. It emphasizes measured performance characteristics, real-world applicability, and reproducible deployment over theoretical contributions.
 
-**Keywords:** Child Online Safety, Privacy-Preserving AI, Family Content Filtering, Local Language Models, Vulnerable Population Protection, AI Safety, Parental Controls, BAML
+**Keywords:** Child Online Safety, Privacy-Preserving AI, Family Content Filtering, Large Language Models, Vulnerable Population Protection, AI Safety, Parental Controls, BAML
 
 ## 1. Introduction
 
-Content curation for family safety presents unique challenges requiring both high accuracy and privacy preservation, particularly when protecting vulnerable populations including children, elderly users, and individuals with cognitive disabilities. Traditional approaches either rely on cloud-based AI services that compromise data privacy or use rule-based systems with limited effectiveness. This paper presents a novel architecture that addresses these limitations through local language model deployment with structured AI interactions, specifically designed to serve real-world AI safety needs for vulnerable populations.
+Content curation for family safety presents unique challenges requiring both high accuracy and privacy preservation, particularly when protecting vulnerable populations including children, elderly users, and individuals with cognitive disabilities. Traditional approaches either rely on cloud-based AI services that compromise data privacy or use rule-based systems with limited effectiveness. This paper presents a novel architecture that addresses these limitations through large language model deployment running locally with structured AI interactions, specifically designed to serve real-world AI safety needs for vulnerable populations.
 
 ### 1.1 Problem Statement
 
@@ -120,7 +120,7 @@ autonomy while providing safety.
 
 This work makes the following contributions:
 1. A pluggable architecture enabling runtime strategy switching for content curation
-2. Integration of BAML for structured, type-safe AI interactions with local language models
+2. Integration of BAML for structured, type-safe AI interactions with large language models running locally
 3. Empirical evaluation of three curation strategies with measured performance characteristics
 4. Complete implementation with multi-cloud deployment capabilities
 5. **Practical AI safety system** designed specifically for protecting vulnerable populations
@@ -147,7 +147,7 @@ Privacy-preserving AI techniques include federated learning [5], differential pr
 The system architecture consists of four primary components:
 1. **BAML Integration Layer**: Provides structured AI interactions with type safety
 2. **Pluggable Curation Engine**: Implements multiple classification strategies
-3. **Local Language Model Runtime**: Ollama server hosting Llama 3.2
+3. **Large Language Model Runtime (Local)**: Ollama server hosting Llama 3.2
 4. **Web Interface**: Flask-based frontend for testing and demonstration
 
 ### 3.2 BAML Architecture: From Source to Runtime
@@ -548,9 +548,9 @@ class UserContext {
 
 This approach ensures type safety and validation of all AI interactions.
 
-### 4.3 Local Language Model Deployment
+### 4.3 Large Language Model Deployment (Local)
 
-The system uses Ollama for local language model hosting, providing:
+The system uses Ollama for locally hosting large language models, providing:
 - **Model Management**: Automatic downloading and versioning of Llama 3.2
 - **API Interface**: RESTful endpoints for model inference
 - **Resource Management**: Efficient GPU/CPU utilization
@@ -764,7 +764,7 @@ This implementation-focused paper does not include a comprehensive literature re
 [1] BoundaryML. "BAML Documentation and SDK." GitHub Repository, 2024.  
     https://github.com/BoundaryML/baml - Framework used for type-safe AI interactions.
 
-[2] Ollama. "Local Language Model Runtime." GitHub Repository, 2024.  
+[2] Ollama. "Large Language Model Runtime (Local)." GitHub Repository, 2024.  
     https://github.com/ollama/ollama - Local LLM deployment platform used in implementation.
 
 [3] Meta AI. "Llama 3.2 Model Family." Meta AI, 2024.  
@@ -807,7 +807,7 @@ The development process involved iterative prompt engineering across different s
 "Create a pluggable AI content curation system with multiple strategies 
 that can balance performance and accuracy for family-safe content filtering"
 
-"Design a privacy-first architecture using local language models 
+"Design a privacy-first architecture using large language models running locally 
 without external API dependencies"
 ```
 

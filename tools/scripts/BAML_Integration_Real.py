@@ -38,7 +38,7 @@ for logger_name in baml_loggers:
 logger.info("🔍 BAML logging configured - logs will be saved to logs/baml.log")
 
 # Add the generated BAML client to Python path
-baml_client_path = Path(__file__).parent.parent.parent / "src" / "core" / "baml_client_python"
+baml_client_path = Path(__file__).parent.parent.parent / "src" / "core"
 sys.path.insert(0, str(baml_client_path))
 
 try:
@@ -46,8 +46,9 @@ try:
     from baml_client import b, types
     from baml_client.types import (
         AgeCategory, Jurisdiction, ParentalControls, SensitivityLevel,
+        VulnerabilityType, ScamType,
         UserContext, SafetyClassification, EducationalValue, 
-        ViewpointAnalysis, ComprehensiveClassification
+        ViewpointAnalysis, ComprehensiveClassification, ScamDetection
     )
     import baml_py
     BAML_AVAILABLE = True

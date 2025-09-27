@@ -1,6 +1,6 @@
 # BAML Integration for Production AI Systems: From Source Code to Type-Safe Runtime
 
-*A Technical Deep-Dive into Boundary Markup Language Integration, Code Generation, and Real-World Implementation*
+*A Technical Deep-Dive into Boundary's AI Markup Language Integration, Code Generation, and Real-World Implementation*
 
 ## Abstract
 
@@ -1324,7 +1324,7 @@ This analysis provides evidence that declarative, type-safe approaches to AI int
 [1] BoundaryML. "BAML Documentation and SDK." GitHub Repository, 2024.  
     https://github.com/BoundaryML/baml - Complete BAML framework and documentation.
 
-[2] Ollama. "Local Language Model Runtime." GitHub Repository, 2024.  
+[2] Ollama. "Large Language Model Runtime (Local)." GitHub Repository, 2024.  
     https://github.com/ollama/ollama - Local LLM deployment platform used in implementation.
 
 [3] Meta AI. "Llama 3.2 Model Family." Meta AI, 2024.  

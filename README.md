@@ -10,7 +10,7 @@
 
 ## Overview
 
-The AI Content Curation Engine is a production-ready system for protecting children and vulnerable populations online through sophisticated, privacy-preserving content analysis. Built with local language models and type-safe AI integration, it provides families and organizations with autonomous control over content filtering.
+The AI Content Curation Engine is a production-ready system for protecting children and vulnerable populations online through sophisticated, privacy-preserving content analysis. Built with large language models and type-safe AI integration, it provides families and organizations with autonomous control over content filtering.
 
 ## 🚀 Quick Start
 

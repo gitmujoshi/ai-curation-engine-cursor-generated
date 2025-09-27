@@ -156,6 +156,54 @@ DEMO_DATA = {
                 'politicalContent': 'allowed',
                 'controversialTopics': 'allowed'
             }
+        },
+        {
+            'id': 'elderly_1',
+            'name': 'Uncle Tom',
+            'nickname': 'Tom',
+            'age': 80,
+            'safetyLevel': 'high_protection',
+            'allowedCategories': ['educational', 'news', 'health', 'entertainment', 'family'],
+            'blockedCategories': ['investment_advice', 'financial_scams', 'get_rich_quick', 'crypto_promises', 'suspicious_offers', 'phishing_attempts'],
+            'dailyTimeLimit': 300,
+            'sessionTimeLimit': 60,
+            'parentId': 'demo_parent',
+            'profileType': 'vulnerable_adult',
+            'vulnerabilityFactors': ['elderly', 'frequent_news_consumer', 'investment_scam_target'],
+            'protectionLevel': 'maximum',
+            'preferences': {
+                'contentMaturity': 'appropriate',
+                'adultContent': 'filtered',
+                'politicalContent': 'fact_checked_only',
+                'controversialTopics': 'filtered',
+                'financialContent': 'verified_sources_only',
+                'investmentAdvice': 'blocked',
+                'emergencyContacts': ['family_member', 'financial_advisor'],
+                'scamProtection': 'enabled',
+                'misinformationFilter': 'strict'
+            },
+            'customProtections': {
+                'investmentScamDetection': True,
+                'phoneScamWarnings': True,
+                'urgencyTacticDetection': True,
+                'tooGoodToBeTrueFilter': True,
+                'verificationReminders': True,
+                'familyConsultationPrompts': True
+            },
+            'trustedSources': [
+                'legitimate_news_outlets',
+                'government_health_sites',
+                'established_financial_institutions',
+                'family_recommended_content'
+            ],
+            'warningFlags': [
+                'urgent_action_required',
+                'limited_time_offers',
+                'guaranteed_returns',
+                'secret_investment_opportunities',
+                'requests_for_personal_information',
+                'pressure_to_act_immediately'
+            ]
         }
     ],
     'sample_content': {
@@ -206,6 +254,26 @@ DEMO_DATA = {
         'center_right': {
             'title': 'Center-Right Political Discussion',
             'content': '''Free market competition drives innovation and economic prosperity better than government intervention. Lower taxes on businesses and individuals stimulate investment and job creation. Private sector solutions are often more efficient than government programs for delivering services. School choice and competition improve educational outcomes for students. Strong law enforcement and secure borders are essential for national security and public safety. Traditional values and institutions provide important social stability. Fiscal responsibility requires limiting government spending and reducing national debt. Regulatory reform should eliminate unnecessary bureaucratic barriers to business growth.'''
+        },
+        'investment_scam': {
+            'title': '🚨 URGENT: Exclusive Investment Opportunity - Act Now!',
+            'content': '''CONGRATULATIONS! You have been selected for an EXCLUSIVE investment opportunity that guarantees 500% returns in just 30 days! This SECRET cryptocurrency method used by Wall Street insiders is now available to regular people for the first time. BUT YOU MUST ACT IMMEDIATELY - only 24 hours left! Send $5,000 TODAY to secure your spot. Our AI trading system has NEVER lost money. Call NOW: 1-800-GET-RICH. Don't tell anyone about this opportunity - it's so exclusive that sharing it could ruin it for everyone. Previous investors made millions! One customer bought a mansion after just one month! Your social security number and banking information needed to verify eligibility. Time is running out - this offer expires TONIGHT!'''
+        },
+        'phone_scam': {
+            'title': 'Urgent Call from Medicare Services',
+            'content': '''This is an URGENT notice from Medicare Services. Your Medicare benefits will be CANCELLED IMMEDIATELY unless you verify your information TODAY. There has been suspicious activity on your account. You MUST call 1-888-FAKE-NUM within the next hour or lose all benefits permanently. Have your Social Security number, Medicare card, and banking information ready. Our representative will need to verify your identity to protect your account. Do NOT hang up - this is a recorded line for your security. If you don't call back, legal action may be taken against you. Your benefits are in IMMEDIATE danger. Press 1 now to speak to a representative or press 2 to provide your information via phone menu.'''
+        },
+        'legitimate_financial_news': {
+            'title': 'Federal Reserve Announces Interest Rate Decision',
+            'content': '''The Federal Reserve announced today that it will maintain current interest rates at 5.25-5.50% following its two-day meeting. Fed Chair Jerome Powell cited ongoing concerns about inflation while acknowledging signs of economic cooling. The decision was unanimous among voting members. Economists had expected the hold, with most projecting potential rate cuts in the latter half of 2024 if inflation continues to moderate. Stock markets showed mixed reactions, with financial sector stocks rising on higher rate expectations. The central bank emphasized its commitment to bringing inflation down to its 2% target while maintaining employment stability. Next meeting is scheduled for March 2024.'''
+        },
+        'health_scam': {
+            'title': 'Miracle Cure Doctors Don\'t Want You to Know!',
+            'content': '''BREAKTHROUGH: Local grandmother discovers simple kitchen ingredient that CURES diabetes, arthritis, and heart disease in just 7 days! Big Pharma HATES this trick because it makes their expensive medications obsolete. This ANCIENT SECRET has been hidden from the public for decades. Hundreds of people have already thrown away their prescription pills after trying this method. Doctor testimonials included! But the medical establishment is trying to SHUT US DOWN. Order now for only $49.99 (normally $199) but ONLY if you call in the next 10 minutes. This offer may never be available again due to legal pressure from pharmaceutical companies. Free shipping if you order TWO bottles! No prescription needed. 100% natural with NO side effects.'''
+        },
+        'elder_friendly_news': {
+            'title': 'Local Community Center Expands Senior Programs',
+            'content': '''The Maplewood Community Center announced the expansion of its senior programming this fall, adding new classes in watercolor painting, gentle yoga, and technology training. The center will also host monthly health screenings in partnership with St. Mary\'s Hospital and weekly social hours featuring live music from local performers. "We\'re committed to providing engaging activities that promote wellness and social connection for our senior community members," said Program Director Lisa Chen. Registration begins September 1st, with scholarships available for those who need financial assistance. The center is also seeking volunteers to help with transportation for seniors who need rides to programs.'''
         }
     }
 }
@@ -350,12 +418,36 @@ def classify_content():
                 sensitivity_level = child_profile.get('safetyLevel', 'moderate').lower()
                 sensitivity_enum = sensitivity_map.get(sensitivity_level, SensitivityLevel.MEDIUM)
                 
+                # Import vulnerability types enum
+                from BAML_Integration_Real import VulnerabilityType
+                
+                # Map vulnerability factors from profile to BAML enums
+                vulnerability_factors = []
+                profile_vulnerabilities = child_profile.get('vulnerabilityFactors', [])
+                vulnerability_mapping = {
+                    'elderly': VulnerabilityType.ELDERLY,
+                    'investment_scam_target': VulnerabilityType.INVESTMENT_SCAM_TARGET,
+                    'frequent_news_consumer': VulnerabilityType.FREQUENT_NEWS_CONSUMER,
+                    'isolation_risk': VulnerabilityType.ISOLATION_RISK,
+                    'cognitive_impairment': VulnerabilityType.COGNITIVE_IMPAIRMENT,
+                    'recent_loss': VulnerabilityType.RECENT_LOSS,
+                    'financial_stress': VulnerabilityType.FINANCIAL_STRESS
+                }
+                
+                for factor in profile_vulnerabilities:
+                    if factor in vulnerability_mapping:
+                        vulnerability_factors.append(vulnerability_mapping[factor])
+                
+                # Get protection level
+                protection_level = child_profile.get('protectionLevel', 'moderate')
+                
                 user_context = UserContext(
                     age_category=age_category_enum,
                     jurisdiction=Jurisdiction.US,
                     parental_controls=parental_controls_enum,
-                    content_preferences=child_profile.get('allowedCategories', []),
-                    sensitivity_level=sensitivity_enum
+                    sensitivity_level=sensitivity_enum,
+                    vulnerability_factors=vulnerability_factors,
+                    protection_level=protection_level
                 )
             else:
                 from BAML_Integration_Real import UserContext, AgeCategory, Jurisdiction, ParentalControls, SensitivityLevel
@@ -363,8 +455,9 @@ def classify_content():
                     age_category=AgeCategory.ADULT,
                     jurisdiction=Jurisdiction.US,
                     parental_controls=ParentalControls.NONE,
-                    content_preferences=[],
-                    sensitivity_level=SensitivityLevel.MEDIUM
+                    sensitivity_level=SensitivityLevel.MEDIUM,
+                    vulnerability_factors=[],
+                    protection_level='minimal'
                 )
             
             # Use the pluggable curation engine

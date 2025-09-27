@@ -111,7 +111,7 @@ check_prerequisites() {
     fi
     
     if ! command_exists ollama; then
-        print_warning "Ollama not found - BAML will use fallback mode"
+        print_warning "Ollama not found - local LLM not available (some features disabled)"
     fi
     
     if [ ${#missing_deps[@]} -gt 0 ]; then
@@ -237,7 +237,7 @@ start_ollama() {
     print_section "Starting Ollama (Optional)"
     
     if ! command_exists ollama; then
-        print_warning "Ollama not available - BAML will use fallback mode"
+        print_warning "Ollama not available - local LLM not available (some features disabled)"
         return 0
     fi
     
@@ -363,7 +363,7 @@ show_demo_info() {
     if curl -s http://localhost:11434/api/tags > /dev/null 2>&1; then
         echo "   • Ollama:        ✅ Running"
     else
-        echo "   • Ollama:        ⚠️  Not running (fallback mode)"
+        echo "   • Ollama:        ⚠️  Not running (local LLM unavailable)"
     fi
     
     if curl -s http://localhost:3001/api/health > /dev/null 2>&1; then
@@ -379,16 +379,16 @@ show_demo_info() {
     fi
     
     if [ -d "baml_client_python/baml_client" ]; then
-        echo "   • BAML Client:   ✅ Generated (Real AI)"
+        echo "   • BAML Client:   ✅ Generated"
     else
-        echo "   • BAML Client:   ⚠️  Using Fallback"
+        echo "   • BAML Client:   ⚠️  Not generated"
     fi
     
     echo ""
     echo -e "${CYAN}🧪 Demo Features:${NC}"
     echo "   ✅ Parent Dashboard with Child Profiles"
     echo "   ✅ Real-time Content Classification"
-    echo "   ✅ BAML AI Integration (with fallback)"
+    echo "   ✅ BAML AI Integration"
     echo "   ✅ Safety Analytics & Reporting"
     echo "   ✅ Child Profile Management"
     echo "   ✅ Content Testing Interface"

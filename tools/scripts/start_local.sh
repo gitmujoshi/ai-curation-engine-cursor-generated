@@ -130,7 +130,7 @@ setup_baml() {
     # Generate BAML client for Llama
     if [ -f "baml_src/llama_content_classification.baml" ]; then
         baml-cli generate --from ./baml_src/llama_content_classification.baml --lang python --output ./baml_client_llama > /dev/null 2>&1 || {
-            print_warning "BAML client generation failed, using fallback mode"
+            print_warning "BAML client generation failed"
         }
     fi
     

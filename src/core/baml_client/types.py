@@ -37,7 +37,7 @@ def get_checks(checks: typing.Dict[CheckName, Check]) -> typing.List[Check]:
 def all_succeeded(checks: typing.Dict[CheckName, Check]) -> bool:
     return all(check.status == "succeeded" for check in get_checks(checks))
 # #########################################################################
-# Generated enums (4)
+# Generated enums (6)
 # #########################################################################
 
 class AgeCategory(str, Enum):
@@ -58,19 +58,41 @@ class ParentalControls(str, Enum):
     MODERATE = "MODERATE"
     STRICT = "STRICT"
 
+class ScamType(str, Enum):
+    INVESTMENT_FRAUD = "INVESTMENT_FRAUD"
+    ROMANCE_SCAM = "ROMANCE_SCAM"
+    TECH_SUPPORT_SCAM = "TECH_SUPPORT_SCAM"
+    MEDICARE_SCAM = "MEDICARE_SCAM"
+    LOTTERY_SCAM = "LOTTERY_SCAM"
+    CHARITY_FRAUD = "CHARITY_FRAUD"
+    GRANDPARENT_SCAM = "GRANDPARENT_SCAM"
+    IDENTITY_THEFT = "IDENTITY_THEFT"
+    PHISHING = "PHISHING"
+    CRYPTOCURRENCY_SCAM = "CRYPTOCURRENCY_SCAM"
+
 class SensitivityLevel(str, Enum):
     LOW = "LOW"
     MEDIUM = "MEDIUM"
     HIGH = "HIGH"
 
+class VulnerabilityType(str, Enum):
+    ELDERLY = "ELDERLY"
+    INVESTMENT_SCAM_TARGET = "INVESTMENT_SCAM_TARGET"
+    FREQUENT_NEWS_CONSUMER = "FREQUENT_NEWS_CONSUMER"
+    ISOLATION_RISK = "ISOLATION_RISK"
+    COGNITIVE_IMPAIRMENT = "COGNITIVE_IMPAIRMENT"
+    RECENT_LOSS = "RECENT_LOSS"
+    FINANCIAL_STRESS = "FINANCIAL_STRESS"
+
 # #########################################################################
-# Generated classes (5)
+# Generated classes (6)
 # #########################################################################
 
 class ComprehensiveClassification(BaseModel):
     safety: "SafetyClassification"
     educational: "EducationalValue"
     viewpoint: "ViewpointAnalysis"
+    scam_detection: "ScamDetection"
     overall_confidence: float
     recommendation: str
     summary_reasoning: str
@@ -94,11 +116,25 @@ class SafetyClassification(BaseModel):
     reasoning: str
     content_warnings: typing.List[str]
 
+class ScamDetection(BaseModel):
+    is_scam: bool
+    scam_types: typing.List[ScamType]
+    scam_confidence: float
+    urgency_tactics: bool
+    too_good_to_be_true: bool
+    requests_personal_info: bool
+    unverified_claims: bool
+    emotional_manipulation: bool
+    warning_flags: typing.List[str]
+    protection_recommendation: str
+
 class UserContext(BaseModel):
     age_category: AgeCategory
     jurisdiction: Jurisdiction
     parental_controls: ParentalControls
     sensitivity_level: SensitivityLevel
+    vulnerability_factors: typing.List[VulnerabilityType]
+    protection_level: str
 
 class ViewpointAnalysis(BaseModel):
     political_leaning: str

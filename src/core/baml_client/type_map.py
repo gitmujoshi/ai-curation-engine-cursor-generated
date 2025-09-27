@@ -25,6 +25,9 @@ type_map = {
     "types.SafetyClassification": types.SafetyClassification,
     "stream_types.SafetyClassification": stream_types.SafetyClassification,
 
+    "types.ScamDetection": types.ScamDetection,
+    "stream_types.ScamDetection": stream_types.ScamDetection,
+
     "types.UserContext": types.UserContext,
     "stream_types.UserContext": stream_types.UserContext,
 
@@ -38,6 +41,10 @@ type_map = {
 
     "types.ParentalControls": types.ParentalControls,
 
+    "types.ScamType": types.ScamType,
+
     "types.SensitivityLevel": types.SensitivityLevel,
+
+    "types.VulnerabilityType": types.VulnerabilityType,
 
 }

@@ -20,13 +20,13 @@ from .globals import DO_NOT_USE_DIRECTLY_UNLESS_YOU_KNOW_WHAT_YOURE_DOING_RUNTIM
 class TypeBuilder(type_builder.TypeBuilder):
     def __init__(self):
         super().__init__(classes=set(
-          ["ComprehensiveClassification","EducationalValue","SafetyClassification","UserContext","ViewpointAnalysis",]
+          ["ComprehensiveClassification","EducationalValue","SafetyClassification","ScamDetection","UserContext","ViewpointAnalysis",]
         ), enums=set(
-          ["AgeCategory","Jurisdiction","ParentalControls","SensitivityLevel",]
+          ["AgeCategory","Jurisdiction","ParentalControls","ScamType","SensitivityLevel","VulnerabilityType",]
         ), runtime=DO_NOT_USE_DIRECTLY_UNLESS_YOU_KNOW_WHAT_YOURE_DOING_RUNTIME)
 
     # #########################################################################
-    # Generated enums 4
+    # Generated enums 6
     # #########################################################################
 
     @property
@@ -42,12 +42,20 @@ class TypeBuilder(type_builder.TypeBuilder):
         return ParentalControlsViewer(self)
 
     @property
+    def ScamType(self) -> "ScamTypeViewer":
+        return ScamTypeViewer(self)
+
+    @property
     def SensitivityLevel(self) -> "SensitivityLevelViewer":
         return SensitivityLevelViewer(self)
 
+    @property
+    def VulnerabilityType(self) -> "VulnerabilityTypeViewer":
+        return VulnerabilityTypeViewer(self)
+
 
     # #########################################################################
-    # Generated classes 5
+    # Generated classes 6
     # #########################################################################
 
     @property
@@ -63,6 +71,10 @@ class TypeBuilder(type_builder.TypeBuilder):
         return SafetyClassificationViewer(self)
 
     @property
+    def ScamDetection(self) -> "ScamDetectionViewer":
+        return ScamDetectionViewer(self)
+
+    @property
     def UserContext(self) -> "UserContextViewer":
         return UserContextViewer(self)
 
@@ -73,7 +85,7 @@ class TypeBuilder(type_builder.TypeBuilder):
 
 
 # #########################################################################
-# Generated enums 4
+# Generated enums 6
 # #########################################################################
 
 class AgeCategoryAst:
@@ -226,6 +238,80 @@ class ParentalControlsValues:
     
 
 
+class ScamTypeAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.enum("ScamType")
+        self._values: typing.Set[str] = set([  "INVESTMENT_FRAUD",  "ROMANCE_SCAM",  "TECH_SUPPORT_SCAM",  "MEDICARE_SCAM",  "LOTTERY_SCAM",  "CHARITY_FRAUD",  "GRANDPARENT_SCAM",  "IDENTITY_THEFT",  "PHISHING",  "CRYPTOCURRENCY_SCAM",  ])
+        self._vals = ScamTypeValues(self._bldr, self._values)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def values(self) -> "ScamTypeValues":
+        return self._vals
+
+
+class ScamTypeViewer(ScamTypeAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_values(self) -> typing.List[typing.Tuple[str, type_builder.EnumValueViewer]]:
+        return [(name, type_builder.EnumValueViewer(self._bldr.value(name))) for name in self._values]
+    
+
+class ScamTypeValues:
+    def __init__(self, enum_bldr: baml_py.EnumBuilder, values: typing.Set[str]):
+        self.__bldr = enum_bldr
+        self.__values = values # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def INVESTMENT_FRAUD(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("INVESTMENT_FRAUD"))
+    
+    @property
+    def ROMANCE_SCAM(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("ROMANCE_SCAM"))
+    
+    @property
+    def TECH_SUPPORT_SCAM(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("TECH_SUPPORT_SCAM"))
+    
+    @property
+    def MEDICARE_SCAM(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("MEDICARE_SCAM"))
+    
+    @property
+    def LOTTERY_SCAM(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("LOTTERY_SCAM"))
+    
+    @property
+    def CHARITY_FRAUD(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("CHARITY_FRAUD"))
+    
+    @property
+    def GRANDPARENT_SCAM(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("GRANDPARENT_SCAM"))
+    
+    @property
+    def IDENTITY_THEFT(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("IDENTITY_THEFT"))
+    
+    @property
+    def PHISHING(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("PHISHING"))
+    
+    @property
+    def CRYPTOCURRENCY_SCAM(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("CRYPTOCURRENCY_SCAM"))
+    
+    
+
+
 class SensitivityLevelAst:
     def __init__(self, tb: type_builder.TypeBuilder):
         _tb = tb._tb # type: ignore (we know how to use this private attribute)
@@ -272,16 +358,78 @@ class SensitivityLevelValues:
     
 
 
+class VulnerabilityTypeAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.enum("VulnerabilityType")
+        self._values: typing.Set[str] = set([  "ELDERLY",  "INVESTMENT_SCAM_TARGET",  "FREQUENT_NEWS_CONSUMER",  "ISOLATION_RISK",  "COGNITIVE_IMPAIRMENT",  "RECENT_LOSS",  "FINANCIAL_STRESS",  ])
+        self._vals = VulnerabilityTypeValues(self._bldr, self._values)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def values(self) -> "VulnerabilityTypeValues":
+        return self._vals
+
+
+class VulnerabilityTypeViewer(VulnerabilityTypeAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_values(self) -> typing.List[typing.Tuple[str, type_builder.EnumValueViewer]]:
+        return [(name, type_builder.EnumValueViewer(self._bldr.value(name))) for name in self._values]
+    
+
+class VulnerabilityTypeValues:
+    def __init__(self, enum_bldr: baml_py.EnumBuilder, values: typing.Set[str]):
+        self.__bldr = enum_bldr
+        self.__values = values # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def ELDERLY(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("ELDERLY"))
+    
+    @property
+    def INVESTMENT_SCAM_TARGET(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("INVESTMENT_SCAM_TARGET"))
+    
+    @property
+    def FREQUENT_NEWS_CONSUMER(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("FREQUENT_NEWS_CONSUMER"))
+    
+    @property
+    def ISOLATION_RISK(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("ISOLATION_RISK"))
+    
+    @property
+    def COGNITIVE_IMPAIRMENT(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("COGNITIVE_IMPAIRMENT"))
+    
+    @property
+    def RECENT_LOSS(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("RECENT_LOSS"))
+    
+    @property
+    def FINANCIAL_STRESS(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("FINANCIAL_STRESS"))
+    
+    
+
+
 
 # #########################################################################
-# Generated classes 5
+# Generated classes 6
 # #########################################################################
 
 class ComprehensiveClassificationAst:
     def __init__(self, tb: type_builder.TypeBuilder):
         _tb = tb._tb # type: ignore (we know how to use this private attribute)
         self._bldr = _tb.class_("ComprehensiveClassification")
-        self._properties: typing.Set[str] = set([  "safety",  "educational",  "viewpoint",  "overall_confidence",  "recommendation",  "summary_reasoning",  ])
+        self._properties: typing.Set[str] = set([  "safety",  "educational",  "viewpoint",  "scam_detection",  "overall_confidence",  "recommendation",  "summary_reasoning",  ])
         self._props = ComprehensiveClassificationProperties(self._bldr, self._properties)
 
     def type(self) -> baml_py.FieldType:
@@ -320,6 +468,10 @@ class ComprehensiveClassificationProperties:
     @property
     def viewpoint(self) -> type_builder.ClassPropertyViewer:
         return type_builder.ClassPropertyViewer(self.__bldr.property("viewpoint"))
+    
+    @property
+    def scam_detection(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("scam_detection"))
     
     @property
     def overall_confidence(self) -> type_builder.ClassPropertyViewer:
@@ -466,11 +618,86 @@ class SafetyClassificationProperties:
     
 
 
+class ScamDetectionAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("ScamDetection")
+        self._properties: typing.Set[str] = set([  "is_scam",  "scam_types",  "scam_confidence",  "urgency_tactics",  "too_good_to_be_true",  "requests_personal_info",  "unverified_claims",  "emotional_manipulation",  "warning_flags",  "protection_recommendation",  ])
+        self._props = ScamDetectionProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "ScamDetectionProperties":
+        return self._props
+
+
+class ScamDetectionViewer(ScamDetectionAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    
+    def list_properties(self) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [(name, type_builder.ClassPropertyViewer(self._bldr.property(name))) for name in self._properties]
+    
+
+
+class ScamDetectionProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    
+    
+    @property
+    def is_scam(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("is_scam"))
+    
+    @property
+    def scam_types(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("scam_types"))
+    
+    @property
+    def scam_confidence(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("scam_confidence"))
+    
+    @property
+    def urgency_tactics(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("urgency_tactics"))
+    
+    @property
+    def too_good_to_be_true(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("too_good_to_be_true"))
+    
+    @property
+    def requests_personal_info(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("requests_personal_info"))
+    
+    @property
+    def unverified_claims(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("unverified_claims"))
+    
+    @property
+    def emotional_manipulation(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("emotional_manipulation"))
+    
+    @property
+    def warning_flags(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("warning_flags"))
+    
+    @property
+    def protection_recommendation(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("protection_recommendation"))
+    
+    
+
+
 class UserContextAst:
     def __init__(self, tb: type_builder.TypeBuilder):
         _tb = tb._tb # type: ignore (we know how to use this private attribute)
         self._bldr = _tb.class_("UserContext")
-        self._properties: typing.Set[str] = set([  "age_category",  "jurisdiction",  "parental_controls",  "sensitivity_level",  ])
+        self._properties: typing.Set[str] = set([  "age_category",  "jurisdiction",  "parental_controls",  "sensitivity_level",  "vulnerability_factors",  "protection_level",  ])
         self._props = UserContextProperties(self._bldr, self._properties)
 
     def type(self) -> baml_py.FieldType:
@@ -513,6 +740,14 @@ class UserContextProperties:
     @property
     def sensitivity_level(self) -> type_builder.ClassPropertyViewer:
         return type_builder.ClassPropertyViewer(self.__bldr.property("sensitivity_level"))
+    
+    @property
+    def vulnerability_factors(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("vulnerability_factors"))
+    
+    @property
+    def protection_level(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("protection_level"))
     
     
 

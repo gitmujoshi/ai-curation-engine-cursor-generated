@@ -65,7 +65,7 @@ check_dependencies() {
     if command -v ollama &> /dev/null; then
         print_info "✓ Ollama: $(ollama --version 2>/dev/null || echo 'installed')"
     else
-        print_warning "Ollama not found - BAML will use mock responses"
+        print_warning "Ollama not found - local LLM not available (some features disabled)"
     fi
     
     echo ""
@@ -108,7 +108,7 @@ start_ollama() {
             if curl -s http://localhost:$OLLAMA_PORT/api/tags > /dev/null 2>&1; then
                 print_success "✓ Ollama server started"
             else
-                print_warning "Failed to start Ollama - BAML will use mock responses"
+                print_warning "Failed to start Ollama - local LLM unavailable (some features disabled)"
             fi
         fi
         
@@ -142,13 +142,13 @@ generate_baml_client() {
                     print_warning "BAML client generated but not found in expected location"
                 fi
             else
-                print_warning "BAML client generation failed - using fallback mode"
+                print_warning "BAML client generation failed - please run baml-cli installation and retry"
             fi
         else
             print_warning "BAML CLI not found - install with: pip install baml-py"
         fi
     else
-        print_warning "No BAML source found - using fallback mode"
+        print_warning "No BAML source found - cannot generate client"
     fi
     
     echo ""
@@ -197,14 +197,14 @@ print_service_status() {
     if curl -s http://localhost:$OLLAMA_PORT/api/tags > /dev/null 2>&1; then
         echo -e "   • Ollama:        ${GREEN}✓ Running${NC} (http://localhost:$OLLAMA_PORT)"
     else
-        echo -e "   • Ollama:        ${YELLOW}⚠️  Not running${NC} (fallback mode)"
+        echo -e "   • Ollama:        ${YELLOW}⚠️  Not running${NC} (local LLM unavailable)"
     fi
     
     # BAML Client
     if [ -f "src/core/baml_client/__init__.py" ]; then
         echo -e "   • BAML Client:   ${GREEN}✓ Generated${NC}"
     else
-        echo -e "   • BAML Client:   ${YELLOW}⚠️  Using Fallback${NC}"
+        echo -e "   • BAML Client:   ${YELLOW}⚠️  Not generated${NC}"
     fi
     
     echo ""

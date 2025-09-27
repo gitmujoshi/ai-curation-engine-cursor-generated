@@ -74,12 +74,11 @@ def test_baml_integration():
         if baml_client_path.exists():
             print_status("✅ BAML Python client generated successfully", "success")
         else:
-            print_status("⚠️ BAML Python client not found, using fallback", "warning")
+            print_status("⚠️ BAML Python client not found", "warning")
         
         return True
     except ImportError as e:
         print_status(f"⚠️ BAML integration not available: {e}", "warning")
-        print_status("   Demo will use fallback mock classification", "info")
         return False
 
 def check_demo_structure():
