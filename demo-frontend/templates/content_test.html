@@ -93,23 +93,68 @@
                             </select>
                         </div>
 
-                        <!-- Sample Content Buttons -->
-                        <div class="mb-3">
-                            <label class="form-label">Quick Test Samples</label>
-                            <div class="d-grid gap-2">
-                                {% for category, content in sample_content.items() %}
-                                <button class="btn btn-outline-primary sample-btn" onclick="loadSample('{{ category }}', this)">
-                                    <i class="fas fa-file-text me-2"></i>{{ content.title }}
-                                </button>
-                                {% endfor %}
+                        <!-- Content Input (Primary Section) -->
+                        <div class="mb-4">
+                            <label for="contentInput" class="form-label">
+                                <i class="fas fa-edit me-2"></i><strong>Enter Your Content to Analyze</strong>
+                            </label>
+                            <textarea id="contentInput" class="form-control" rows="10" 
+                                    placeholder="Type or paste any content here for AI safety analysis...
+
+Examples you can try:
+• Social media posts or comments
+• News articles or blog posts  
+• Educational content for children
+• User-generated content from forums
+• Product descriptions or reviews
+• Any text you want to check for safety and appropriateness
+
+The AI will analyze for:
+✓ Safety and age-appropriateness
+✓ Educational value and learning potential
+✓ Political bias and viewpoint balance
+✓ Source credibility and misinformation risk"></textarea>
+                            <div class="form-text">
+                                <i class="fas fa-info-circle me-1"></i>
+                                <strong>Privacy Note:</strong> All analysis happens locally on your device. No content is sent to external services.
                             </div>
                         </div>
 
-                        <!-- Content Input -->
+                        <!-- Quick Test Samples (Secondary) -->
                         <div class="mb-3">
-                            <label for="contentInput" class="form-label">Content to Analyze</label>
-                            <textarea id="contentInput" class="form-control" rows="8" 
-                                    placeholder="Enter text content to analyze for safety, educational value, and appropriateness..."></textarea>
+                            <div class="d-flex align-items-center mb-2">
+                                <label class="form-label mb-0 me-2">Or Try Quick Test Samples:</label>
+                                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#sampleButtons" aria-expanded="false">
+                                    <i class="fas fa-chevron-down me-1"></i>Show Samples
+                                </button>
+                            </div>
+                            <div class="collapse" id="sampleButtons">
+                                <div class="row g-2">
+                                    {% for category, content in sample_content.items() %}
+                                    <div class="col-md-6">
+                                        <button class="btn btn-outline-secondary btn-sm w-100 sample-btn" onclick="loadSample('{{ category }}', this)">
+                                            <i class="fas fa-file-text me-1"></i>{{ content.title }}
+                                        </button>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="form-text mt-2">
+                                    <i class="fas fa-lightbulb me-1"></i>
+                                    These samples demonstrate different content types and complexity levels.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content Actions -->
+                        <div class="d-flex gap-2 mb-3">
+                            <button id="clearBtn" class="btn btn-outline-secondary" onclick="clearContent()">
+                                <i class="fas fa-eraser me-2"></i>Clear
+                            </button>
+                            <button id="pasteBtn" class="btn btn-outline-secondary" onclick="pasteFromClipboard()">
+                                <i class="fas fa-clipboard me-2"></i>Paste
+                            </button>
+                            <div class="flex-grow-1"></div>
+                            <small class="text-muted align-self-center" id="charCount">0 characters</small>
                         </div>
 
                         <!-- Analyze Button -->
@@ -542,8 +587,85 @@
                     if (resultsContainer && resultsContainer.innerHTML.includes('alert')) {
                         clearResults();
                     }
+                    
+                    // Update character count
+                    updateCharCount();
                 });
+                
+                // Initial character count
+                updateCharCount();
             }
+        }
+        
+        function clearContent() {
+            document.getElementById('contentInput').value = '';
+            clearResults();
+            updateSampleButtonHighlight(null);
+            updateCharCount();
+        }
+        
+        async function pasteFromClipboard() {
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text) {
+                    document.getElementById('contentInput').value = text;
+                    clearResults();
+                    updateSampleButtonHighlight(null);
+                    updateCharCount();
+                    
+                    // Show success feedback
+                    showToast('Content pasted successfully!', 'success');
+                }
+            } catch (err) {
+                // Fallback for browsers that don't support clipboard API
+                showToast('Please paste manually using Ctrl+V (or Cmd+V on Mac)', 'info');
+            }
+        }
+        
+        function updateCharCount() {
+            const content = document.getElementById('contentInput').value;
+            const count = content.length;
+            const charCountElement = document.getElementById('charCount');
+            
+            if (charCountElement) {
+                charCountElement.textContent = `${count.toLocaleString()} characters`;
+                
+                // Add visual feedback for content length
+                if (count === 0) {
+                    charCountElement.className = 'text-muted align-self-center';
+                } else if (count < 100) {
+                    charCountElement.className = 'text-info align-self-center';
+                } else if (count < 1000) {
+                    charCountElement.className = 'text-success align-self-center';
+                } else {
+                    charCountElement.className = 'text-warning align-self-center';
+                }
+            }
+        }
+        
+        function showToast(message, type = 'info') {
+            // Create toast notification
+            const toast = document.createElement('div');
+            toast.className = `toast position-fixed top-0 end-0 m-3 text-bg-${type}`;
+            toast.style.zIndex = '9999';
+            toast.innerHTML = `
+                <div class="toast-header">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong class="me-auto">AI Curation Engine</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body">${message}</div>
+            `;
+            
+            document.body.appendChild(toast);
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.show();
+            
+            // Remove from DOM after hiding
+            toast.addEventListener('hidden.bs.toast', () => {
+                document.body.removeChild(toast);
+            });
+        }
             
             console.log('Page initialized with pluggable curation engine');
         });
