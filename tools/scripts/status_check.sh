@@ -57,7 +57,7 @@ check_processes() {
     echo -e "${PURPLE}Active Processes:${NC}"
     
     # Demo Frontend
-    local demo_pids=$(pgrep -f "python.*app.js" 2>/dev/null || true)
+    local demo_pids=$(pgrep -f "Python app.js" 2>/dev/null || true)
     if [ -n "$demo_pids" ]; then
         echo -e "   • Demo Frontend: ${GREEN}PID(s) $demo_pids${NC}"
     else

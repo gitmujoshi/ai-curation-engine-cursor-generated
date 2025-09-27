@@ -60,6 +60,13 @@ stop_service_by_pid_file() {
     else
         print_info "• No PID file for $service_name"
     fi
+    
+    # Also kill any remaining Python app.js processes
+    local remaining_pids=$(pgrep -f "Python app.js" 2>/dev/null || true)
+    if [ -n "$remaining_pids" ]; then
+        echo $remaining_pids | xargs kill -9 2>/dev/null || true
+        print_success "✓ Cleaned up remaining Python processes"
+    fi
 }
 
 main() {

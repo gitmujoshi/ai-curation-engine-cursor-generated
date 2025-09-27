@@ -37428,3 +37428,566 @@ Log: FunctionLog(id=bfcall_01k65q15epfn4amcj3xbv9ra7t, function_name=Comprehensi
   "recommendation": "caution",
   "summary_reasoning": "content is generally safe but may require caution")
 ----------------------------------------
+2025-09-27T11:30:36.653033 - BAML Function Called
+Content: This is a test message...
+Collector ID: <built-in method id of baml_py.baml_py.Collector object at 0x10500c1f0>
+Collector Last: FunctionLog(id=bfcall_01k65wr0qmex596jbtgnk96bt3, function_name=ComprehensiveContentAnalysis, type=call, timing=Timing(start_time_utc_ms=1758987027189, duration_ms=9454), usage=Usage(input_tokens=579, output_tokens=314, cached_input_tokens=None), calls=[LLMCall(provider=openai, client_name=Ollama, selected=true, usage=Usage(input_tokens=579, output_tokens=314, cached_input_tokens=None), timing=Timing(start_time_utc_ms=1758987027196, duration_ms=9440), http_request=HTTPRequest(url=http://localhost:11434/v1/chat/completions, method=POST, headers={
+  "authorization": "Bearer ollama",
+  "baml-original-url": "http://localhost:11434/v1",
+  "content-type": "application/json"
+}, body={
+  "model": "llama3.2:latest",
+  "temperature": 0.1,
+  "max_tokens": 800,
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Analyze this content and return ONLY valid JSON. No explanations, no disclaimers, just JSON.\n\nContent: This is a test message\nAge: UNDER_13\n\nAnswer in JSON using this schema:\n{\n  safety: {\n    // Overall safety score from 0.0 to 1.0\n    safety_score: float,\n    // Violence content level from 0.0 to 1.0\n    violence_level: float,\n    // Contains adult/sexual content\n    adult_content: bool,\n    // Hate speech detection score from 0.0 to 1.0\n    hate_speech: float,\n    // Risk of misinformation from 0.0 to 1.0\n    misinformation_risk: float,\n    // Recommended minimum age\n    age_appropriateness: string,\n    // Explanation of the safety assessment\n    reasoning: string,\n    // List of specific content warnings\n    content_warnings: string[],\n  },\n  educational: {\n    // Educational value score from 0.0 to 1.0\n    educational_score: float,\n    // Identified learning objectives\n    learning_objectives: string[],\n    // Academic subject areas covered\n    subject_areas: string[],\n    // Cognitive complexity level\n    cognitive_level: string,\n    // Grade-level reading difficulty\n    reading_level: int,\n    // Factual accuracy assessment from 0.0 to 1.0\n    factual_accuracy: float,\n    // Explanation of the educational assessment\n    reasoning: string,\n  },\n  viewpoint: {\n    // Political leaning (left, right, neutral)\n    political_leaning: string,\n    // Overall bias score from 0.0 to 1.0\n    bias_score: float,\n    // Diversity of perspectives from 0.0 to 1.0\n    perspective_diversity: float,\n    // Level of controversy from 0.0 to 1.0\n    controversy_level: float,\n    // Source credibility from 0.0 to 1.0\n    source_credibility: float,\n    // Explanation of the viewpoint assessment\n    reasoning: string,\n  },\n  // Overall confidence score from 0.0 to 1.0\n  overall_confidence: float,\n  // Final recommendation: allow, caution, or block\n  recommendation: string,\n  // Summary of the comprehensive analysis\n  summary_reasoning: string,\n}\n\nRules:\n- Return ONLY the JSON object above\n- For mature content: safety_score < 0.5, adult_content = true, recommendation = \"block\"  \n- For safe content: safety_score > 0.7, recommendation = \"allow\"\n- Always include reasoning in the reasoning fields"
+        }
+      ]
+    }
+  ]
+}), http_response=HTTPResponse(status=200, headers={
+  "date": "Sat, 27 Sep 2025 15:30:36 GMT",
+  "content-length": "1473",
+  "content-type": "application/json"
+}, body={
+  "id": "chatcmpl-163",
+  "object": "chat.completion",
+  "created": 1758987036,
+  "model": "llama3.2:latest",
+  "system_fingerprint": "fp_ollama",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"safety\": {\n    \"safety_score\": 0.4,\n    \"violence_level\": 0.2,\n    \"adult_content\": true,\n    \"hate_speech\": 0.1,\n    \"misinformation_risk\": 0.3,\n    \"age_appropriateness\": \"UNDER_13\",\n    \"reasoning\": \"Contains mature content, including violence and adult themes.\",\n    \"content_warnings\": [\"Violence\", \"Mature themes\"]\n  },\n  \"educational\": {\n    \"educational_score\": 0.8,\n    \"learning_objectives\": [],\n    \"subject_areas\": [],\n    \"cognitive_level\": \"Advanced\",\n    \"reading_level\": 9,\n    \"factual_accuracy\": 0.9,\n    \"reasoning\": \"The content is well-researched and provides a clear explanation of the topic.\"\n  },\n  \"viewpoint\": {\n    \"political_leaning\": \"Neutral\",\n    \"bias_score\": 0.6,\n    \"perspective_diversity\": 0.8,\n    \"controversy_level\": 0.4,\n    \"source_credibility\": 0.7,\n    \"reasoning\": \"The content presents a balanced view of the topic, with some minor biases.\"\n  },\n  \"overall_confidence\": 0.85,\n  \"recommendation\": \"block\",\n  \"summary_reasoning\": \"The content is not suitable for all audiences due to mature themes and potential misinformation.\""
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 579,
+    "completion_tokens": 314,
+    "total_tokens": 893
+  }
+}))>], raw_llm_response={
+  "safety": {
+    "safety_score": 0.4,
+    "violence_level": 0.2,
+    "adult_content": true,
+    "hate_speech": 0.1,
+    "misinformation_risk": 0.3,
+    "age_appropriateness": "UNDER_13",
+    "reasoning": "Contains mature content, including violence and adult themes.",
+    "content_warnings": ["Violence", "Mature themes"]
+  },
+  "educational": {
+    "educational_score": 0.8,
+    "learning_objectives": [],
+    "subject_areas": [],
+    "cognitive_level": "Advanced",
+    "reading_level": 9,
+    "factual_accuracy": 0.9,
+    "reasoning": "The content is well-researched and provides a clear explanation of the topic."
+  },
+  "viewpoint": {
+    "political_leaning": "Neutral",
+    "bias_score": 0.6,
+    "perspective_diversity": 0.8,
+    "controversy_level": 0.4,
+    "source_credibility": 0.7,
+    "reasoning": "The content presents a balanced view of the topic, with some minor biases."
+  },
+  "overall_confidence": 0.85,
+  "recommendation": "block",
+  "summary_reasoning": "The content is not suitable for all audiences due to mature themes and potential misinformation.")
+Logs Count: 1
+==================================================
+2025-09-27T11:30:36.653390 - BAML Function Call:
+Function: ComprehensiveContentAnalysis
+Content: This is a test message...
+Collector ID: <built-in method id of baml_py.baml_py.Collector object at 0x10500c1f0>
+================================================================================
+2025-09-27T11:30:36.653427 - BAML Log Entry:
+Log: FunctionLog(id=bfcall_01k65wr0qmex596jbtgnk96bt3, function_name=ComprehensiveContentAnalysis, type=call, timing=Timing(start_time_utc_ms=1758987027189, duration_ms=9454), usage=Usage(input_tokens=579, output_tokens=314, cached_input_tokens=None), calls=[LLMCall(provider=openai, client_name=Ollama, selected=true, usage=Usage(input_tokens=579, output_tokens=314, cached_input_tokens=None), timing=Timing(start_time_utc_ms=1758987027196, duration_ms=9440), http_request=HTTPRequest(url=http://localhost:11434/v1/chat/completions, method=POST, headers={
+  "authorization": "Bearer ollama",
+  "baml-original-url": "http://localhost:11434/v1",
+  "content-type": "application/json"
+}, body={
+  "model": "llama3.2:latest",
+  "temperature": 0.1,
+  "max_tokens": 800,
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Analyze this content and return ONLY valid JSON. No explanations, no disclaimers, just JSON.\n\nContent: This is a test message\nAge: UNDER_13\n\nAnswer in JSON using this schema:\n{\n  safety: {\n    // Overall safety score from 0.0 to 1.0\n    safety_score: float,\n    // Violence content level from 0.0 to 1.0\n    violence_level: float,\n    // Contains adult/sexual content\n    adult_content: bool,\n    // Hate speech detection score from 0.0 to 1.0\n    hate_speech: float,\n    // Risk of misinformation from 0.0 to 1.0\n    misinformation_risk: float,\n    // Recommended minimum age\n    age_appropriateness: string,\n    // Explanation of the safety assessment\n    reasoning: string,\n    // List of specific content warnings\n    content_warnings: string[],\n  },\n  educational: {\n    // Educational value score from 0.0 to 1.0\n    educational_score: float,\n    // Identified learning objectives\n    learning_objectives: string[],\n    // Academic subject areas covered\n    subject_areas: string[],\n    // Cognitive complexity level\n    cognitive_level: string,\n    // Grade-level reading difficulty\n    reading_level: int,\n    // Factual accuracy assessment from 0.0 to 1.0\n    factual_accuracy: float,\n    // Explanation of the educational assessment\n    reasoning: string,\n  },\n  viewpoint: {\n    // Political leaning (left, right, neutral)\n    political_leaning: string,\n    // Overall bias score from 0.0 to 1.0\n    bias_score: float,\n    // Diversity of perspectives from 0.0 to 1.0\n    perspective_diversity: float,\n    // Level of controversy from 0.0 to 1.0\n    controversy_level: float,\n    // Source credibility from 0.0 to 1.0\n    source_credibility: float,\n    // Explanation of the viewpoint assessment\n    reasoning: string,\n  },\n  // Overall confidence score from 0.0 to 1.0\n  overall_confidence: float,\n  // Final recommendation: allow, caution, or block\n  recommendation: string,\n  // Summary of the comprehensive analysis\n  summary_reasoning: string,\n}\n\nRules:\n- Return ONLY the JSON object above\n- For mature content: safety_score < 0.5, adult_content = true, recommendation = \"block\"  \n- For safe content: safety_score > 0.7, recommendation = \"allow\"\n- Always include reasoning in the reasoning fields"
+        }
+      ]
+    }
+  ]
+}), http_response=HTTPResponse(status=200, headers={
+  "date": "Sat, 27 Sep 2025 15:30:36 GMT",
+  "content-length": "1473",
+  "content-type": "application/json"
+}, body={
+  "id": "chatcmpl-163",
+  "object": "chat.completion",
+  "created": 1758987036,
+  "model": "llama3.2:latest",
+  "system_fingerprint": "fp_ollama",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"safety\": {\n    \"safety_score\": 0.4,\n    \"violence_level\": 0.2,\n    \"adult_content\": true,\n    \"hate_speech\": 0.1,\n    \"misinformation_risk\": 0.3,\n    \"age_appropriateness\": \"UNDER_13\",\n    \"reasoning\": \"Contains mature content, including violence and adult themes.\",\n    \"content_warnings\": [\"Violence\", \"Mature themes\"]\n  },\n  \"educational\": {\n    \"educational_score\": 0.8,\n    \"learning_objectives\": [],\n    \"subject_areas\": [],\n    \"cognitive_level\": \"Advanced\",\n    \"reading_level\": 9,\n    \"factual_accuracy\": 0.9,\n    \"reasoning\": \"The content is well-researched and provides a clear explanation of the topic.\"\n  },\n  \"viewpoint\": {\n    \"political_leaning\": \"Neutral\",\n    \"bias_score\": 0.6,\n    \"perspective_diversity\": 0.8,\n    \"controversy_level\": 0.4,\n    \"source_credibility\": 0.7,\n    \"reasoning\": \"The content presents a balanced view of the topic, with some minor biases.\"\n  },\n  \"overall_confidence\": 0.85,\n  \"recommendation\": \"block\",\n  \"summary_reasoning\": \"The content is not suitable for all audiences due to mature themes and potential misinformation.\""
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 579,
+    "completion_tokens": 314,
+    "total_tokens": 893
+  }
+}))>], raw_llm_response={
+  "safety": {
+    "safety_score": 0.4,
+    "violence_level": 0.2,
+    "adult_content": true,
+    "hate_speech": 0.1,
+    "misinformation_risk": 0.3,
+    "age_appropriateness": "UNDER_13",
+    "reasoning": "Contains mature content, including violence and adult themes.",
+    "content_warnings": ["Violence", "Mature themes"]
+  },
+  "educational": {
+    "educational_score": 0.8,
+    "learning_objectives": [],
+    "subject_areas": [],
+    "cognitive_level": "Advanced",
+    "reading_level": 9,
+    "factual_accuracy": 0.9,
+    "reasoning": "The content is well-researched and provides a clear explanation of the topic."
+  },
+  "viewpoint": {
+    "political_leaning": "Neutral",
+    "bias_score": 0.6,
+    "perspective_diversity": 0.8,
+    "controversy_level": 0.4,
+    "source_credibility": 0.7,
+    "reasoning": "The content presents a balanced view of the topic, with some minor biases."
+  },
+  "overall_confidence": 0.85,
+  "recommendation": "block",
+  "summary_reasoning": "The content is not suitable for all audiences due to mature themes and potential misinformation.")
+----------------------------------------
+2025-09-27T11:31:30.174066 - BAML Function Called
+Content: This is a test message...
+Collector ID: <built-in method id of baml_py.baml_py.Collector object at 0x10500c1f0>
+Collector Last: FunctionLog(id=bfcall_01k65wsqj2edwswc22c09tmk65, function_name=ComprehensiveContentAnalysis, type=call, timing=Timing(start_time_utc_ms=1758987083330, duration_ms=6842), usage=Usage(input_tokens=579, output_tokens=315, cached_input_tokens=None), calls=[LLMCall(provider=openai, client_name=Ollama, selected=true, usage=Usage(input_tokens=579, output_tokens=315, cached_input_tokens=None), timing=Timing(start_time_utc_ms=1758987083330, duration_ms=6841), http_request=HTTPRequest(url=http://localhost:11434/v1/chat/completions, method=POST, headers={
+  "content-type": "application/json",
+  "baml-original-url": "http://localhost:11434/v1",
+  "authorization": "Bearer ollama"
+}, body={
+  "model": "llama3.2:latest",
+  "temperature": 0.1,
+  "max_tokens": 800,
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Analyze this content and return ONLY valid JSON. No explanations, no disclaimers, just JSON.\n\nContent: This is a test message\nAge: UNDER_13\n\nAnswer in JSON using this schema:\n{\n  safety: {\n    // Overall safety score from 0.0 to 1.0\n    safety_score: float,\n    // Violence content level from 0.0 to 1.0\n    violence_level: float,\n    // Contains adult/sexual content\n    adult_content: bool,\n    // Hate speech detection score from 0.0 to 1.0\n    hate_speech: float,\n    // Risk of misinformation from 0.0 to 1.0\n    misinformation_risk: float,\n    // Recommended minimum age\n    age_appropriateness: string,\n    // Explanation of the safety assessment\n    reasoning: string,\n    // List of specific content warnings\n    content_warnings: string[],\n  },\n  educational: {\n    // Educational value score from 0.0 to 1.0\n    educational_score: float,\n    // Identified learning objectives\n    learning_objectives: string[],\n    // Academic subject areas covered\n    subject_areas: string[],\n    // Cognitive complexity level\n    cognitive_level: string,\n    // Grade-level reading difficulty\n    reading_level: int,\n    // Factual accuracy assessment from 0.0 to 1.0\n    factual_accuracy: float,\n    // Explanation of the educational assessment\n    reasoning: string,\n  },\n  viewpoint: {\n    // Political leaning (left, right, neutral)\n    political_leaning: string,\n    // Overall bias score from 0.0 to 1.0\n    bias_score: float,\n    // Diversity of perspectives from 0.0 to 1.0\n    perspective_diversity: float,\n    // Level of controversy from 0.0 to 1.0\n    controversy_level: float,\n    // Source credibility from 0.0 to 1.0\n    source_credibility: float,\n    // Explanation of the viewpoint assessment\n    reasoning: string,\n  },\n  // Overall confidence score from 0.0 to 1.0\n  overall_confidence: float,\n  // Final recommendation: allow, caution, or block\n  recommendation: string,\n  // Summary of the comprehensive analysis\n  summary_reasoning: string,\n}\n\nRules:\n- Return ONLY the JSON object above\n- For mature content: safety_score < 0.5, adult_content = true, recommendation = \"block\"  \n- For safe content: safety_score > 0.7, recommendation = \"allow\"\n- Always include reasoning in the reasoning fields"
+        }
+      ]
+    }
+  ]
+}), http_response=HTTPResponse(status=200, headers={
+  "content-type": "application/json",
+  "content-length": "1471",
+  "date": "Sat, 27 Sep 2025 15:31:30 GMT"
+}, body={
+  "id": "chatcmpl-226",
+  "object": "chat.completion",
+  "created": 1758987090,
+  "model": "llama3.2:latest",
+  "system_fingerprint": "fp_ollama",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"safety\": {\n    \"safety_score\": 0.4,\n    \"violence_level\": 0.2,\n    \"adult_content\": true,\n    \"hate_speech\": 0.1,\n    \"misinformation_risk\": 0.3,\n    \"age_appropriateness\": \"UNDER_13\",\n    \"reasoning\": \"Contains mature content, including violence and adult themes.\",\n    \"content_warnings\": [\"Violence\", \"Mature themes\"]\n  },\n  \"educational\": {\n    \"educational_score\": 0.6,\n    \"learning_objectives\": [],\n    \"subject_areas\": [],\n    \"cognitive_level\": \"Moderate\",\n    \"reading_level\": 7,\n    \"factual_accuracy\": 0.8,\n    \"reasoning\": \"The content provides some educational value, but it is not comprehensive.\"\n  },\n  \"viewpoint\": {\n    \"political_leaning\": \"Neutral\",\n    \"bias_score\": 0.5,\n    \"perspective_diversity\": 0.4,\n    \"controversy_level\": 0.2,\n    \"source_credibility\": 0.6,\n    \"reasoning\": \"The content presents a balanced view, but it may not be entirely objective.\"\n  },\n  \"overall_confidence\": 0.5,\n  \"recommendation\": \"Caution\",\n  \"summary_reasoning\": \"The content is partially safe and educational, but it also contains mature themes and some bias.\""
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 579,
+    "completion_tokens": 315,
+    "total_tokens": 894
+  }
+}))>], raw_llm_response={
+  "safety": {
+    "safety_score": 0.4,
+    "violence_level": 0.2,
+    "adult_content": true,
+    "hate_speech": 0.1,
+    "misinformation_risk": 0.3,
+    "age_appropriateness": "UNDER_13",
+    "reasoning": "Contains mature content, including violence and adult themes.",
+    "content_warnings": ["Violence", "Mature themes"]
+  },
+  "educational": {
+    "educational_score": 0.6,
+    "learning_objectives": [],
+    "subject_areas": [],
+    "cognitive_level": "Moderate",
+    "reading_level": 7,
+    "factual_accuracy": 0.8,
+    "reasoning": "The content provides some educational value, but it is not comprehensive."
+  },
+  "viewpoint": {
+    "political_leaning": "Neutral",
+    "bias_score": 0.5,
+    "perspective_diversity": 0.4,
+    "controversy_level": 0.2,
+    "source_credibility": 0.6,
+    "reasoning": "The content presents a balanced view, but it may not be entirely objective."
+  },
+  "overall_confidence": 0.5,
+  "recommendation": "Caution",
+  "summary_reasoning": "The content is partially safe and educational, but it also contains mature themes and some bias.")
+Logs Count: 2
+==================================================
+2025-09-27T11:31:30.175618 - BAML Function Call:
+Function: ComprehensiveContentAnalysis
+Content: This is a test message...
+Collector ID: <built-in method id of baml_py.baml_py.Collector object at 0x10500c1f0>
+================================================================================
+2025-09-27T11:31:30.175703 - BAML Log Entry:
+Log: FunctionLog(id=bfcall_01k65wr0qmex596jbtgnk96bt3, function_name=ComprehensiveContentAnalysis, type=call, timing=Timing(start_time_utc_ms=1758987027189, duration_ms=9454), usage=Usage(input_tokens=579, output_tokens=314, cached_input_tokens=None), calls=[LLMCall(provider=openai, client_name=Ollama, selected=true, usage=Usage(input_tokens=579, output_tokens=314, cached_input_tokens=None), timing=Timing(start_time_utc_ms=1758987027196, duration_ms=9440), http_request=HTTPRequest(url=http://localhost:11434/v1/chat/completions, method=POST, headers={
+  "authorization": "Bearer ollama",
+  "baml-original-url": "http://localhost:11434/v1",
+  "content-type": "application/json"
+}, body={
+  "model": "llama3.2:latest",
+  "temperature": 0.1,
+  "max_tokens": 800,
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Analyze this content and return ONLY valid JSON. No explanations, no disclaimers, just JSON.\n\nContent: This is a test message\nAge: UNDER_13\n\nAnswer in JSON using this schema:\n{\n  safety: {\n    // Overall safety score from 0.0 to 1.0\n    safety_score: float,\n    // Violence content level from 0.0 to 1.0\n    violence_level: float,\n    // Contains adult/sexual content\n    adult_content: bool,\n    // Hate speech detection score from 0.0 to 1.0\n    hate_speech: float,\n    // Risk of misinformation from 0.0 to 1.0\n    misinformation_risk: float,\n    // Recommended minimum age\n    age_appropriateness: string,\n    // Explanation of the safety assessment\n    reasoning: string,\n    // List of specific content warnings\n    content_warnings: string[],\n  },\n  educational: {\n    // Educational value score from 0.0 to 1.0\n    educational_score: float,\n    // Identified learning objectives\n    learning_objectives: string[],\n    // Academic subject areas covered\n    subject_areas: string[],\n    // Cognitive complexity level\n    cognitive_level: string,\n    // Grade-level reading difficulty\n    reading_level: int,\n    // Factual accuracy assessment from 0.0 to 1.0\n    factual_accuracy: float,\n    // Explanation of the educational assessment\n    reasoning: string,\n  },\n  viewpoint: {\n    // Political leaning (left, right, neutral)\n    political_leaning: string,\n    // Overall bias score from 0.0 to 1.0\n    bias_score: float,\n    // Diversity of perspectives from 0.0 to 1.0\n    perspective_diversity: float,\n    // Level of controversy from 0.0 to 1.0\n    controversy_level: float,\n    // Source credibility from 0.0 to 1.0\n    source_credibility: float,\n    // Explanation of the viewpoint assessment\n    reasoning: string,\n  },\n  // Overall confidence score from 0.0 to 1.0\n  overall_confidence: float,\n  // Final recommendation: allow, caution, or block\n  recommendation: string,\n  // Summary of the comprehensive analysis\n  summary_reasoning: string,\n}\n\nRules:\n- Return ONLY the JSON object above\n- For mature content: safety_score < 0.5, adult_content = true, recommendation = \"block\"  \n- For safe content: safety_score > 0.7, recommendation = \"allow\"\n- Always include reasoning in the reasoning fields"
+        }
+      ]
+    }
+  ]
+}), http_response=HTTPResponse(status=200, headers={
+  "date": "Sat, 27 Sep 2025 15:30:36 GMT",
+  "content-length": "1473",
+  "content-type": "application/json"
+}, body={
+  "id": "chatcmpl-163",
+  "object": "chat.completion",
+  "created": 1758987036,
+  "model": "llama3.2:latest",
+  "system_fingerprint": "fp_ollama",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"safety\": {\n    \"safety_score\": 0.4,\n    \"violence_level\": 0.2,\n    \"adult_content\": true,\n    \"hate_speech\": 0.1,\n    \"misinformation_risk\": 0.3,\n    \"age_appropriateness\": \"UNDER_13\",\n    \"reasoning\": \"Contains mature content, including violence and adult themes.\",\n    \"content_warnings\": [\"Violence\", \"Mature themes\"]\n  },\n  \"educational\": {\n    \"educational_score\": 0.8,\n    \"learning_objectives\": [],\n    \"subject_areas\": [],\n    \"cognitive_level\": \"Advanced\",\n    \"reading_level\": 9,\n    \"factual_accuracy\": 0.9,\n    \"reasoning\": \"The content is well-researched and provides a clear explanation of the topic.\"\n  },\n  \"viewpoint\": {\n    \"political_leaning\": \"Neutral\",\n    \"bias_score\": 0.6,\n    \"perspective_diversity\": 0.8,\n    \"controversy_level\": 0.4,\n    \"source_credibility\": 0.7,\n    \"reasoning\": \"The content presents a balanced view of the topic, with some minor biases.\"\n  },\n  \"overall_confidence\": 0.85,\n  \"recommendation\": \"block\",\n  \"summary_reasoning\": \"The content is not suitable for all audiences due to mature themes and potential misinformation.\""
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 579,
+    "completion_tokens": 314,
+    "total_tokens": 893
+  }
+}))>], raw_llm_response={
+  "safety": {
+    "safety_score": 0.4,
+    "violence_level": 0.2,
+    "adult_content": true,
+    "hate_speech": 0.1,
+    "misinformation_risk": 0.3,
+    "age_appropriateness": "UNDER_13",
+    "reasoning": "Contains mature content, including violence and adult themes.",
+    "content_warnings": ["Violence", "Mature themes"]
+  },
+  "educational": {
+    "educational_score": 0.8,
+    "learning_objectives": [],
+    "subject_areas": [],
+    "cognitive_level": "Advanced",
+    "reading_level": 9,
+    "factual_accuracy": 0.9,
+    "reasoning": "The content is well-researched and provides a clear explanation of the topic."
+  },
+  "viewpoint": {
+    "political_leaning": "Neutral",
+    "bias_score": 0.6,
+    "perspective_diversity": 0.8,
+    "controversy_level": 0.4,
+    "source_credibility": 0.7,
+    "reasoning": "The content presents a balanced view of the topic, with some minor biases."
+  },
+  "overall_confidence": 0.85,
+  "recommendation": "block",
+  "summary_reasoning": "The content is not suitable for all audiences due to mature themes and potential misinformation.")
+----------------------------------------
+2025-09-27T11:31:30.175767 - BAML Log Entry:
+Log: FunctionLog(id=bfcall_01k65wsqj2edwswc22c09tmk65, function_name=ComprehensiveContentAnalysis, type=call, timing=Timing(start_time_utc_ms=1758987083330, duration_ms=6842), usage=Usage(input_tokens=579, output_tokens=315, cached_input_tokens=None), calls=[LLMCall(provider=openai, client_name=Ollama, selected=true, usage=Usage(input_tokens=579, output_tokens=315, cached_input_tokens=None), timing=Timing(start_time_utc_ms=1758987083330, duration_ms=6841), http_request=HTTPRequest(url=http://localhost:11434/v1/chat/completions, method=POST, headers={
+  "content-type": "application/json",
+  "baml-original-url": "http://localhost:11434/v1",
+  "authorization": "Bearer ollama"
+}, body={
+  "model": "llama3.2:latest",
+  "temperature": 0.1,
+  "max_tokens": 800,
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Analyze this content and return ONLY valid JSON. No explanations, no disclaimers, just JSON.\n\nContent: This is a test message\nAge: UNDER_13\n\nAnswer in JSON using this schema:\n{\n  safety: {\n    // Overall safety score from 0.0 to 1.0\n    safety_score: float,\n    // Violence content level from 0.0 to 1.0\n    violence_level: float,\n    // Contains adult/sexual content\n    adult_content: bool,\n    // Hate speech detection score from 0.0 to 1.0\n    hate_speech: float,\n    // Risk of misinformation from 0.0 to 1.0\n    misinformation_risk: float,\n    // Recommended minimum age\n    age_appropriateness: string,\n    // Explanation of the safety assessment\n    reasoning: string,\n    // List of specific content warnings\n    content_warnings: string[],\n  },\n  educational: {\n    // Educational value score from 0.0 to 1.0\n    educational_score: float,\n    // Identified learning objectives\n    learning_objectives: string[],\n    // Academic subject areas covered\n    subject_areas: string[],\n    // Cognitive complexity level\n    cognitive_level: string,\n    // Grade-level reading difficulty\n    reading_level: int,\n    // Factual accuracy assessment from 0.0 to 1.0\n    factual_accuracy: float,\n    // Explanation of the educational assessment\n    reasoning: string,\n  },\n  viewpoint: {\n    // Political leaning (left, right, neutral)\n    political_leaning: string,\n    // Overall bias score from 0.0 to 1.0\n    bias_score: float,\n    // Diversity of perspectives from 0.0 to 1.0\n    perspective_diversity: float,\n    // Level of controversy from 0.0 to 1.0\n    controversy_level: float,\n    // Source credibility from 0.0 to 1.0\n    source_credibility: float,\n    // Explanation of the viewpoint assessment\n    reasoning: string,\n  },\n  // Overall confidence score from 0.0 to 1.0\n  overall_confidence: float,\n  // Final recommendation: allow, caution, or block\n  recommendation: string,\n  // Summary of the comprehensive analysis\n  summary_reasoning: string,\n}\n\nRules:\n- Return ONLY the JSON object above\n- For mature content: safety_score < 0.5, adult_content = true, recommendation = \"block\"  \n- For safe content: safety_score > 0.7, recommendation = \"allow\"\n- Always include reasoning in the reasoning fields"
+        }
+      ]
+    }
+  ]
+}), http_response=HTTPResponse(status=200, headers={
+  "content-type": "application/json",
+  "content-length": "1471",
+  "date": "Sat, 27 Sep 2025 15:31:30 GMT"
+}, body={
+  "id": "chatcmpl-226",
+  "object": "chat.completion",
+  "created": 1758987090,
+  "model": "llama3.2:latest",
+  "system_fingerprint": "fp_ollama",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"safety\": {\n    \"safety_score\": 0.4,\n    \"violence_level\": 0.2,\n    \"adult_content\": true,\n    \"hate_speech\": 0.1,\n    \"misinformation_risk\": 0.3,\n    \"age_appropriateness\": \"UNDER_13\",\n    \"reasoning\": \"Contains mature content, including violence and adult themes.\",\n    \"content_warnings\": [\"Violence\", \"Mature themes\"]\n  },\n  \"educational\": {\n    \"educational_score\": 0.6,\n    \"learning_objectives\": [],\n    \"subject_areas\": [],\n    \"cognitive_level\": \"Moderate\",\n    \"reading_level\": 7,\n    \"factual_accuracy\": 0.8,\n    \"reasoning\": \"The content provides some educational value, but it is not comprehensive.\"\n  },\n  \"viewpoint\": {\n    \"political_leaning\": \"Neutral\",\n    \"bias_score\": 0.5,\n    \"perspective_diversity\": 0.4,\n    \"controversy_level\": 0.2,\n    \"source_credibility\": 0.6,\n    \"reasoning\": \"The content presents a balanced view, but it may not be entirely objective.\"\n  },\n  \"overall_confidence\": 0.5,\n  \"recommendation\": \"Caution\",\n  \"summary_reasoning\": \"The content is partially safe and educational, but it also contains mature themes and some bias.\""
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 579,
+    "completion_tokens": 315,
+    "total_tokens": 894
+  }
+}))>], raw_llm_response={
+  "safety": {
+    "safety_score": 0.4,
+    "violence_level": 0.2,
+    "adult_content": true,
+    "hate_speech": 0.1,
+    "misinformation_risk": 0.3,
+    "age_appropriateness": "UNDER_13",
+    "reasoning": "Contains mature content, including violence and adult themes.",
+    "content_warnings": ["Violence", "Mature themes"]
+  },
+  "educational": {
+    "educational_score": 0.6,
+    "learning_objectives": [],
+    "subject_areas": [],
+    "cognitive_level": "Moderate",
+    "reading_level": 7,
+    "factual_accuracy": 0.8,
+    "reasoning": "The content provides some educational value, but it is not comprehensive."
+  },
+  "viewpoint": {
+    "political_leaning": "Neutral",
+    "bias_score": 0.5,
+    "perspective_diversity": 0.4,
+    "controversy_level": 0.2,
+    "source_credibility": 0.6,
+    "reasoning": "The content presents a balanced view, but it may not be entirely objective."
+  },
+  "overall_confidence": 0.5,
+  "recommendation": "Caution",
+  "summary_reasoning": "The content is partially safe and educational, but it also contains mature themes and some bias.")
+----------------------------------------
+2025-09-27T11:41:35.180915 - BAML Function Called
+Content: This is a test message...
+Collector ID: <built-in method id of baml_py.baml_py.Collector object at 0x1070d0210>
+Collector Last: FunctionLog(id=bfcall_01k65xc4e4e2esr7hynbbvzmvm, function_name=ComprehensiveContentAnalysis, type=call, timing=Timing(start_time_utc_ms=1758987686340, duration_ms=8835), usage=Usage(input_tokens=579, output_tokens=306, cached_input_tokens=None), calls=[LLMCall(provider=openai, client_name=Ollama, selected=true, usage=Usage(input_tokens=579, output_tokens=306, cached_input_tokens=None), timing=Timing(start_time_utc_ms=1758987686340, duration_ms=8834), http_request=HTTPRequest(url=http://localhost:11434/v1/chat/completions, method=POST, headers={
+  "content-type": "application/json",
+  "baml-original-url": "http://localhost:11434/v1",
+  "authorization": "Bearer ollama"
+}, body={
+  "model": "llama3.2:latest",
+  "temperature": 0.1,
+  "max_tokens": 800,
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Analyze this content and return ONLY valid JSON. No explanations, no disclaimers, just JSON.\n\nContent: This is a test message\nAge: UNDER_13\n\nAnswer in JSON using this schema:\n{\n  safety: {\n    // Overall safety score from 0.0 to 1.0\n    safety_score: float,\n    // Violence content level from 0.0 to 1.0\n    violence_level: float,\n    // Contains adult/sexual content\n    adult_content: bool,\n    // Hate speech detection score from 0.0 to 1.0\n    hate_speech: float,\n    // Risk of misinformation from 0.0 to 1.0\n    misinformation_risk: float,\n    // Recommended minimum age\n    age_appropriateness: string,\n    // Explanation of the safety assessment\n    reasoning: string,\n    // List of specific content warnings\n    content_warnings: string[],\n  },\n  educational: {\n    // Educational value score from 0.0 to 1.0\n    educational_score: float,\n    // Identified learning objectives\n    learning_objectives: string[],\n    // Academic subject areas covered\n    subject_areas: string[],\n    // Cognitive complexity level\n    cognitive_level: string,\n    // Grade-level reading difficulty\n    reading_level: int,\n    // Factual accuracy assessment from 0.0 to 1.0\n    factual_accuracy: float,\n    // Explanation of the educational assessment\n    reasoning: string,\n  },\n  viewpoint: {\n    // Political leaning (left, right, neutral)\n    political_leaning: string,\n    // Overall bias score from 0.0 to 1.0\n    bias_score: float,\n    // Diversity of perspectives from 0.0 to 1.0\n    perspective_diversity: float,\n    // Level of controversy from 0.0 to 1.0\n    controversy_level: float,\n    // Source credibility from 0.0 to 1.0\n    source_credibility: float,\n    // Explanation of the viewpoint assessment\n    reasoning: string,\n  },\n  // Overall confidence score from 0.0 to 1.0\n  overall_confidence: float,\n  // Final recommendation: allow, caution, or block\n  recommendation: string,\n  // Summary of the comprehensive analysis\n  summary_reasoning: string,\n}\n\nRules:\n- Return ONLY the JSON object above\n- For mature content: safety_score < 0.5, adult_content = true, recommendation = \"block\"  \n- For safe content: safety_score > 0.7, recommendation = \"allow\"\n- Always include reasoning in the reasoning fields"
+        }
+      ]
+    }
+  ]
+}), http_response=HTTPResponse(status=200, headers={
+  "content-type": "application/json",
+  "date": "Sat, 27 Sep 2025 15:41:35 GMT",
+  "content-length": "1425"
+}, body={
+  "id": "chatcmpl-843",
+  "object": "chat.completion",
+  "created": 1758987695,
+  "model": "llama3.2:latest",
+  "system_fingerprint": "fp_ollama",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"safety\": {\n    \"safety_score\": 0.4,\n    \"violence_level\": 0.2,\n    \"adult_content\": true,\n    \"hate_speech\": 0.1,\n    \"misinformation_risk\": 0.3,\n    \"age_appropriateness\": \"UNDER_13\",\n    \"reasoning\": \"Contains mature content, including violence and adult themes.\",\n    \"content_warnings\": [\"Violence\", \"Mature themes\"]\n  },\n  \"educational\": {\n    \"educational_score\": 0.8,\n    \"learning_objectives\": [],\n    \"subject_areas\": [],\n    \"cognitive_level\": \"Moderate\",\n    \"reading_level\": 7,\n    \"factual_accuracy\": 0.9,\n    \"reasoning\": \"The content provides a clear and concise explanation of the topic.\"\n  },\n  \"viewpoint\": {\n    \"political_leaning\": \"Neutral\",\n    \"bias_score\": 0.6,\n    \"perspective_diversity\": 0.8,\n    \"controversy_level\": 0.4,\n    \"source_credibility\": 0.7,\n    \"reasoning\": \"The content presents a balanced view of the topic.\"\n  },\n  \"overall_confidence\": 0.5,\n  \"recommendation\": \"Caution\",\n  \"summary_reasoning\": \"The content has some mature themes, but overall provides a good educational value.\""
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 579,
+    "completion_tokens": 306,
+    "total_tokens": 885
+  }
+}))>], raw_llm_response={
+  "safety": {
+    "safety_score": 0.4,
+    "violence_level": 0.2,
+    "adult_content": true,
+    "hate_speech": 0.1,
+    "misinformation_risk": 0.3,
+    "age_appropriateness": "UNDER_13",
+    "reasoning": "Contains mature content, including violence and adult themes.",
+    "content_warnings": ["Violence", "Mature themes"]
+  },
+  "educational": {
+    "educational_score": 0.8,
+    "learning_objectives": [],
+    "subject_areas": [],
+    "cognitive_level": "Moderate",
+    "reading_level": 7,
+    "factual_accuracy": 0.9,
+    "reasoning": "The content provides a clear and concise explanation of the topic."
+  },
+  "viewpoint": {
+    "political_leaning": "Neutral",
+    "bias_score": 0.6,
+    "perspective_diversity": 0.8,
+    "controversy_level": 0.4,
+    "source_credibility": 0.7,
+    "reasoning": "The content presents a balanced view of the topic."
+  },
+  "overall_confidence": 0.5,
+  "recommendation": "Caution",
+  "summary_reasoning": "The content has some mature themes, but overall provides a good educational value.")
+Logs Count: 1
+==================================================
+2025-09-27T11:41:35.181406 - BAML Function Call:
+Function: ComprehensiveContentAnalysis
+Content: This is a test message...
+Collector ID: <built-in method id of baml_py.baml_py.Collector object at 0x1070d0210>
+================================================================================
+2025-09-27T11:41:35.181505 - BAML Log Entry:
+Log: FunctionLog(id=bfcall_01k65xc4e4e2esr7hynbbvzmvm, function_name=ComprehensiveContentAnalysis, type=call, timing=Timing(start_time_utc_ms=1758987686340, duration_ms=8835), usage=Usage(input_tokens=579, output_tokens=306, cached_input_tokens=None), calls=[LLMCall(provider=openai, client_name=Ollama, selected=true, usage=Usage(input_tokens=579, output_tokens=306, cached_input_tokens=None), timing=Timing(start_time_utc_ms=1758987686340, duration_ms=8834), http_request=HTTPRequest(url=http://localhost:11434/v1/chat/completions, method=POST, headers={
+  "content-type": "application/json",
+  "baml-original-url": "http://localhost:11434/v1",
+  "authorization": "Bearer ollama"
+}, body={
+  "model": "llama3.2:latest",
+  "temperature": 0.1,
+  "max_tokens": 800,
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Analyze this content and return ONLY valid JSON. No explanations, no disclaimers, just JSON.\n\nContent: This is a test message\nAge: UNDER_13\n\nAnswer in JSON using this schema:\n{\n  safety: {\n    // Overall safety score from 0.0 to 1.0\n    safety_score: float,\n    // Violence content level from 0.0 to 1.0\n    violence_level: float,\n    // Contains adult/sexual content\n    adult_content: bool,\n    // Hate speech detection score from 0.0 to 1.0\n    hate_speech: float,\n    // Risk of misinformation from 0.0 to 1.0\n    misinformation_risk: float,\n    // Recommended minimum age\n    age_appropriateness: string,\n    // Explanation of the safety assessment\n    reasoning: string,\n    // List of specific content warnings\n    content_warnings: string[],\n  },\n  educational: {\n    // Educational value score from 0.0 to 1.0\n    educational_score: float,\n    // Identified learning objectives\n    learning_objectives: string[],\n    // Academic subject areas covered\n    subject_areas: string[],\n    // Cognitive complexity level\n    cognitive_level: string,\n    // Grade-level reading difficulty\n    reading_level: int,\n    // Factual accuracy assessment from 0.0 to 1.0\n    factual_accuracy: float,\n    // Explanation of the educational assessment\n    reasoning: string,\n  },\n  viewpoint: {\n    // Political leaning (left, right, neutral)\n    political_leaning: string,\n    // Overall bias score from 0.0 to 1.0\n    bias_score: float,\n    // Diversity of perspectives from 0.0 to 1.0\n    perspective_diversity: float,\n    // Level of controversy from 0.0 to 1.0\n    controversy_level: float,\n    // Source credibility from 0.0 to 1.0\n    source_credibility: float,\n    // Explanation of the viewpoint assessment\n    reasoning: string,\n  },\n  // Overall confidence score from 0.0 to 1.0\n  overall_confidence: float,\n  // Final recommendation: allow, caution, or block\n  recommendation: string,\n  // Summary of the comprehensive analysis\n  summary_reasoning: string,\n}\n\nRules:\n- Return ONLY the JSON object above\n- For mature content: safety_score < 0.5, adult_content = true, recommendation = \"block\"  \n- For safe content: safety_score > 0.7, recommendation = \"allow\"\n- Always include reasoning in the reasoning fields"
+        }
+      ]
+    }
+  ]
+}), http_response=HTTPResponse(status=200, headers={
+  "content-type": "application/json",
+  "date": "Sat, 27 Sep 2025 15:41:35 GMT",
+  "content-length": "1425"
+}, body={
+  "id": "chatcmpl-843",
+  "object": "chat.completion",
+  "created": 1758987695,
+  "model": "llama3.2:latest",
+  "system_fingerprint": "fp_ollama",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"safety\": {\n    \"safety_score\": 0.4,\n    \"violence_level\": 0.2,\n    \"adult_content\": true,\n    \"hate_speech\": 0.1,\n    \"misinformation_risk\": 0.3,\n    \"age_appropriateness\": \"UNDER_13\",\n    \"reasoning\": \"Contains mature content, including violence and adult themes.\",\n    \"content_warnings\": [\"Violence\", \"Mature themes\"]\n  },\n  \"educational\": {\n    \"educational_score\": 0.8,\n    \"learning_objectives\": [],\n    \"subject_areas\": [],\n    \"cognitive_level\": \"Moderate\",\n    \"reading_level\": 7,\n    \"factual_accuracy\": 0.9,\n    \"reasoning\": \"The content provides a clear and concise explanation of the topic.\"\n  },\n  \"viewpoint\": {\n    \"political_leaning\": \"Neutral\",\n    \"bias_score\": 0.6,\n    \"perspective_diversity\": 0.8,\n    \"controversy_level\": 0.4,\n    \"source_credibility\": 0.7,\n    \"reasoning\": \"The content presents a balanced view of the topic.\"\n  },\n  \"overall_confidence\": 0.5,\n  \"recommendation\": \"Caution\",\n  \"summary_reasoning\": \"The content has some mature themes, but overall provides a good educational value.\""
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 579,
+    "completion_tokens": 306,
+    "total_tokens": 885
+  }
+}))>], raw_llm_response={
+  "safety": {
+    "safety_score": 0.4,
+    "violence_level": 0.2,
+    "adult_content": true,
+    "hate_speech": 0.1,
+    "misinformation_risk": 0.3,
+    "age_appropriateness": "UNDER_13",
+    "reasoning": "Contains mature content, including violence and adult themes.",
+    "content_warnings": ["Violence", "Mature themes"]
+  },
+  "educational": {
+    "educational_score": 0.8,
+    "learning_objectives": [],
+    "subject_areas": [],
+    "cognitive_level": "Moderate",
+    "reading_level": 7,
+    "factual_accuracy": 0.9,
+    "reasoning": "The content provides a clear and concise explanation of the topic."
+  },
+  "viewpoint": {
+    "political_leaning": "Neutral",
+    "bias_score": 0.6,
+    "perspective_diversity": 0.8,
+    "controversy_level": 0.4,
+    "source_credibility": 0.7,
+    "reasoning": "The content presents a balanced view of the topic."
+  },
+  "overall_confidence": 0.5,
+  "recommendation": "Caution",
+  "summary_reasoning": "The content has some mature themes, but overall provides a good educational value.")
+----------------------------------------

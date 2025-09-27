@@ -157,9 +157,10 @@ generate_baml_client() {
 start_demo_frontend() {
     print_step "Starting Demo Frontend..."
     
-    # Kill any existing process on the port
+    # Kill any existing process on the port and clean up PID file
     lsof -ti:$DEMO_PORT | xargs kill -9 2>/dev/null || true
-    sleep 2
+    rm -f "$LOG_DIR/demo-frontend.pid" 2>/dev/null || true
+    sleep 3
     
     # Start the demo frontend
     cd src/ui/demo-frontend
