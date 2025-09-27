@@ -152,7 +152,7 @@ The system architecture consists of four primary components:
 
 ### 3.2 BAML Architecture: From Source to Runtime
 
-Boundary Markup Language (BAML) demonstrates a remarkable feat of code generation: from a single, human-readable source file, it generates a complete, type-safe runtime environment with client libraries, validation, and structured AI interactions.
+Boundary's AI Markup Language (BAML) demonstrates a remarkable feat of code generation: from a single, human-readable source file, it generates a complete, type-safe runtime environment with client libraries, validation, and structured AI interactions.
 
 #### 3.2.1 The BAML Source File
 

@@ -4,7 +4,7 @@
 
 ## Abstract
 
-This paper presents a comprehensive analysis of Boundary's AI Markup Language (BAML) integration in production AI systems, demonstrating how a single source file can generate complete type-safe runtime environments for language model interactions. Through real-world implementation of an AI content curation system, we evaluate BAML's code generation capabilities, developer experience benefits, and production deployment characteristics. Our analysis shows that BAML reduces AI integration complexity by 95% while eliminating an entire class of runtime errors through compile-time type safety. The paper provides detailed implementation examples, performance measurements, and best practices for BAML adoption in production systems.
+This paper presents a comprehensive analysis of Boundary Markup Language (BAML) integration in production AI systems, demonstrating how a single source file can generate complete type-safe runtime environments for language model interactions. Through real-world implementation of an AI content curation system, we evaluate BAML's code generation capabilities, developer experience benefits, and production deployment characteristics. Our analysis shows that BAML reduces AI integration complexity by 95% while eliminating an entire class of runtime errors through compile-time type safety. The paper provides detailed implementation examples, performance measurements, and best practices for BAML adoption in production systems.
 
 **Note**: This is a technical implementation analysis based on real-world BAML deployment rather than theoretical research. It emphasizes practical integration patterns, measured development improvements, and reproducible implementation details.
 
@@ -14,11 +14,11 @@ This paper presents a comprehensive analysis of Boundary's AI Markup Language (B
 
 Large Language Model (LLM) integration in production systems traditionally requires extensive manual coding for prompt management, response parsing, error handling, and type validation. Developers must handle JSON parsing, implement retry logic, manage HTTP clients, and create type definitions manually - leading to brittle integrations prone to runtime failures.
 
-Boundary's AI Markup Language (BAML) addresses these challenges through a declarative approach that generates complete type-safe runtime environments from concise source definitions. This paper analyzes BAML's integration in a real-world AI content curation system, measuring its impact on development velocity, code reliability, and production deployment characteristics.
+Boundary Markup Language (BAML) addresses these challenges through a declarative approach that generates complete type-safe runtime environments from concise source definitions. This paper analyzes BAML's integration in a real-world AI content curation system, measuring its impact on development velocity, code reliability, and production deployment characteristics.
 
 ### 1.1 BAML Overview
 
-BAML (Boundary's AI Markup Language) is a domain-specific language designed specifically for language model integration that provides:
+BAML is a domain-specific language designed specifically for language model integration that provides:
 
 - **Declarative Syntax**: High-level definitions for AI functions and data structures
 - **Code Generation**: Automatic creation of type-safe client libraries

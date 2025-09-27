@@ -87,7 +87,7 @@ ai-curation-engine/
 - **Real-time Switching**: Change strategies without restart
 
 ### **Type-Safe AI Integration**
-- **BAML Framework**: Single source generates 3,500+ lines of runtime code
+- **BAML Framework**: Boundary's AI Markup Language - Single source generates 3,500+ lines of runtime code
 - **95% Code Reduction**: Eliminates manual JSON parsing and HTTP clients
 - **98% Error Elimination**: Type-safe AI interactions prevent runtime failures
 - **IDE Integration**: Full autocomplete and validation support
