@@ -1,8 +1,8 @@
-# 🚀 Local Deployment Guide - AI Curation Engine with Llama
+# 🚀 AI Curation Engine - Complete Local Deployment Guide
 
 ## Overview
 
-This guide provides comprehensive step-by-step instructions to deploy and run the AI Curation Engine locally using Llama models instead of cloud APIs. This setup is perfect for development, testing, and privacy-focused deployments.
+This comprehensive guide provides step-by-step instructions to deploy the AI Curation Engine locally with **real BAML integration**, **no fallbacks**, and **automated deployment scripts**. Perfect for development, testing, and privacy-focused deployments using local Llama models.
 
 ## 📋 Prerequisites
 
@@ -14,650 +14,389 @@ This guide provides comprehensive step-by-step instructions to deploy and run th
 - **GPU**: Optional but recommended for faster inference
 
 ### Software Requirements
-- **Docker & Docker Compose** (for containerized deployment)
-- **Node.js 18+** (for BAML CLI)
 - **Python 3.8+** (for the application)
+- **pip3** (Python package manager)
 - **Git** (for cloning repository)
+- **curl** (for testing endpoints)
 
-## 🏗️ Architecture Overview
+## 🏗️ Updated Architecture
 
 ```mermaid
 graph TB
-    subgraph "Local Development Environment"
-        WEB[🌐 Web Interface<br/>Flask App:5000]
-        API[🔌 Curation API<br/>Express.js:3001]
-        BAML[🤖 BAML Client<br/>Python Integration]
+    subgraph "Local Deployment (2024)"
+        DEMO[🎯 Demo Frontend<br/>Flask:5001]
+        ENGINE[🤖 Curation Engine<br/>Pluggable Strategies]
+        BAML[🔄 BAML Integration<br/>Real Implementation]
         OLLAMA[🦙 Ollama Server<br/>:11434]
-        MONGO[🗄️ MongoDB<br/>:27017]
     end
     
-    subgraph "Llama Models"
-        LLAMA3[🧠 Llama 3.2<br/>7B Parameters]
-        LLAMA31[🧠 Llama 3.1<br/>8B Parameters]
-        CODELLAMA[💻 CodeLlama<br/>7B Parameters]
+    subgraph "Curation Strategies"
+        LLM[🧠 LLM-Only Strategy<br/>5-10s processing]
+        MULTI[⚡ Multi-Layer Strategy<br/>0.1-5s processing]
+        HYBRID[🎯 Hybrid Strategy<br/>Adaptive]
     end
     
-    WEB --> API
-    WEB --> BAML
+    subgraph "Local AI Models"
+        LLAMA32[🧠 Llama 3.2<br/>7B Parameters]
+    end
+    
+    DEMO --> ENGINE
+    ENGINE --> LLM
+    ENGINE --> MULTI
+    ENGINE --> HYBRID
     BAML --> OLLAMA
-    OLLAMA --> LLAMA3
-    OLLAMA --> LLAMA31
-    OLLAMA --> CODELLAMA
-    API --> MONGO
+    OLLAMA --> LLAMA32
+    LLM --> BAML
+    MULTI --> BAML
+    HYBRID --> BAML
 ```
 
-## 🛠️ Installation Steps
+## 🛠️ Quick Start (Automated Deployment)
 
-### Step 1: Clone and Setup Repository
-
+### Step 1: Clone Repository
 ```bash
-# Clone the repository
 git clone https://github.com/gitmujoshi/ai-curation-engine.git
 cd ai-curation-engine
+```
 
+### Step 2: One-Command Deployment
+```bash
 # Make scripts executable
-chmod +x setup_baml.sh
-chmod +x test-app/app.py
+chmod +x *.sh
+
+# Deploy everything automatically
+./deploy_local.sh
 ```
 
-### Step 2: Install System Dependencies
+**That's it!** The script will:
+- ✅ Check all dependencies
+- ✅ Install Python packages
+- ✅ Start Ollama with Llama 3.2
+- ✅ Generate BAML client
+- ✅ Start demo frontend on port 5001
+- ✅ Provide complete status report
 
-#### macOS (using Homebrew)
+## 📱 Available URLs (After Deployment)
+
+### 🎯 Main Application
+- **🏠 Demo UI**: `http://localhost:5001/`
+- **🧪 Content Tester**: `http://localhost:5001/content-test` ⭐
+- **❤️ Health Check**: `http://localhost:5001/health`
+
+### 🔧 API Endpoints
+- **🤖 Content Classification**: `POST http://localhost:5001/api/classify`
+- **⚙️ Strategy Management**: `GET/POST http://localhost:5001/api/strategy`
+- **👥 Child Profiles**: `GET http://localhost:5001/api/children`
+
+### 🦙 Local AI Infrastructure
+- **🔗 Ollama API**: `http://localhost:11434`
+- **📋 Models List**: `http://localhost:11434/api/tags`
+
+## 🎮 Testing Your Deployment
+
+### Quick Health Check
 ```bash
-# Install Homebrew if not already installed
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# Check all services
+./status_check.sh
 
-# Install dependencies
-brew install node python mongodb-community docker
-brew install --cask docker
-
-# Install Ollama
-curl -fsSL https://ollama.ai/install.sh | sh
+# Or manual check
+curl http://localhost:5001/health | jq
 ```
 
-#### Ubuntu/Debian
+### Test Content Classification
 ```bash
-# Update package list
+# Test with educational content
+curl -X POST http://localhost:5001/api/classify \
+     -H "Content-Type: application/json" \
+     -d '{"content": "This educational content teaches science concepts", "childId": "child_1"}' | jq
+
+# Test strategy switching
+curl -X POST http://localhost:5001/api/strategy \
+     -H "Content-Type: application/json" \
+     -d '{"strategy": "multi_layer"}' | jq
+```
+
+### Interactive Testing
+1. Open `http://localhost:5001/content-test`
+2. Try different content samples
+3. Switch between curation strategies
+4. Monitor processing times and results
+
+## 🚀 Management Scripts
+
+### Deployment & Control
+```bash
+./deploy_local.sh     # 🚀 Start everything
+./status_check.sh     # 🔍 Check all services
+./stop_services.sh    # 🛑 Stop all services
+./build_and_test.sh   # 🏗️ Validate and test build
+```
+
+### What Each Script Does
+
+#### `deploy_local.sh`
+- Checks Python, pip, and Ollama dependencies
+- Sets up environment variables
+- Starts Ollama with Llama 3.2 model
+- Generates BAML client
+- Starts demo frontend
+- Provides complete service status
+
+#### `status_check.sh`
+- Tests all service endpoints
+- Shows process information
+- Validates API functionality
+- Provides quick test commands
+- Displays all available URLs
+
+#### `stop_services.sh`
+- Gracefully stops all services
+- Cleans up PID files
+- Optionally keeps Ollama running
+
+#### `build_and_test.sh`
+- Validates code syntax
+- Tests core functionality
+- Checks for remaining fallbacks
+- Generates documentation
+
+## 🎯 Curation Strategies Explained
+
+### 1. LLM-Only Strategy (`llm_only`)
+- **Purpose**: Maximum accuracy with comprehensive analysis
+- **Processing Time**: 5-10 seconds
+- **Best For**: Complex content requiring detailed reasoning
+- **Use Case**: High-stakes content moderation
+
+### 2. Multi-Layer Strategy (`multi_layer`)
+- **Purpose**: Performance optimization with selective LLM usage
+- **Processing Time**: 0.1-5 seconds (adaptive)
+- **Layers**: Fast filters → Specialized AI → LLM (if needed)
+- **Best For**: High-volume content processing
+
+### 3. Hybrid Strategy (`hybrid`)
+- **Purpose**: Intelligent strategy selection
+- **Processing Time**: Variable (1-8 seconds)
+- **Logic**: Chooses optimal strategy based on content complexity
+- **Best For**: Balanced speed/accuracy requirements
+
+## 🔧 Manual Installation (If Needed)
+
+### Install Dependencies
+```bash
+# macOS with Homebrew
+brew install python ollama
+
+# Ubuntu/Debian
 sudo apt update
-
-# Install Node.js
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-# Install Python and pip
-sudo apt-get install -y python3 python3-pip python3-venv
-
-# Install Docker
-sudo apt-get install -y docker.io docker-compose
-sudo systemctl start docker
-sudo systemctl enable docker
-sudo usermod -aG docker $USER
-
-# Install MongoDB
-wget -qO - https://www.mongodb.org/static/pgp/server-7.0.asc | sudo apt-key add -
-echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
-sudo apt-get update
-sudo apt-get install -y mongodb-org
+sudo apt install python3 python3-pip curl
 
 # Install Ollama
 curl -fsSL https://ollama.ai/install.sh | sh
 ```
 
-### Step 3: Setup Ollama and Download Models
-
+### Install Python Packages
 ```bash
-# Start Ollama service
+# Create requirements.txt
+cat > requirements.txt << 'EOF'
+flask==2.3.3
+flask-cors==4.0.0
+requests==2.31.0
+pydantic==2.4.2
+python-dotenv==1.0.0
+baml-py>=0.46.0
+EOF
+
+# Install packages
+pip3 install -r requirements.txt
+```
+
+### Setup Ollama
+```bash
+# Start Ollama
 ollama serve &
 
-# Download required models (this may take 15-30 minutes)
-echo "📥 Downloading Llama models..."
-ollama pull llama3.2:latest
-ollama pull llama3.1:latest
-ollama pull codellama:latest
+# Download Llama 3.2 (one-time setup)
+ollama pull llama3.2
 
-# Verify models are installed
+# Verify installation
 ollama list
 ```
 
-### Step 4: Setup Python Environment
-
+### Generate BAML Client
 ```bash
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# Install BAML CLI (if needed)
+pip3 install baml-py
 
-# Install Python dependencies
-pip install --upgrade pip
-pip install flask flask-cors asyncio aiohttp pymongo bcrypt jwt
+# Generate client
+baml-cli generate
 ```
 
-### Step 5: Setup BAML with Llama Configuration
-
+### Start Services Manually
 ```bash
-# Install BAML CLI
-npm install -g @boundaryml/baml
-
-# Generate BAML client for Llama configuration
-baml-cli generate --from ./baml_src --lang python --output ./baml_client
-
-# Alternative: Use Llama-specific configuration
-baml-cli generate --from ./baml_src/llama_content_classification.baml --lang python --output ./baml_client_llama
-```
-
-### Step 6: Setup Database
-
-```bash
-# Start MongoDB
-mongod --dbpath ./data/db &
-
-# Or using systemctl on Linux
-sudo systemctl start mongod
-
-# Create database and collections (optional - will be created automatically)
-mongo
-> use curation_engine
-> db.users.createIndex({"email": 1}, {"unique": true})
-> db.child_profiles.createIndex({"parent_id": 1})
-> exit
-```
-
-### Step 7: Configure Environment Variables
-
-```bash
-# Copy environment template
-cp .env.example .env
-
-# Edit environment variables
-cat > .env << 'EOF'
-# Database Configuration
-MONGODB_URI=mongodb://localhost:27017/curation_engine
-
-# Ollama Configuration (Local Llama)
-OLLAMA_BASE_URL=http://localhost:11434
-OLLAMA_API_KEY=ollama
-
-# BAML Configuration
-BAML_LOG_LEVEL=INFO
-BAML_CACHE_ENABLED=true
-BAML_TIMEOUT_MS=30000
-BAML_RETRY_ATTEMPTS=3
-
-# Application Configuration
-FLASK_ENV=development
-FLASK_DEBUG=true
-JWT_SECRET_KEY=your-secret-key-here
-
-# Optional: Fallback API keys (for cloud models if Ollama fails)
-# OPENAI_API_KEY=your_openai_key_here
-# ANTHROPIC_API_KEY=your_anthropic_key_here
-EOF
-```
-
-## 🐳 Docker Deployment (Alternative)
-
-### Create Docker Compose Configuration
-
-```bash
-# Create docker-compose.yml
-cat > docker-compose.yml << 'EOF'
-version: '3.8'
-
-services:
-  # MongoDB Database
-  mongodb:
-    image: mongo:7.0
-    container_name: curation_db
-    restart: unless-stopped
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_DATABASE: curation_engine
-    volumes:
-      - mongodb_data:/data/db
-      - ./scripts/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-
-  # Ollama Service
-  ollama:
-    image: ollama/ollama:latest
-    container_name: ollama_server
-    restart: unless-stopped
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama_data:/root/.ollama
-    environment:
-      - OLLAMA_ORIGINS=*
-
-  # Main Application
-  curation_engine:
-    build: .
-    container_name: curation_app
-    restart: unless-stopped
-    ports:
-      - "3001:3001"  # Backend API
-    depends_on:
-      - mongodb
-      - ollama
-    environment:
-      - MONGODB_URI=mongodb://mongodb:27017/curation_engine
-      - OLLAMA_BASE_URL=http://ollama:11434
-    volumes:
-      - .:/app
-      - /app/node_modules
-
-  # Test Web Interface
-  test_app:
-    build:
-      context: .
-      dockerfile: test-app/Dockerfile
-    container_name: test_web_interface
-    restart: unless-stopped
-    ports:
-      - "5000:5000"  # Web interface
-    depends_on:
-      - curation_engine
-      - ollama
-    environment:
-      - OLLAMA_BASE_URL=http://ollama:11434
-      - CURATION_API_URL=http://curation_engine:3001
-    volumes:
-      - ./test-app:/app
-
-volumes:
-  mongodb_data:
-  ollama_data:
-EOF
-```
-
-### Create Dockerfiles
-
-```bash
-# Main application Dockerfile
-cat > Dockerfile << 'EOF'
-FROM node:18-alpine
-
-WORKDIR /app
-
-# Copy package files
-COPY curation-engine-ui/package*.json ./
-RUN npm install
-
-# Copy application code
-COPY curation-engine-ui/ ./
-
-# Install Python for BAML integration
-RUN apk add --no-cache python3 py3-pip
-RUN pip3 install flask flask-cors asyncio aiohttp pymongo
-
-EXPOSE 3001
-
-CMD ["npm", "run", "backend"]
-EOF
-
-# Test app Dockerfile
-cat > test-app/Dockerfile << 'EOF'
-FROM python:3.11-slim
-
-WORKDIR /app
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Node.js for BAML CLI
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-    && apt-get install -y nodejs
-
-# Install BAML CLI
-RUN npm install -g @boundaryml/baml
-
-# Copy requirements and install Python dependencies
-COPY test-app/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy application code
-COPY . .
-
-# Generate BAML client
-RUN baml-cli generate --from ./baml_src/llama_content_classification.baml --lang python --output ./baml_client_llama
-
-EXPOSE 5000
-
-CMD ["python", "test-app/app.py"]
-EOF
-
-# Create requirements.txt for test app
-cat > test-app/requirements.txt << 'EOF'
-flask==3.0.0
-flask-cors==4.0.0
-asyncio
-aiohttp==3.9.1
-pymongo==4.6.0
-bcrypt==4.1.2
-PyJWT==2.8.0
-requests==2.31.0
-EOF
-```
-
-### Deploy with Docker
-
-```bash
-# Build and start all services
-docker-compose up --build -d
-
-# Download models into Ollama container
-docker exec ollama_server ollama pull llama3.2
-docker exec ollama_server ollama pull llama3.1
-docker exec ollama_server ollama pull codellama
-
-# Check service status
-docker-compose ps
-
-# View logs
-docker-compose logs -f
-```
-
-## 🚀 Starting the Application
-
-### Method 1: Manual Start (Development)
-
-```bash
-# Terminal 1: Start MongoDB
-mongod --dbpath ./data/db
-
-# Terminal 2: Start Ollama
+# Terminal 1: Ollama (if not running)
 ollama serve
 
-# Terminal 3: Start Backend API
-cd curation-engine-ui
-npm install
-npm run backend
-
-# Terminal 4: Start Test Web Interface
-cd test-app
-python app.py
-
-# Terminal 5: Start Frontend (Optional)
-cd curation-engine-ui
-npm run dev
+# Terminal 2: Demo Frontend
+cd demo-frontend
+python3 app.js
 ```
 
-### Method 2: Using Scripts
+## 📊 What's New in This Version
 
+### ✅ Removed All Fallbacks
+- **No mock data**: Pure BAML integration
+- **No hardcoded values**: Real AI analysis only
+- **Error handling**: Graceful failures without fake responses
+
+### ✅ Pluggable Architecture
+- **Three strategies**: LLM-Only, Multi-Layer, Hybrid
+- **Runtime switching**: Change strategies without restart
+- **Performance monitoring**: Real-time metrics
+
+### ✅ Enhanced UI
+- **Strategy control panel**: Switch and monitor strategies
+- **Performance display**: Processing times and confidence
+- **Sample highlighting**: Better user experience
+- **Real-time results**: No cached/static responses
+
+### ✅ Complete Automation
+- **One-command deployment**: `./deploy_local.sh`
+- **Comprehensive monitoring**: `./status_check.sh`
+- **Clean shutdown**: `./stop_services.sh`
+- **Build validation**: `./build_and_test.sh`
+
+## 🔍 Monitoring and Debugging
+
+### Log Files
 ```bash
-# Create startup script
-cat > start_local.sh << 'EOF'
-#!/bin/bash
+# View frontend logs
+tail -f logs/demo-frontend.log
 
-echo "🚀 Starting AI Curation Engine Locally..."
+# View Ollama logs
+tail -f logs/ollama.log
 
-# Start MongoDB
-echo "📄 Starting MongoDB..."
-mongod --dbpath ./data/db --fork --logpath ./logs/mongodb.log
-
-# Start Ollama
-echo "🦙 Starting Ollama..."
-ollama serve &
-sleep 5
-
-# Ensure models are available
-echo "📥 Checking Llama models..."
-ollama list
-
-# Start Backend API
-echo "🔧 Starting Backend API..."
-cd curation-engine-ui
-npm run backend &
-cd ..
-
-# Start Test App
-echo "🌐 Starting Test Web Interface..."
-cd test-app
-python app.py &
-cd ..
-
-echo "✅ All services started!"
-echo "📱 Web Interface: http://localhost:5000"
-echo "🔌 API Endpoint: http://localhost:3001"
-echo "🦙 Ollama API: http://localhost:11434"
-
-# Wait for user input to stop
-read -p "Press Enter to stop all services..."
-
-# Cleanup
-echo "🛑 Stopping services..."
-pkill -f "ollama serve"
-pkill -f "mongod"
-pkill -f "npm run backend"
-pkill -f "python app.py"
-EOF
-
-chmod +x start_local.sh
-./start_local.sh
+# View BAML generation logs
+tail -f logs/baml-generate.log
 ```
 
-## 🧪 Testing the Setup
+### Common Issues
 
-### 1. Verify Ollama Models
-
+#### Health Check Fails
 ```bash
-# Check if Ollama is running
+# Check if frontend is running
+curl http://localhost:5001/health
+
+# Restart if needed
+./stop_services.sh && ./deploy_local.sh
+```
+
+#### Slow Classification (>15 seconds)
+```bash
+# Check Ollama status
 curl http://localhost:11434/api/tags
 
-# Test model inference
-curl http://localhost:11434/api/generate -d '{
-  "model": "llama3.2",
-  "prompt": "Explain machine learning in simple terms.",
-  "stream": false
-}'
+# Restart Ollama if needed
+ollama serve
 ```
 
-### 2. Test BAML Client
-
+#### Strategy Switching Fails
 ```bash
-# Test BAML client generation
-python -c "
-try:
-    from baml_client import b
-    print('✅ BAML client imported successfully')
-except ImportError as e:
-    print(f'❌ BAML client import failed: {e}')
-"
+# Check current strategy
+curl http://localhost:5001/api/strategy
+
+# Verify available strategies
+curl http://localhost:5001/api/strategy | jq '.available_strategies'
 ```
 
-### 3. Test Content Classification
+## 🛠️ Customization
 
+### Add New Content Samples
+Edit `demo-frontend/app.js` and add to `DEMO_DATA['sample_content']`:
+```python
+'your_category': {
+    'title': 'Your Sample Title',
+    'content': 'Your sample content here...'
+}
+```
+
+### Modify Curation Strategies
+Edit `curation_engine_pluggable.py` to customize:
+- Filter thresholds in `FastFilterLayer`
+- LLM triggers in `_requires_llm_analysis`
+- Specialized AI logic in `SpecializedAILayer`
+
+### Environment Configuration
+Create `.env` file:
 ```bash
-# Test the API endpoint
-curl -X POST http://localhost:5000/api/test \
-  -H "Content-Type: application/json" \
-  -d '{
-    "content": "This is a test article about artificial intelligence and machine learning.",
-    "user_context": {
-      "age_category": "adult",
-      "jurisdiction": "US",
-      "parental_controls": false,
-      "content_preferences": ["educational"],
-      "sensitivity_level": "medium"
-    }
-  }'
+BAML_LOG_LEVEL=ERROR
+BOUNDARY_TELEMETRY_DISABLED=true
+OLLAMA_BASE_URL=http://localhost:11434
 ```
 
-### 4. Access Web Interface
-
-Open your browser and navigate to:
-- **Test App**: http://localhost:5000
-- **Main API**: http://localhost:3001
-- **Ollama API**: http://localhost:11434
-
-## 📊 Monitoring and Debugging
-
-### Log Locations
-- **Application**: `./logs/app.log`
-- **MongoDB**: `./logs/mongodb.log`
-- **Ollama**: Check with `ollama logs`
-
-### Common Issues and Solutions
-
-#### Issue: Ollama models not downloading
-```bash
-# Solution: Check internet connection and disk space
-df -h  # Check disk space
-ollama pull llama3.2 --verbose  # Verbose download
-```
-
-#### Issue: BAML client generation fails
-```bash
-# Solution: Reinstall BAML CLI and regenerate
-npm uninstall -g @boundaryml/baml
-npm install -g @boundaryml/baml
-baml-cli generate --from ./baml_src --lang python --output ./baml_client
-```
-
-#### Issue: MongoDB connection failed
-```bash
-# Solution: Check MongoDB status and create data directory
-mkdir -p ./data/db
-mongod --dbpath ./data/db --repair
-```
-
-#### Issue: Port conflicts
-```bash
-# Solution: Check and kill processes using required ports
-lsof -i :5000  # Check what's using port 5000
-lsof -i :3001  # Check what's using port 3001
-lsof -i :11434 # Check what's using port 11434
-```
+## 🚀 Production Considerations
 
 ### Performance Optimization
-
-#### For Better Llama Performance:
 ```bash
 # Use GPU if available
-ollama run llama3.2 --gpu
+ollama serve --gpu
 
-# Adjust context window
-export OLLAMA_NUM_CTX=4096
+# Increase parallel processing
+export OLLAMA_NUM_PARALLEL=4
 
-# Optimize for your hardware
-export OLLAMA_NUM_THREAD=8  # Adjust based on CPU cores
+# Optimize for your CPU
+export OLLAMA_NUM_THREAD=8
 ```
 
-#### For Better Application Performance:
-```bash
-# Enable caching
-export BAML_CACHE_ENABLED=true
+### Security Hardening
+- Run behind reverse proxy (nginx)
+- Enable HTTPS with SSL certificates
+- Implement authentication/authorization
+- Configure firewall rules
+- Monitor resource usage
 
-# Adjust timeout for local models
-export BAML_TIMEOUT_MS=60000  # 60 seconds for local inference
+### Scaling Options
+- **Horizontal**: Multiple Ollama instances with load balancer
+- **Vertical**: More RAM/CPU for larger models
+- **Hybrid**: Cloud fallback for peak loads
+
+## 📈 Expected Performance
+
+### Processing Times (Local Hardware)
+- **LLM-Only**: 5-10 seconds (full analysis)
+- **Multi-Layer**: 0.1-5 seconds (adaptive)
+- **Hybrid**: 1-8 seconds (intelligent selection)
+
+### Resource Usage
+- **RAM**: 8-16GB (depending on model size)
+- **CPU**: High during inference
+- **Storage**: 10-20GB for models
+- **Network**: Local only (no external calls)
+
+## 📚 Documentation Reference
+
+- **Complete URLs**: `APP_URLS_COMPLETE.md`
+- **API Documentation**: `API_ENDPOINTS.md`
+- **Architecture Details**: `PRODUCTION_CURATION_ARCHITECTURE.md`
+- **BAML Implementation**: `BAML_IMPLEMENTATION_STATUS.md`
+- **Strategy Demo Guide**: `STRATEGY_DEMO_GUIDE.md`
+
+## 🎉 Quick Success Verification
+
+After running `./deploy_local.sh`, you should see:
+
+```
+✅ Demo Frontend: Running (port 5001)
+✅ Ollama: Running (port 11434)
+✅ Health Check: Working
+✅ Classification API: Working (7+s processing time)
+✅ Strategy API: Working
+✅ BAML Integration: Available
+✅ No Fallbacks: Pure BAML implementation
 ```
 
-## 🔒 Security Considerations
-
-### Local Development Security
-1. **No API Keys Required**: Using local models eliminates API key exposure
-2. **Network Isolation**: All processing happens locally
-3. **Data Privacy**: No data sent to external services
-
-### Production Deployment Security
-1. **Firewall Configuration**: Restrict access to necessary ports only
-2. **Authentication**: Enable MongoDB authentication
-3. **HTTPS**: Use SSL certificates for web interfaces
-4. **Resource Limits**: Configure Docker resource constraints
-
-## 📈 Scaling and Performance
-
-### Single Machine Optimization
-- **CPU**: Use all available cores for Ollama
-- **Memory**: Allocate sufficient RAM for models (8GB+ recommended)
-- **Storage**: Use SSD for better model loading times
-
-### Multi-Machine Deployment
-- **Load Balancer**: Distribute requests across multiple Ollama instances
-- **Database Clustering**: Set up MongoDB replica sets
-- **Container Orchestration**: Use Kubernetes for automatic scaling
-
-## 🆘 Troubleshooting
-
-### Complete Reset
-```bash
-# Stop all services
-pkill -f ollama
-pkill -f mongod
-pkill -f python
-pkill -f npm
-
-# Remove and recreate data directories
-rm -rf ./data/db
-mkdir -p ./data/db
-
-# Remove BAML client and regenerate
-rm -rf ./baml_client
-baml-cli generate --from ./baml_src --lang python --output ./baml_client
-
-# Restart everything
-./start_local.sh
-```
-
-### Health Check Script
-```bash
-# Create health check script
-cat > health_check.sh << 'EOF'
-#!/bin/bash
-
-echo "🔍 Health Check - AI Curation Engine"
-
-# Check Ollama
-if curl -s http://localhost:11434/api/tags > /dev/null; then
-    echo "✅ Ollama: Running"
-else
-    echo "❌ Ollama: Not responding"
-fi
-
-# Check MongoDB
-if mongosh --quiet --eval "db.runCommand('ping')" curation_engine > /dev/null 2>&1; then
-    echo "✅ MongoDB: Running"
-else
-    echo "❌ MongoDB: Not responding"
-fi
-
-# Check API
-if curl -s http://localhost:3001/api/health > /dev/null; then
-    echo "✅ Backend API: Running"
-else
-    echo "❌ Backend API: Not responding"
-fi
-
-# Check Test App
-if curl -s http://localhost:5000/api/health > /dev/null; then
-    echo "✅ Test App: Running"
-else
-    echo "❌ Test App: Not responding"
-fi
-EOF
-
-chmod +x health_check.sh
-./health_check.sh
-```
-
-## 🎯 Next Steps
-
-After successful deployment:
-
-1. **Test Content Classification**: Use the web interface to test various content types
-2. **Customize Models**: Fine-tune Llama models for specific use cases
-3. **Integrate with Applications**: Use the REST API in your applications
-4. **Scale Deployment**: Move to production-ready infrastructure
-5. **Monitor Performance**: Set up comprehensive monitoring and alerting
-
-## 📚 Additional Resources
-
-- **Ollama Documentation**: https://ollama.ai/docs
-- **BAML Documentation**: https://docs.boundaryml.com
-- **MongoDB Documentation**: https://docs.mongodb.com
-- **Flask Documentation**: https://flask.palletsprojects.com
+**🚀 Start testing**: Open `http://localhost:5001/content-test`
 
 ---
 
-This deployment guide provides everything needed to run the AI Curation Engine locally with Llama models. The setup prioritizes privacy, performance, and ease of use while maintaining all the advanced features of the cloud-based version.
+This deployment guide reflects the latest updates with **no fallbacks**, **automated deployment**, **pluggable strategies**, and **comprehensive monitoring**. The setup prioritizes **real AI analysis**, **performance flexibility**, and **ease of use** while maintaining privacy with local-only processing.

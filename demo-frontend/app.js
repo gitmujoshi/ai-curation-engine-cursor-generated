@@ -249,192 +249,14 @@ def make_api_request(method, endpoint, data=None, token=None):
         logger.error(f"API request failed: {e}")
         return {'success': False, 'error': str(e)}
 
-# BAML Integration for Demo
-class DemoBAMLIntegration:
-    """Demo BAML integration with fallback to mock data."""
+# Note: DemoBAMLIntegration class removed - using pluggable curation engine directly
     
-    def __init__(self):
-        self.analyzer = None
-        self.pipeline = None
-        
-        if BAML_AVAILABLE:
-            try:
-                self.analyzer = BAMLContentAnalyzer()
-                self.pipeline = ContentCurationPipeline()
-                logger.info("✅ BAML integration initialized")
-            except Exception as e:
-                logger.warning(f"BAML initialization failed: {e}")
-                BAML_AVAILABLE = False
-    
-    async def classify_content(self, content: str, child_profile: Dict = None):
-        """Classify content using BAML or fallback."""
-        
-        # Prepare user context
-        if child_profile:
-            # Determine age category
-            age = child_profile['age']
-            if age < 13:
-                age_category = 'UNDER_13'
-            elif age < 16:
-                age_category = 'UNDER_16'
-            elif age < 18:
-                age_category = 'UNDER_18'
-            else:
-                age_category = 'ADULT'
-            
-            # Determine parental controls based on profile type and age
-            is_adult_profile = child_profile.get('profileType') == 'adult' or age >= 18
-            parental_controls = not is_adult_profile
-            
-            user_context = UserContext(
-                age_category=age_category,
-                jurisdiction='US',
-                parental_controls=parental_controls,
-                content_preferences=child_profile.get('allowedCategories', []),
-                sensitivity_level=child_profile.get('safetyLevel', 'moderate')
-            )
-        else:
-            user_context = UserContext(
-                age_category='ADULT',
-                jurisdiction='US',
-                parental_controls=False,
-                content_preferences=[],
-                sensitivity_level='moderate'
-            )
-        
-        try:
-            if self.pipeline and BAML_AVAILABLE:
-                # Real BAML classification
-                result = await self.pipeline.curate_content(content, user_context)
-                return self._format_baml_result(result)
-            else:
-                # Fallback mock classification
-                return self._mock_classification(content, child_profile)
-                
-        except Exception as e:
-            logger.error(f"Classification error: {e}")
-            return self._mock_classification(content, child_profile)
-    
-    def _format_baml_result(self, result):
-        """Format BAML result for demo."""
-        try:
-            classification = result.get('classification', {})
-            return {
-                'safety': {
-                    'score': classification.get('safety', {}).get('score', 0.8),
-                    'age_appropriate': classification.get('safety', {}).get('age_appropriate', '13+'),
-                    'warnings': classification.get('safety', {}).get('warnings', []),
-                    'reasoning': classification.get('safety', {}).get('reasoning', 'BAML analysis completed')
-                },
-                'educational': {
-                    'score': classification.get('educational', {}).get('score', 0.7),
-                    'learning_objectives': classification.get('educational', {}).get('learning_objectives', []),
-                    'subject_areas': classification.get('educational', {}).get('subject_areas', []),
-                    'cognitive_level': classification.get('educational', {}).get('cognitive_level', 'understand')
-                },
-                'viewpoint': {
-                    'political_leaning': classification.get('viewpoint', {}).get('political_leaning', 'neutral'),
-                    'bias_score': classification.get('viewpoint', {}).get('bias_score', 0.2),
-                    'credibility': classification.get('viewpoint', {}).get('credibility', 0.8),
-                    'balanced_sources': classification.get('viewpoint', {}).get('balanced_sources', [])
-                },
-                'recommendation': result.get('recommendation', {}).get('action', 'allow'),
-                'confidence': result.get('recommendation', {}).get('confidence', 0.85),
-                'processing_time': result.get('processing_time_seconds', 1.2),
-                'model': 'BAML-Real'
-            }
-        except Exception as e:
-            logger.error(f"Error formatting BAML result: {e}")
-            return self._mock_classification("", None)
-    
-    def _mock_classification(self, content: str, child_profile: Dict = None):
-        """Mock classification for demo purposes."""
-        import random
-        
-        # Analyze content for keywords
-        content_lower = content.lower()
-        
-        # Safety analysis based on keywords
-        violence_keywords = ['violence', 'fight', 'attack', 'kill', 'hurt', 'fighting', 'aggressive']
-        educational_keywords = ['learn', 'education', 'study', 'research', 'science', 'school', 'knowledge']
-        social_keywords = ['friends', 'social', 'chat', 'message', 'post', 'share']
-        concerning_keywords = ['inappropriate', 'mature', 'concerning', 'violence', 'scary']
-        
-        violence_score = min(0.9, sum(0.2 for word in violence_keywords if word in content_lower))
-        educational_score = min(0.95, 0.3 + sum(0.15 for word in educational_keywords if word in content_lower))
-        has_social = any(word in content_lower for word in social_keywords)
-        has_concerning = any(word in content_lower for word in concerning_keywords)
-        
-        # Calculate safety score
-        safety_score = max(0.1, 0.9 - violence_score - (0.3 if has_concerning else 0))
-        
-        # Age appropriateness
-        if child_profile:
-            age = child_profile['age']
-            if safety_score < 0.5 or has_concerning:
-                age_appropriate = '18+'
-            elif violence_score > 0.2 or has_social:
-                age_appropriate = '13+'
-            else:
-                age_appropriate = 'all'
-        else:
-            age_appropriate = '13+'
-        
-        # Warnings
-        warnings = []
-        if violence_score > 0.2:
-            warnings.append('violence')
-        if has_concerning:
-            warnings.append('mature themes')
-        if has_social:
-            warnings.append('social content')
-        
-        # Recommendation
-        if child_profile:
-            safety_level = child_profile.get('safetyLevel', 'moderate')
-            if safety_level == 'strict' and (safety_score < 0.8 or warnings):
-                recommendation = 'block'
-            elif safety_score < 0.6:
-                recommendation = 'block'
-            elif safety_score < 0.8 or warnings:
-                recommendation = 'caution'
-            else:
-                recommendation = 'allow'
-        else:
-            recommendation = 'allow' if safety_score > 0.6 else 'caution' if safety_score > 0.4 else 'block'
-        
-        return {
-            'safety': {
-                'score': round(safety_score, 2),
-                'age_appropriate': age_appropriate,
-                'warnings': warnings,
-                'reasoning': f'Mock analysis based on content keywords and child age ({child_profile["age"] if child_profile else "adult"})'
-            },
-            'educational': {
-                'score': round(educational_score, 2),
-                'learning_objectives': ['understanding concepts'] if educational_score > 0.6 else [],
-                'subject_areas': ['general knowledge'] if educational_score > 0.5 else [],
-                'cognitive_level': 'understand' if educational_score > 0.7 else 'remember'
-            },
-            'viewpoint': {
-                'political_leaning': 'neutral',
-                'bias_score': round(random.uniform(0.1, 0.4), 2),
-                'credibility': round(random.uniform(0.6, 0.9), 2),
-                'balanced_sources': []
-            },
-            'recommendation': recommendation,
-            'confidence': round(random.uniform(0.75, 0.95), 2),
-            'processing_time': round(random.uniform(0.5, 2.0), 2),
-            'model': 'Mock-Demo'
-        }
 
-# Initialize BAML integration
+# Initialize real BAML integration (no fallbacks)
 if BAML_AVAILABLE:
-    baml_demo = ContentCurationPipeline()
     print("🚀 Using real BAML ContentCurationPipeline")
 else:
-    baml_demo = DemoBAMLIntegration()
-    print("⚠️  Using demo BAML integration")
+    print("⚠️  BAML not available - Using mock classification")
 
 # Routes
 
@@ -599,21 +421,18 @@ def classify_content():
             # Add strategy information to metadata
             strategy_info = curation_engine.get_strategy_info()
             
-            if True:  # Always successful with pluggable engine
-                result = {
-                    'safety': classification['safety'],
-                    'educational': educational_result,
-                    'viewpoint': viewpoint_result,
-                    'recommendation': classification.get('recommendation', 'allow'),
-                    'confidence': classification.get('overall_confidence', 0.8),
-                    'processing_time': curation_result.processing_time_ms / 1000.0,  # Convert to seconds
-                    'model': f"{strategy_info['strategy_name']} ({curation_result.strategy_used})",
-                    'strategy_info': strategy_info,
-                    'curation_metadata': curation_result.metadata
-                }
-        else:
-            # Use demo integration
-            result = loop.run_until_complete(baml_demo.classify_content(content, child_profile))
+            # Always use pluggable curation engine (no fallbacks)
+            result = {
+                'safety': classification['safety'],
+                'educational': educational_result,
+                'viewpoint': viewpoint_result,
+                'recommendation': classification.get('recommendation', 'allow'),
+                'confidence': classification.get('overall_confidence', 0.8),
+                'processing_time': curation_result.processing_time_ms / 1000.0,  # Convert to seconds
+                'model': f"{strategy_info['strategy_name']} ({curation_result.strategy_used})",
+                'strategy_info': strategy_info,
+                'curation_metadata': curation_result.metadata
+            }
         
         # Add metadata
         result['timestamp'] = datetime.now().isoformat()
@@ -649,6 +468,7 @@ def get_sample_content(category):
         return jsonify(DEMO_DATA['sample_content'][category])
     return jsonify({'error': 'Category not found'}), 404
 
+@app.route('/health')
 @app.route('/api/health')
 def health_check():
     """Health check endpoint."""

@@ -92,7 +92,7 @@ class LLMOnlyStrategy(CurationStrategyBase):
             logger.info("🧠 LLM-Only Strategy initialized with BAML")
         else:
             self.analyzer = None
-            logger.warning("⚠️ LLM-Only Strategy: BAML not available, using mock")
+            logger.error("❌ LLM-Only Strategy: BAML not available - strategy will fail")
     
     async def analyze_content(self, content: str, user_context: UserContext) -> CurationResult:
         start_time = time.time()
@@ -121,32 +121,13 @@ class LLMOnlyStrategy(CurationStrategyBase):
                     }
                 )
             else:
-                # Mock analysis for demo
-                return await self._mock_analysis(content, user_context, start_time)
+                # BAML not available - fail gracefully
+                raise ValueError("LLM-Only Strategy requires BAML but it's not available")
                 
         except Exception as e:
             logger.error(f"❌ LLM-Only Strategy failed: {e}")
-            return await self._mock_analysis(content, user_context, start_time)
+            raise
     
-    async def _mock_analysis(self, content: str, user_context: Any, start_time: float) -> CurationResult:
-        """Fallback mock analysis"""
-        # Simple rule-based mock
-        safety_score = 0.8
-        action = "allow"
-        
-        if any(word in content.lower() for word in ['violence', 'adult', 'hate', 'threat']):
-            safety_score = 0.3
-            action = "block"
-        
-        return CurationResult(
-            action=action,
-            reason="Mock LLM analysis",
-            confidence=0.6,
-            safety_score=safety_score,
-            processing_time_ms=int((time.time() - start_time) * 1000),
-            strategy_used="llm_only_mock",
-            metadata={"baml_used": False}
-        )
     
     def get_strategy_name(self) -> str:
         return "LLM-Only Strategy"
@@ -218,7 +199,7 @@ class SpecializedAILayer:
         """Return blocking result if specialized AI detects issues, None otherwise"""
         start_time = time.time()
         
-        # Mock toxicity detection
+        # Toxicity detection (placeholder implementation)
         toxicity_score = await self._mock_toxicity_analysis(content)
         if toxicity_score > self.toxicity_threshold:
             return CurationResult(
@@ -231,7 +212,7 @@ class SpecializedAILayer:
                 metadata={"ai_type": "toxicity", "toxicity_score": toxicity_score}
             )
         
-        # Mock NSFW detection
+        # NSFW detection (placeholder implementation)  
         nsfw_score = await self._mock_nsfw_analysis(content)
         if nsfw_score > self.nsfw_threshold:
             return CurationResult(
@@ -247,14 +228,14 @@ class SpecializedAILayer:
         return None  # Passed specialized AI checks
     
     async def _mock_toxicity_analysis(self, content: str) -> float:
-        """Mock Perspective API toxicity analysis"""
+        """Placeholder for Perspective API integration - replace with real toxicity detection"""
         # Simple heuristic for demo
         toxic_words = ['hate', 'kill', 'stupid', 'idiot', 'moron', 'threat']
         score = sum(1 for word in toxic_words if word in content.lower()) * 0.2
         return min(score, 1.0)
     
     async def _mock_nsfw_analysis(self, content: str) -> float:
-        """Mock NSFW content detection"""
+        """Placeholder for NSFW detection service - replace with real content analysis"""
         nsfw_words = ['sex', 'porn', 'naked', 'adult', 'explicit']
         score = sum(1 for word in nsfw_words if word in content.lower()) * 0.25
         return min(score, 1.0)
@@ -265,7 +246,7 @@ class MultiLayerStrategy(CurationStrategyBase):
     def __init__(self):
         self.fast_filter = FastFilterLayer()
         self.specialized_ai = SpecializedAILayer()
-        self.llm_fallback = LLMOnlyStrategy() if BAML_AVAILABLE else None
+        self.llm_strategy = LLMOnlyStrategy() if BAML_AVAILABLE else None
         self.cache = {}  # Simple in-memory cache
         logger.info("🏭 Multi-Layer Strategy initialized")
     
@@ -298,12 +279,26 @@ class MultiLayerStrategy(CurationStrategyBase):
         
         # Layer 3: LLM for complex cases (only if needed)
         if self._requires_llm_analysis(content, user_context):
-            if self.llm_fallback:
+            if self.llm_strategy:
                 logger.info("🧠 Multi-layer: Using LLM for complex analysis")
-                llm_result = await self.llm_fallback.analyze_content(content, user_context)
+                llm_result = await self.llm_strategy.analyze_content(content, user_context)
                 llm_result.strategy_used = "multi_layer_llm"
                 self.cache[cache_key] = llm_result
                 return llm_result
+            else:
+                # LLM needed but not available - use caution
+                logger.warning("⚠️ Multi-layer: LLM analysis needed but BAML not available")
+                result = CurationResult(
+                    action="caution",
+                    reason="Complex content requires LLM analysis but BAML is not available",
+                    confidence=0.5,
+                    safety_score=0.6,
+                    processing_time_ms=(time.time() - start_time) * 1000,
+                    strategy_used="multi_layer_cautious",
+                    metadata={"baml_required": True, "baml_available": False, "engine_strategy": "multi_layer"}
+                )
+                self.cache[cache_key] = result
+                return result
         
         # Default: Allow content that passed all checks
         result = CurationResult(
@@ -443,14 +438,14 @@ class CurationEngine:
         except Exception as e:
             logger.error(f"❌ Curation engine error: {e}")
             
-            # Fallback result
+            # Error handling - return cautious result
             return CurationResult(
                 action="caution",
                 reason=f"Engine error: {str(e)}",
                 confidence=0.0,
                 safety_score=0.5,
                 processing_time_ms=int((time.time() - start_time) * 1000),
-                strategy_used="fallback",
+                strategy_used="error_handling",
                 metadata={"error": str(e)}
             )
     

@@ -1,11 +1,12 @@
 # 🛡️ AI Curation Engine
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
-[![React](https://img.shields.io/badge/React-18+-blue.svg)](https://reactjs.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-Latest-green.svg)](https://www.mongodb.com/)
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org/)
+[![BAML](https://img.shields.io/badge/BAML-Real_Integration-green.svg)](https://www.boundaryml.com/)
+[![Ollama](https://img.shields.io/badge/Ollama-Llama_3.2-orange.svg)](https://ollama.ai/)
+[![No Fallbacks](https://img.shields.io/badge/Fallbacks-None-red.svg)](#)
 
-**AI-Powered Content Curation for Family Safety**
+**AI-Powered Content Curation with Real Local LLM Integration**
 
 A comprehensive solution for protecting families online through advanced AI content filtering, privacy-preserving age verification, and unbundled architecture inspired by India's Digital Public Infrastructure.
 
@@ -19,26 +20,35 @@ The AI Curation Engine separates content curation from content hosting, enabling
 
 ## ✨ Key Features
 
-### 🔐 Privacy-Preserving Technology
-- Zero-Knowledge Proof age verification
-- No personal data exposure or storage
-- End-to-end encryption for sensitive operations
+### 🤖 Real AI Integration (No Fallbacks)
+- **BAML + Llama 3.2**: Pure local LLM processing (no mock data)
+- **Pluggable Strategies**: LLM-Only, Multi-Layer, Hybrid approaches
+- **Real-time Analysis**: 5-10 second processing with detailed reasoning
+- **Strategy Switching**: Runtime selection of curation approaches
 
-### 🤖 Advanced AI Classification
-- Multi-dimensional content analysis (safety, educational value, bias)
-- Cognitive capability assessment for age-appropriate filtering
-- Real-time processing with confidence scoring
+### 🚀 Production-Ready Deployment
+- **One-Command Setup**: `./deploy_local.sh` starts everything
+- **Automated Scripts**: Build, test, monitor, and stop services
+- **Health Monitoring**: Comprehensive status checking
+- **Complete URLs**: All endpoints documented and accessible
+
+### 🎯 Advanced Content Classification
+- **Multi-dimensional Analysis**: Safety, educational value, political bias
+- **Age-Appropriate Filtering**: Dynamic content suitability assessment
+- **Confidence Scoring**: Transparent AI decision-making
+- **Performance Metrics**: Real-time processing time monitoring
 
 ### 👨‍👩‍👧‍👦 Family-Centric Design
-- Individual child profiles with customized settings
-- Parental dashboard with real-time insights
-- Educational content prioritization
+- **Individual Profiles**: Customized settings per child
+- **Interactive Testing**: Live content classification interface
+- **Educational Prioritization**: Learning-focused content promotion
+- **Transparent AI**: No black-box decisions
 
-### 🌍 Global Compliance
-- **EU**: GDPR data protection & DSA risk mitigation
-- **US**: COPPA compliance & state privacy laws
-- **India**: DPDPA consent management
-- **China**: Minor Mode restrictions
+### 🔒 Privacy & Security
+- **Local Processing**: No data sent to external services
+- **No API Keys**: Eliminates cloud dependency and exposure
+- **Real Analysis**: No hardcoded or mock responses
+- **Data Privacy**: All processing happens on your hardware
 
 ## 🏗️ Architecture
 
@@ -54,66 +64,116 @@ graph TB
 ```
 
 ### Core Components
-- **Frontend**: React/Next.js application with Material-UI
-- **Backend**: Express.js API with MongoDB database
-- **AI Classification**: Extensible content analysis pipeline
-- **Authentication**: JWT-based security with role management
+- **Demo Frontend**: Flask application with BAML integration
+- **Curation Engine**: Pluggable strategy architecture
+- **BAML Integration**: Real AI classification with Llama 3.2
+- **Local LLM**: Ollama server with no external dependencies
 
-## 🚀 Quick Start
+## 🚀 Quick Start (One Command!)
 
 ### Prerequisites
-- Node.js 18+
-- MongoDB
+- Python 3.8+
+- pip3
 - Git
 
-### Installation
+### Automated Deployment
 
-1. **Clone the repository**
+1. **Clone and Deploy**
    ```bash
-   git clone https://github.com/yourusername/ai-curation-engine.git
+   git clone https://github.com/gitmujoshi/ai-curation-engine.git
    cd ai-curation-engine
-   ```
-
-2. **Automated Setup**
-   ```bash
-   cd curation-engine-ui
-   chmod +x setup.sh
-   ./setup.sh
-   ```
-
-3. **Start Development**
-   ```bash
-   npm run dev:full
-   ```
-
-### Manual Setup
-
-1. **Install Dependencies**
-   ```bash
-   cd curation-engine-ui
-   npm install
-   ```
-
-2. **Configure Environment**
-   ```bash
-   cp env.example .env.local
-   # Edit .env.local with your configuration
-   ```
-
-3. **Start Services**
-   ```bash
-   # Terminal 1: Backend
-   npm run backend
    
-   # Terminal 2: Frontend
-   npm run dev
+   # One-command deployment!
+   ./deploy_local.sh
    ```
 
-## 📱 Application URLs
+2. **Access the App**
+   - **🧪 Content Tester**: `http://localhost:5001/content-test`
+   - **🏠 Main Demo**: `http://localhost:5001/`
+   - **❤️ Health Check**: `http://localhost:5001/health`
 
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:3001
-- **Database**: mongodb://localhost:27017/curation-engine
+3. **Test Real AI Classification**
+   ```bash
+   curl -X POST http://localhost:5001/api/classify \
+        -H "Content-Type: application/json" \
+        -d '{"content": "Educational content about science", "childId": "child_1"}'
+   ```
+
+### Available URLs After Deployment
+
+#### 🎯 Interactive Interfaces
+- **Content Tester**: `http://localhost:5001/content-test` ⭐
+- **Demo UI**: `http://localhost:5001/`
+
+#### 🔧 API Endpoints  
+- **Classification**: `POST http://localhost:5001/api/classify`
+- **Strategy Control**: `GET/POST http://localhost:5001/api/strategy`
+- **Health Status**: `GET http://localhost:5001/health`
+
+#### 🦙 Local AI Infrastructure
+- **Ollama API**: `http://localhost:11434`
+- **Models**: `http://localhost:11434/api/tags`
+
+### Management Commands
+```bash
+./deploy_local.sh     # 🚀 Start everything
+./status_check.sh     # 🔍 Check all services  
+./stop_services.sh    # 🛑 Stop all services
+./build_and_test.sh   # 🏗️ Validate build
+```
+
+## 🎮 Curation Strategies
+
+### LLM-Only Strategy
+- **Processing**: 5-10 seconds
+- **Accuracy**: Highest
+- **Use Case**: Complex content requiring detailed analysis
+
+### Multi-Layer Strategy  
+- **Processing**: 0.1-5 seconds
+- **Efficiency**: Optimized performance
+- **Use Case**: High-volume content filtering
+
+### Hybrid Strategy
+- **Processing**: 1-8 seconds (adaptive)
+- **Intelligence**: Automatic strategy selection
+- **Use Case**: Balanced speed/accuracy requirements
+
+## 🔄 Real-Time Strategy Switching
+
+Switch strategies without restart:
+```bash
+# Switch to multi-layer for performance
+curl -X POST http://localhost:5001/api/strategy \
+     -H "Content-Type: application/json" \
+     -d '{"strategy": "multi_layer"}'
+
+# Switch to LLM-only for accuracy  
+curl -X POST http://localhost:5001/api/strategy \
+     -H "Content-Type: application/json" \
+     -d '{"strategy": "llm_only"}'
+```
+
+## 📱 Complete Application URLs
+
+### 🎯 Interactive Interfaces
+- **🧪 Content Tester**: `http://localhost:5001/content-test` ⭐ (Best starting point)
+- **🏠 Demo UI**: `http://localhost:5001/`
+- **❤️ Health Check**: `http://localhost:5001/health`
+
+### 🔧 API Endpoints
+- **🤖 Content Classification**: `POST http://localhost:5001/api/classify`
+- **⚙️ Strategy Management**: `GET/POST http://localhost:5001/api/strategy`
+- **👥 Child Profiles**: `GET http://localhost:5001/api/children`
+
+### 🦙 Local AI Infrastructure
+- **🔗 Ollama API**: `http://localhost:11434`
+- **📋 Models List**: `http://localhost:11434/api/tags`
+
+### 📊 Monitoring & Logs
+- **Frontend Logs**: `tail -f logs/demo-frontend.log`
+- **Ollama Logs**: `tail -f logs/ollama.log`
+- **BAML Logs**: `tail -f logs/baml-generate.log`
 
 ## 📊 Project Structure
 
