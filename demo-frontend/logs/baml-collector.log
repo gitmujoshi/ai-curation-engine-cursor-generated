@@ -37094,3 +37094,175 @@ Log: FunctionLog(id=bfcall_01k65gggwhf2k8sbgb5hx4x0j6, function_name=Comprehensi
   "recommendation": "block",
   "summary_reasoning": "The content contains mature themes and is not suitable for all audiences.")
 ----------------------------------------
+2025-09-27T08:52:46.816601 - BAML Function Called
+Content: Space exploration has led to many amazing discover...
+Collector ID: <built-in method id of baml_py.baml_py.Collector object at 0x103fc57d0>
+Collector Last: FunctionLog(id=bfcall_01k65kq1czeqesjffys4bt7yhg, function_name=ComprehensiveContentAnalysis, type=call, timing=Timing(start_time_utc_ms=1758977557919, duration_ms=8895), usage=Usage(input_tokens=627, output_tokens=292, cached_input_tokens=None), calls=[LLMCall(provider=openai, client_name=Ollama, selected=true, usage=Usage(input_tokens=627, output_tokens=292, cached_input_tokens=None), timing=Timing(start_time_utc_ms=1758977557921, duration_ms=8893), http_request=HTTPRequest(url=http://localhost:11434/v1/chat/completions, method=POST, headers={
+  "baml-original-url": "http://localhost:11434/v1",
+  "authorization": "Bearer ollama",
+  "content-type": "application/json"
+}, body={
+  "model": "llama3.2:latest",
+  "temperature": 0.1,
+  "max_tokens": 800,
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Analyze this content and return ONLY valid JSON. No explanations, no disclaimers, just JSON.\n\nContent: Space exploration has led to many amazing discoveries. The International Space Station orbits Earth every 90 minutes. Astronauts conduct experiments in microgravity that help us understand physics, biology, and materials science. Future missions to Mars will require new technologies for life support and transportation.\nAge: UNDER_13\n\nAnswer in JSON using this schema:\n{\n  safety: {\n    // Overall safety score from 0.0 to 1.0\n    safety_score: float,\n    // Violence content level from 0.0 to 1.0\n    violence_level: float,\n    // Contains adult/sexual content\n    adult_content: bool,\n    // Hate speech detection score from 0.0 to 1.0\n    hate_speech: float,\n    // Risk of misinformation from 0.0 to 1.0\n    misinformation_risk: float,\n    // Recommended minimum age\n    age_appropriateness: string,\n    // Explanation of the safety assessment\n    reasoning: string,\n    // List of specific content warnings\n    content_warnings: string[],\n  },\n  educational: {\n    // Educational value score from 0.0 to 1.0\n    educational_score: float,\n    // Identified learning objectives\n    learning_objectives: string[],\n    // Academic subject areas covered\n    subject_areas: string[],\n    // Cognitive complexity level\n    cognitive_level: string,\n    // Grade-level reading difficulty\n    reading_level: int,\n    // Factual accuracy assessment from 0.0 to 1.0\n    factual_accuracy: float,\n    // Explanation of the educational assessment\n    reasoning: string,\n  },\n  viewpoint: {\n    // Political leaning (left, right, neutral)\n    political_leaning: string,\n    // Overall bias score from 0.0 to 1.0\n    bias_score: float,\n    // Diversity of perspectives from 0.0 to 1.0\n    perspective_diversity: float,\n    // Level of controversy from 0.0 to 1.0\n    controversy_level: float,\n    // Source credibility from 0.0 to 1.0\n    source_credibility: float,\n    // Explanation of the viewpoint assessment\n    reasoning: string,\n  },\n  // Overall confidence score from 0.0 to 1.0\n  overall_confidence: float,\n  // Final recommendation: allow, caution, or block\n  recommendation: string,\n  // Summary of the comprehensive analysis\n  summary_reasoning: string,\n}\n\nRules:\n- Return ONLY the JSON object above\n- For mature content: safety_score < 0.5, adult_content = true, recommendation = \"block\"  \n- For safe content: safety_score > 0.7, recommendation = \"allow\"\n- Always include reasoning in the reasoning fields"
+        }
+      ]
+    }
+  ]
+}), http_response=HTTPResponse(status=200, headers={
+  "date": "Sat, 27 Sep 2025 12:52:46 GMT",
+  "content-type": "application/json",
+  "content-length": "1463"
+}, body={
+  "id": "chatcmpl-433",
+  "object": "chat.completion",
+  "created": 1758977566,
+  "model": "llama3.2:latest",
+  "system_fingerprint": "fp_ollama",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"safety\": {\n    \"safety_score\": 1,\n    \"violence_level\": 0,\n    \"adult_content\": false,\n    \"hate_speech\": 0,\n    \"misinformation_risk\": 0,\n    \"age_appropriateness\": \"UNDER_13\",\n    \"reasoning\": \"The content is suitable for children under 13.\",\n    \"content_warnings\": []\n  },\n  \"educational\": {\n    \"educational_score\": 1,\n    \"learning_objectives\": [\n      \"Understanding physics, biology, and materials science\"\n    ],\n    \"subject_areas\": [\n      \"Science\",\n      \"Technology\"\n    ],\n    \"cognitive_level\": \"Advanced\",\n    \"reading_level\": 9,\n    \"factual_accuracy\": 1,\n    \"reasoning\": \"The content is highly educational and accurate.\"\n  },\n  \"viewpoint\": {\n    \"political_leaning\": \"Neutral\",\n    \"bias_score\": 0,\n    \"perspective_diversity\": 1,\n    \"controversy_level\": 0,\n    \"source_credibility\": 1,\n    \"reasoning\": \"The content presents a balanced and credible view.\"\n  },\n  \"overall_confidence\": 1,\n  \"recommendation\": \"allow\",\n  \"summary_reasoning\": \"The comprehensive analysis concludes that the content is safe, educational, and unbiased.\""
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 627,
+    "completion_tokens": 292,
+    "total_tokens": 919
+  }
+}))>], raw_llm_response={
+  "safety": {
+    "safety_score": 1,
+    "violence_level": 0,
+    "adult_content": false,
+    "hate_speech": 0,
+    "misinformation_risk": 0,
+    "age_appropriateness": "UNDER_13",
+    "reasoning": "The content is suitable for children under 13.",
+    "content_warnings": []
+  },
+  "educational": {
+    "educational_score": 1,
+    "learning_objectives": [
+      "Understanding physics, biology, and materials science"
+    ],
+    "subject_areas": [
+      "Science",
+      "Technology"
+    ],
+    "cognitive_level": "Advanced",
+    "reading_level": 9,
+    "factual_accuracy": 1,
+    "reasoning": "The content is highly educational and accurate."
+  },
+  "viewpoint": {
+    "political_leaning": "Neutral",
+    "bias_score": 0,
+    "perspective_diversity": 1,
+    "controversy_level": 0,
+    "source_credibility": 1,
+    "reasoning": "The content presents a balanced and credible view."
+  },
+  "overall_confidence": 1,
+  "recommendation": "allow",
+  "summary_reasoning": "The comprehensive analysis concludes that the content is safe, educational, and unbiased.")
+Logs Count: 1
+==================================================
+2025-09-27T08:52:46.817066 - BAML Function Call:
+Function: ComprehensiveContentAnalysis
+Content: Space exploration has led to many amazing discoveries. The International Space Station orbits Earth ...
+Collector ID: <built-in method id of baml_py.baml_py.Collector object at 0x103fc57d0>
+================================================================================
+2025-09-27T08:52:46.817094 - BAML Log Entry:
+Log: FunctionLog(id=bfcall_01k65kq1czeqesjffys4bt7yhg, function_name=ComprehensiveContentAnalysis, type=call, timing=Timing(start_time_utc_ms=1758977557919, duration_ms=8895), usage=Usage(input_tokens=627, output_tokens=292, cached_input_tokens=None), calls=[LLMCall(provider=openai, client_name=Ollama, selected=true, usage=Usage(input_tokens=627, output_tokens=292, cached_input_tokens=None), timing=Timing(start_time_utc_ms=1758977557921, duration_ms=8893), http_request=HTTPRequest(url=http://localhost:11434/v1/chat/completions, method=POST, headers={
+  "baml-original-url": "http://localhost:11434/v1",
+  "authorization": "Bearer ollama",
+  "content-type": "application/json"
+}, body={
+  "model": "llama3.2:latest",
+  "temperature": 0.1,
+  "max_tokens": 800,
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Analyze this content and return ONLY valid JSON. No explanations, no disclaimers, just JSON.\n\nContent: Space exploration has led to many amazing discoveries. The International Space Station orbits Earth every 90 minutes. Astronauts conduct experiments in microgravity that help us understand physics, biology, and materials science. Future missions to Mars will require new technologies for life support and transportation.\nAge: UNDER_13\n\nAnswer in JSON using this schema:\n{\n  safety: {\n    // Overall safety score from 0.0 to 1.0\n    safety_score: float,\n    // Violence content level from 0.0 to 1.0\n    violence_level: float,\n    // Contains adult/sexual content\n    adult_content: bool,\n    // Hate speech detection score from 0.0 to 1.0\n    hate_speech: float,\n    // Risk of misinformation from 0.0 to 1.0\n    misinformation_risk: float,\n    // Recommended minimum age\n    age_appropriateness: string,\n    // Explanation of the safety assessment\n    reasoning: string,\n    // List of specific content warnings\n    content_warnings: string[],\n  },\n  educational: {\n    // Educational value score from 0.0 to 1.0\n    educational_score: float,\n    // Identified learning objectives\n    learning_objectives: string[],\n    // Academic subject areas covered\n    subject_areas: string[],\n    // Cognitive complexity level\n    cognitive_level: string,\n    // Grade-level reading difficulty\n    reading_level: int,\n    // Factual accuracy assessment from 0.0 to 1.0\n    factual_accuracy: float,\n    // Explanation of the educational assessment\n    reasoning: string,\n  },\n  viewpoint: {\n    // Political leaning (left, right, neutral)\n    political_leaning: string,\n    // Overall bias score from 0.0 to 1.0\n    bias_score: float,\n    // Diversity of perspectives from 0.0 to 1.0\n    perspective_diversity: float,\n    // Level of controversy from 0.0 to 1.0\n    controversy_level: float,\n    // Source credibility from 0.0 to 1.0\n    source_credibility: float,\n    // Explanation of the viewpoint assessment\n    reasoning: string,\n  },\n  // Overall confidence score from 0.0 to 1.0\n  overall_confidence: float,\n  // Final recommendation: allow, caution, or block\n  recommendation: string,\n  // Summary of the comprehensive analysis\n  summary_reasoning: string,\n}\n\nRules:\n- Return ONLY the JSON object above\n- For mature content: safety_score < 0.5, adult_content = true, recommendation = \"block\"  \n- For safe content: safety_score > 0.7, recommendation = \"allow\"\n- Always include reasoning in the reasoning fields"
+        }
+      ]
+    }
+  ]
+}), http_response=HTTPResponse(status=200, headers={
+  "date": "Sat, 27 Sep 2025 12:52:46 GMT",
+  "content-type": "application/json",
+  "content-length": "1463"
+}, body={
+  "id": "chatcmpl-433",
+  "object": "chat.completion",
+  "created": 1758977566,
+  "model": "llama3.2:latest",
+  "system_fingerprint": "fp_ollama",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"safety\": {\n    \"safety_score\": 1,\n    \"violence_level\": 0,\n    \"adult_content\": false,\n    \"hate_speech\": 0,\n    \"misinformation_risk\": 0,\n    \"age_appropriateness\": \"UNDER_13\",\n    \"reasoning\": \"The content is suitable for children under 13.\",\n    \"content_warnings\": []\n  },\n  \"educational\": {\n    \"educational_score\": 1,\n    \"learning_objectives\": [\n      \"Understanding physics, biology, and materials science\"\n    ],\n    \"subject_areas\": [\n      \"Science\",\n      \"Technology\"\n    ],\n    \"cognitive_level\": \"Advanced\",\n    \"reading_level\": 9,\n    \"factual_accuracy\": 1,\n    \"reasoning\": \"The content is highly educational and accurate.\"\n  },\n  \"viewpoint\": {\n    \"political_leaning\": \"Neutral\",\n    \"bias_score\": 0,\n    \"perspective_diversity\": 1,\n    \"controversy_level\": 0,\n    \"source_credibility\": 1,\n    \"reasoning\": \"The content presents a balanced and credible view.\"\n  },\n  \"overall_confidence\": 1,\n  \"recommendation\": \"allow\",\n  \"summary_reasoning\": \"The comprehensive analysis concludes that the content is safe, educational, and unbiased.\""
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 627,
+    "completion_tokens": 292,
+    "total_tokens": 919
+  }
+}))>], raw_llm_response={
+  "safety": {
+    "safety_score": 1,
+    "violence_level": 0,
+    "adult_content": false,
+    "hate_speech": 0,
+    "misinformation_risk": 0,
+    "age_appropriateness": "UNDER_13",
+    "reasoning": "The content is suitable for children under 13.",
+    "content_warnings": []
+  },
+  "educational": {
+    "educational_score": 1,
+    "learning_objectives": [
+      "Understanding physics, biology, and materials science"
+    ],
+    "subject_areas": [
+      "Science",
+      "Technology"
+    ],
+    "cognitive_level": "Advanced",
+    "reading_level": 9,
+    "factual_accuracy": 1,
+    "reasoning": "The content is highly educational and accurate."
+  },
+  "viewpoint": {
+    "political_leaning": "Neutral",
+    "bias_score": 0,
+    "perspective_diversity": 1,
+    "controversy_level": 0,
+    "source_credibility": 1,
+    "reasoning": "The content presents a balanced and credible view."
+  },
+  "overall_confidence": 1,
+  "recommendation": "allow",
+  "summary_reasoning": "The comprehensive analysis concludes that the content is safe, educational, and unbiased.")
+----------------------------------------
