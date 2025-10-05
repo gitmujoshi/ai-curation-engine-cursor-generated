@@ -12,9 +12,8 @@
 
 **Addressing Current Technology Risks and Implementing Protective Solutions**
 
-*Presented to: Authorities, Policymakers, and Society*  
-*Date: January 2025*  
-*Organization: AI Safety Research Initiative*
+*Presentation Template for Authorities, Policymakers, and Society*  
+*Organization: AI Safety Research Project*
 
 ---
 
