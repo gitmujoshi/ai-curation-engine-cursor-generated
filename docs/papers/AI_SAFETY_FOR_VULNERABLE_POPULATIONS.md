@@ -23,7 +23,7 @@ This document presents a comprehensive AI Safety framework specifically designed
 
 ### The Digital Safety Crisis
 
-The digital age has brought unprecedented access to information and connectivity, but it has also created new vulnerabilities for those who need protection most. Over 1.3 billion children worldwide use the internet daily, with 71% going online despite inadequate safety measures. Traditional content filtering systems fail to address the nuanced needs of vulnerable populations, often either being too restrictive (blocking 15-30% of educational content) or too permissive (allowing harmful content through).
+The digital age has brought unprecedented access to information and connectivity, but it has also created new vulnerabilities for those who need protection most. Hundreds of millions of children worldwide use the internet regularly, with many encountering harmful content despite existing safety measures. Traditional content filtering systems fail to address the nuanced needs of vulnerable populations, often either being too restrictive (blocking legitimate educational content) or too permissive (allowing harmful content through).
 
 ### The Need for Specialized AI Safety
 
@@ -460,6 +460,6 @@ The success of this approach depends on continued research, development, and col
 
 **Document Version**: 1.0  
 **Last Updated**: January 2025  
-**Authors**: AI Safety Research Team  
+**Authors**: Project Contributors  
 **License**: Creative Commons Attribution 4.0 International
 

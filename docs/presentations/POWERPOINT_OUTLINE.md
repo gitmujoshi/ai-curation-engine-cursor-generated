@@ -5,15 +5,14 @@
 ### Slide 1: Title Slide
 **Title:** AI Safety for Vulnerable Populations: Protecting Our Most At-Risk Digital Citizens
 **Subtitle:** Addressing Current Technology Risks and Implementing Protective Solutions
-**Presented to:** Authorities, Policymakers, and Society
-**Date:** January 2025
-**Organization:** AI Safety Research Initiative
+**Template for:** Authorities, Policymakers, and Society
+**Organization:** AI Safety Research Project
 
 ### Slide 2: Executive Summary
 **Key Points:**
-- 1.3 billion children worldwide use the internet daily
-- 71% of children encounter harmful content despite existing protections
-- $3.1 billion lost annually to elderly-targeted scams
+- Hundreds of millions of children worldwide use the internet regularly
+- Many children encounter harmful content despite existing protections
+- Billions of dollars lost annually to elderly-targeted scams
 - Privacy-first AI safety system with local processing
 - Adaptive protection based on individual vulnerability factors
 
@@ -27,9 +26,9 @@
 ### Slide 4: The Scale of the Problem
 **Visual Elements:** Data table, pie charts, bar graphs
 **Statistics Table:**
-- Children (Under 18): 1.3B worldwide, 60% encounter harmful content
-- Elderly (65+): 600M+ globally, 1 in 5 experience online fraud, $3.1B losses
-- Cognitively Impaired: 15% of population, 3x higher exploitation risk
+- Children (Under 18): Hundreds of millions worldwide, many encounter harmful content
+- Elderly (65+): 600M+ globally, significant portion experience online fraud, billions in losses
+- Cognitively Impaired: 15% of population, higher exploitation risk
 
 ### Slide 5: Current Technology Failures
 **Visual Elements:** Problem icons, comparison charts
