@@ -4,7 +4,7 @@
 
 ## Abstract
 
-Protecting children and vulnerable populations online requires sophisticated content filtering that balances safety with privacy and educational value. This paper presents a privacy-first AI system designed specifically for family-safe content filtering, eliminating reliance on external services that expose sensitive user data. Our system leverages large language models (Llama 3.2) running locally with structured AI interactions through Boundary Markup Language (BAML) to provide nuanced content analysis while keeping all data processing local to the family environment.
+Protecting children and vulnerable populations online requires sophisticated content filtering that balances safety with privacy and educational value. This paper presents a privacy-first AI system designed specifically for family-safe content filtering, eliminating reliance on external services that expose sensitive user data. Our system leverages large language models (Llama 3.2) running locally with structured AI interactions through Boundary's AI Markup Language (BAML) to provide nuanced content analysis while keeping all data processing local to the family environment.
 
 The system implements three pluggable curation strategies—LLM-Only, Multi-Layer, and Hybrid—that can be switched at runtime to balance accuracy and performance based on content complexity and user context. Real-world evaluation demonstrates processing times of 5-10 seconds for comprehensive content analysis, with intelligent routing achieving sub-second filtering for 40% of content through fast-path optimization.
 

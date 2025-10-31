@@ -220,7 +220,7 @@ pip install flask pymongo bcrypt pyjwt
 
 ### **Long-term (3-6 months)**
 1. **Enterprise features** (multi-tenant, SSO)
-2. **Platform integrations** (YouTube, TikTok, etc.)
+2. **Device-level filter app** integrations (mobile apps, browser extensions)
 3. **Machine learning** pipeline improvements
 4. **Global compliance** features
 

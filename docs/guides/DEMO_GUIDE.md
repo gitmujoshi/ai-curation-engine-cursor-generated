@@ -366,7 +366,7 @@ After the demo, consider:
 4. **Implement CI/CD** pipelines
 
 ### Integration
-1. **Connect to content platforms** (YouTube, TikTok, etc.)
+1. **Integrate device-level filter apps** (mobile apps, browser extensions, etc.)
 2. **Add more AI models** for better accuracy
 3. **Implement user authentication** for real families
 4. **Add mobile applications** for on-the-go management

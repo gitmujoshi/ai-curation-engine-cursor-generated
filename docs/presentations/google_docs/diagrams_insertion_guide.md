@@ -4,7 +4,7 @@
 
 ### Presentation Diagrams (docs/presentations/diagrams/)
 1. **reference_solution_architecture.png** - Ecosystem integration architecture
-2. **social_media_platform_integration.png** - YouTube integration example  
+2. **social_media_platform_integration.png** - Device-level content filter app example  
 3. **educational_platform_integration.png** - Khan Academy integration
 4. **family_router_integration.png** - Home network protection
 5. **_the_misinformation_cascade_effect.png** - Misinformation spread cycle

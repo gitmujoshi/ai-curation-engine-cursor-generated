@@ -376,8 +376,8 @@ Cognitive Support Profile:
 ```mermaid
 graph TB
     subgraph "📱 Content Creation Layer"
-        CREATORS[👨‍🎨 Content Creators<br/>• YouTubers, Bloggers<br/>• News Publishers<br/>• Educational Content<br/>• Social Media Users]
-        PLATFORMS[🏢 Content Platforms<br/>• YouTube, TikTok<br/>• Facebook, Instagram<br/>• News Websites<br/>• Educational Sites]
+        CREATORS[👨‍🎨 Content Creators<br/>• Video Creators, Bloggers<br/>• News Publishers<br/>• Educational Content<br/>• Social Media Users]
+        PLATFORMS[🏢 Content Platforms<br/>• Social Media Apps<br/>• Video Streaming Services<br/>• News Websites<br/>• Educational Sites<br/>• Web Browsers]
     end
     
     subgraph "🛡️ AI Curation Engine (Our Solution)"
@@ -524,28 +524,32 @@ class BrazilComplianceHandler implements ComplianceHandler {
 
 ### 🔧 Real-World Integration Scenarios
 
-#### **Social Media Platform Integration**
+#### **Device-Level Content Filter App Integration**
 
 ```mermaid
 graph LR
-    subgraph "YouTube Integration Example"
-        USER[👤 User Uploads Video]
-        YOUTUBE[📺 YouTube Platform]
-        CURATION[🛡️ AI Curation Engine]
-        RESULT[✅ Age-Appropriate Result]
+    subgraph "Third-Party Filter App Example"
+        USER[👤 User Device]
+        PLATFORMS[📱 Multiple Platforms<br/>• Social Media<br/>• Video Sites<br/>• News Apps<br/>• Web Browsing]
+        FILTER_APP[🛡️ ContentFilter App<br/>Third-Party Device Filter]
+        CURATION[🤖 AI Curation Engine]
+        RESULT[✅ Filtered Content<br/>Age-Appropriate Only]
     end
     
-    USER --> YOUTUBE
-    YOUTUBE --> CURATION
+    USER --> PLATFORMS
+    PLATFORMS --> FILTER_APP
+    FILTER_APP --> CURATION
     CURATION --> RESULT
     RESULT --> USER
 ```
 
 **Implementation:**
-- **API Call**: YouTube calls our curation API before publishing
-- **Analysis**: AI analyzes video content, metadata, and comments
+- **Device-Level Interception**: Filter app intercepts all incoming/outgoing content from device
+- **API Integration**: Filter app calls our curation API for all content analysis
+- **Analysis**: AI analyzes content, metadata, and context in real-time
 - **Decision**: Age-appropriate classification and safety scoring
-- **Action**: Platform applies appropriate restrictions based on user age
+- **Action**: Filter app blocks or allows content based on user profile and safety score
+- **Universal Coverage**: Works across all apps and platforms without platform-specific integration
 
 #### **Educational Platform Integration**
 
@@ -1021,7 +1025,7 @@ interface CurationResult {
 
 ### **Technical Implementation**
 
-19. **BoundaryML Documentation (2024)**. "Boundary Markup Language: Structured LLM Interactions." Available at: https://boundaryml.com/docs
+19. **BoundaryML Documentation (2024)**. "Boundary's AI Markup Language: Structured LLM Interactions." Available at: https://boundaryml.com/docs
 
 20. **Ollama (2024)**. "Run Large Language Models Locally." Available at: https://ollama.ai
 
