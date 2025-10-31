@@ -90,14 +90,14 @@ graph TB
     style UC fill:#A23B72,stroke:#6F2550,stroke-width:2px,color:#fff
     style UP fill:#F18F01,stroke:#B86700,stroke-width:2px,color:#fff
     style CA fill:#6C5CE7,stroke:#4834A3,stroke-width:2px,color:#fff
-    style CF fill:#00D2D3,stroke:#009FA0,stroke-width:2px,color:#fff
+    style CF fill:#009FA0,stroke:#007A7B,stroke-width:2px,color:#fff
     style DO fill:#FF6B6B,stroke:#CC5555,stroke-width:2px,color:#fff
     style BML fill:#FFD93D,stroke:#CCAE31,stroke-width:3px,color:#000
     style ZKP fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
     style BIO fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
-    style AUTH fill:#00D2D3,stroke:#009FA0,stroke-width:2px,color:#fff
+    style AUTH fill:#009FA0,stroke:#007A7B,stroke-width:2px,color:#fff
     style CAPI fill:#EE5A6F,stroke:#BB4757,stroke-width:2px,color:#fff
-    style META fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style META fill:#0888AB,stroke:#066A7A,stroke-width:2px,color:#fff
     style ANAL fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
     style COMP fill:#FF6348,stroke:#CC4E3A,stroke-width:2px,color:#fff
     style ID fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
@@ -386,7 +386,7 @@ flowchart TD
     style OUTPUT fill:#F0FDF4,stroke:#10AC84,stroke-width:3px
     
     style TXT fill:#2E86AB,stroke:#1A4D6B,stroke-width:2px,color:#fff
-    style VID fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style VID fill:#0888AB,stroke:#066A7A,stroke-width:2px,color:#fff
     style IMG fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
     style DOC fill:#6C5CE7,stroke:#4834A3,stroke-width:2px,color:#fff
     style SAFE fill:#FF6B6B,stroke:#CC5555,stroke-width:2px,color:#fff
@@ -796,7 +796,7 @@ graph TB
     style VIOLENCE fill:#FF6348,stroke:#CC4E3A,stroke-width:2px,color:#fff
     style EDUCATIONAL fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
     style VIEWPOINT fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
-    style SOURCE fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style SOURCE fill:#0888AB,stroke:#066A7A,stroke-width:2px,color:#fff
     style ECHO fill:#FFD93D,stroke:#CCAE31,stroke-width:2px,color:#000
     style COMBINE fill:#6C5CE7,stroke:#4834A3,stroke-width:2px,color:#fff
     style SCORE fill:#EE5A6F,stroke:#BB4757,stroke-width:2px,color:#fff
@@ -1280,7 +1280,7 @@ Reporter]
     VALIDATOR --> REPORTER
     
     %% Professional compliance color scheme
-    style GDPR fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style GDPR fill:#0888AB,stroke:#066A7A,stroke-width:2px,color:#fff
     style DSA fill:#2E86AB,stroke:#1A4D6B,stroke-width:2px,color:#fff
     style COPPA fill:#FF6B6B,stroke:#CC5555,stroke-width:2px,color:#fff
     style STATE fill:#EE5A6F,stroke:#BB4757,stroke-width:2px,color:#fff
@@ -1722,7 +1722,7 @@ graph TB
     style KEYS fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
     style PROOF fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
     style NETWORK fill:#2E86AB,stroke:#1A4D6B,stroke-width:2px,color:#fff
-    style CONTAINER fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style CONTAINER fill:#0888AB,stroke:#066A7A,stroke-width:2px,color:#fff
     style MONITOR fill:#EE5A6F,stroke:#BB4757,stroke-width:2px,color:#fff
     style ENCRYPT fill:#FF6348,stroke:#CC4E3A,stroke-width:2px,color:#fff
     style PRIVACY fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
@@ -1834,26 +1834,26 @@ graph TB
     
     %% Professional infrastructure color scheme
     style CDN fill:#2E86AB,stroke:#1A4D6B,stroke-width:3px,color:#fff
-    style LB fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style LB fill:#0888AB,stroke:#066A7A,stroke-width:2px,color:#fff
     style WAF fill:#FF6348,stroke:#CC4E3A,stroke-width:2px,color:#fff
     
     style US_K8S fill:#6C5CE7,stroke:#4834A3,stroke-width:2px,color:#fff
     style US_ZKP fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
-    style US_API fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style US_API fill:#0888AB,stroke:#066A7A,stroke-width:2px,color:#fff
     style US_BML fill:#FFD93D,stroke:#CCAE31,stroke-width:2px,color:#000
     style US_DB fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
     style US_CACHE fill:#FF6B6B,stroke:#CC5555,stroke-width:2px,color:#fff
     
     style EU_K8S fill:#6C5CE7,stroke:#4834A3,stroke-width:2px,color:#fff
     style EU_ZKP fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
-    style EU_API fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style EU_API fill:#0888AB,stroke:#066A7A,stroke-width:2px,color:#fff
     style EU_BML fill:#FFD93D,stroke:#CCAE31,stroke-width:2px,color:#000
     style EU_DB fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
     style EU_CACHE fill:#FF6B6B,stroke:#CC5555,stroke-width:2px,color:#fff
     
     style AS_K8S fill:#6C5CE7,stroke:#4834A3,stroke-width:2px,color:#fff
     style AS_ZKP fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
-    style AS_API fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style AS_API fill:#0888AB,stroke:#066A7A,stroke-width:2px,color:#fff
     style AS_BML fill:#FFD93D,stroke:#CCAE31,stroke-width:2px,color:#000
     style AS_DB fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
     style AS_CACHE fill:#FF6B6B,stroke:#CC5555,stroke-width:2px,color:#fff
