@@ -33,36 +33,36 @@ Create an unbundled content curation system that separates the algorithmic filte
 
 ```mermaid
 graph TB
-    subgraph "User Layer"
-        UI[👤 User Interface]
-        UC[🔧 User Controls]
-        UP[⚙️ User Preferences]
+    subgraph "👤 User Layer"
+        UI["👤 User Interface<br/>Web & Mobile Apps"]
+        UC["🔧 User Controls<br/>Preferences & Settings"]
+        UP["⚙️ User Preferences<br/>Customization"]
     end
     
-    subgraph "AI Curation Engine"
-        CA[🧠 Cognitive Assessment]
-        CF[🔍 Content Filter]
-        DO[🎯 Diversity Optimizer]
-        BML[🤖 BoundaryML Classifier]
+    subgraph "🤖 AI Curation Engine Core"
+        CA["🧠 Cognitive Assessment<br/>Age-Appropriate Analysis"]
+        CF["🔍 Content Filter<br/>Safety Classification"]
+        DO["🎯 Diversity Optimizer<br/>Anti-Echo Chamber"]
+        BML["🤖 BoundaryML Classifier<br/>LLM-Powered Analysis"]
     end
     
-    subgraph "Privacy-Preserving Age Gating"
-        ZKP[🔐 ZKP Age Verification]
-        BIO[👁️ Biometric Liveness]
-        AUTH[🛡️ Authentication Layer]
+    subgraph "🔐 Privacy-Preserving Layer"
+        ZKP["🔐 ZKP Age Verification<br/>Zero-Knowledge Proofs"]
+        BIO["👁️ Biometric Liveness<br/>Identity Verification"]
+        AUTH["🛡️ Authentication<br/>Secure Access Control"]
     end
     
-    subgraph "Platform Integration"
-        CAPI[📡 Content API]
-        META[📊 Metadata API]
-        ANAL[📈 Analytics Engine]
-        COMP[⚖️ Compliance Monitor]
+    subgraph "🌐 Platform Integration"
+        CAPI["📡 Content API<br/>Real-Time Processing"]
+        META["📊 Metadata API<br/>Content Enrichment"]
+        ANAL["📈 Analytics Engine<br/>Performance Monitoring"]
+        COMP["⚖️ Compliance Monitor<br/>Regulatory Adherence"]
     end
     
-    subgraph "External Systems"
-        ID[🆔 Identity Providers]
-        PLAT[🌐 Content Platforms]
-        REG[🏛️ Regulatory Systems]
+    subgraph "🔗 External Systems"
+        ID["🆔 Identity Providers<br/>Aadhaar, eID, National IDs"]
+        PLAT["🌐 Content Platforms<br/>Social Media, News, Video"]
+        REG["🏛️ Regulatory Systems<br/>GDPR, COPPA, DPDPA"]
     end
     
     UI --> CA
@@ -85,11 +85,24 @@ graph TB
     CF --> ANAL
     DO --> COMP
     
-    style UI fill:#e1f5fe
-    style CA fill:#f3e5f5
-    style BML fill:#fff3e0
-    style ZKP fill:#e8f5e8
-    style COMP fill:#fce4ec
+    %% Professional color scheme
+    style UI fill:#2E86AB,stroke:#1A4D6B,stroke-width:2px,color:#fff
+    style UC fill:#A23B72,stroke:#6F2550,stroke-width:2px,color:#fff
+    style UP fill:#F18F01,stroke:#B86700,stroke-width:2px,color:#fff
+    style CA fill:#6C5CE7,stroke:#4834A3,stroke-width:2px,color:#fff
+    style CF fill:#00D2D3,stroke:#009FA0,stroke-width:2px,color:#fff
+    style DO fill:#FF6B6B,stroke:#CC5555,stroke-width:2px,color:#fff
+    style BML fill:#FFD93D,stroke:#CCAE31,stroke-width:3px,color:#000
+    style ZKP fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style BIO fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
+    style AUTH fill:#00D2D3,stroke:#009FA0,stroke-width:2px,color:#fff
+    style CAPI fill:#EE5A6F,stroke:#BB4757,stroke-width:2px,color:#fff
+    style META fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style ANAL fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
+    style COMP fill:#FF6348,stroke:#CC4E3A,stroke-width:2px,color:#fff
+    style ID fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style PLAT fill:#2E86AB,stroke:#1A4D6B,stroke-width:2px,color:#fff
+    style REG fill:#A23B72,stroke:#6F2550,stroke-width:2px,color:#fff
 ```
 
 **Alternative ASCII Diagram:**
@@ -237,11 +250,15 @@ Global Adult]
     GDPR --> TOKEN
     GLOBAL --> TOKEN
     
-    style AADHAAR fill:#e8f5e8
-    style EID fill:#e3f2fd
-    style NATIONAL fill:#fff3e0
-    style CIRCUIT fill:#f3e5f5
-    style TOKEN fill:#e0f2f1
+    %% Professional identity and ZKP color scheme
+    style AADHAAR fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style EID fill:#2E86AB,stroke:#1A4D6B,stroke-width:2px,color:#fff
+    style NATIONAL fill:#F18F01,stroke:#B86700,stroke-width:2px,color:#fff
+    style CIRCUIT fill:#6C5CE7,stroke:#4834A3,stroke-width:3px,color:#fff
+    style COPPA fill:#FF6B6B,stroke:#CC5555,stroke-width:2px,color:#fff
+    style GDPR fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style GLOBAL fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style TOKEN fill:#10AC84,stroke:#0D8A6A,stroke-width:3px,color:#fff
 ```
 
 #### Implementation Specifications
@@ -311,72 +328,77 @@ BAML provides:
 
 ```mermaid
 flowchart TD
-    subgraph "🔄 Content Ingestion Pipeline"
-        TXT[📝 Text Content
-Extraction]
-        VID[🎥 Video/Audio
-Transcription]
-        IMG[🖼️ Images
-OCR/Alt Text]
-        DOC[📄 Document
-Parsing]
+    subgraph INGESTION["🔄 Content Ingestion Pipeline"]
+        TXT["📝 Text Content<br/>Extraction & Preprocessing"]
+        VID["🎥 Video/Audio<br/>Transcription & Analysis"]
+        IMG["🖼️ Images<br/>OCR & Alt Text Extraction"]
+        DOC["📄 Documents<br/>PDF & Structured Parsing"]
     end
     
-    subgraph "🤖 BoundaryML Classification Engine"
-        subgraph "📊 Multi-Modal Analysis"
-            SAFE[🛡️ Safety
-Classifier]
-            EDU[📚 Educational
-Value Assessor]
-            VIEW[🏛️ Viewpoint
-Bias Analyzer]
+    subgraph BML_ENGINE["🤖 BoundaryML Classification Engine"]
+        subgraph MULTI["📊 Multi-Modal Analysis Layer"]
+            SAFE["🛡️ Safety Classifier<br/>Violence, Adult Content, Hate Speech"]
+            EDU["📚 Educational Assessor<br/>Learning Value & Cognitive Level"]
+            VIEW["🏛️ Viewpoint Analyzer<br/>Bias & Credibility Assessment"]
         end
         
-        subgraph "🔍 Detailed Assessment"
-            TOX[☠️ Toxicity
-Detector]
-            READ[📖 Reading
-Level Analyzer]
-            EMO[😊 Emotional
-Intensity Meter]
+        subgraph DETAIL["🔍 Detailed Assessment Layer"]
+            TOX["☠️ Toxicity Detector<br/>Harmful Language & Threats"]
+            READ["📖 Reading Level<br/>Grade-Appropriate Complexity"]
+            EMO["😊 Emotional Intensity<br/>Maturity Requirements"]
         end
         
-        subgraph "⚙️ Schema Enforcement"
-            JSON[🔧 JSON
-Correction]
-            SCHEMA[📋 Schema
-Coercion]
-            VALID[✅ Output
-Validation]
+        subgraph ENFORCE["⚙️ Schema Enforcement Layer"]
+            JSON["🔧 JSON Correction<br/>Error Recovery & Fixes"]
+            COERCE["📋 Schema Coercion<br/>Type Validation & Conversion"]
+            VALID["✅ Output Validation<br/>Completeness & Quality Check"]
         end
     end
     
-    subgraph "📤 Structured Output"
-        RESULT[📊 Classification Results
-JSON Schema Compliant]
+    subgraph OUTPUT["📤 Structured Output"]
+        RESULT["📊 Classification Results<br/>JSON Schema Compliant<br/>Ready for API Response"]
     end
     
     TXT --> SAFE
     VID --> EDU
     IMG --> VIEW
     DOC --> TOX
+    TXT --> READ
+    VID --> EMO
     
     SAFE --> JSON
-    EDU --> SCHEMA
+    EDU --> COERCE
     VIEW --> VALID
     TOX --> JSON
-    READ --> SCHEMA
+    READ --> COERCE
     EMO --> VALID
     
     JSON --> RESULT
-    SCHEMA --> RESULT
+    COERCE --> RESULT
     VALID --> RESULT
     
-    style SAFE fill:#ffebee
-    style EDU fill:#e8f5e8
-    style VIEW fill:#e3f2fd
-    style JSON fill:#fff8e1
-    style RESULT fill:#f3e5f5
+    %% Professional color scheme with gradients
+    style INGESTION fill:#E8F4F8,stroke:#2E86AB,stroke-width:3px
+    style BML_ENGINE fill:#F5F1FF,stroke:#6C5CE7,stroke-width:3px
+    style MULTI fill:#F0F9FF,stroke:#0ABDE3,stroke-width:2px
+    style DETAIL fill:#FFF5F5,stroke:#FF6B6B,stroke-width:2px
+    style ENFORCE fill:#FFFBF0,stroke:#FFD93D,stroke-width:2px
+    style OUTPUT fill:#F0FDF4,stroke:#10AC84,stroke-width:3px
+    
+    style TXT fill:#2E86AB,stroke:#1A4D6B,stroke-width:2px,color:#fff
+    style VID fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style IMG fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
+    style DOC fill:#6C5CE7,stroke:#4834A3,stroke-width:2px,color:#fff
+    style SAFE fill:#FF6B6B,stroke:#CC5555,stroke-width:2px,color:#fff
+    style EDU fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style VIEW fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
+    style TOX fill:#FF6348,stroke:#CC4E3A,stroke-width:2px,color:#fff
+    style READ fill:#FFD93D,stroke:#CCAE31,stroke-width:2px,color:#000
+    style EMO fill:#EE5A6F,stroke:#BB4757,stroke-width:2px,color:#fff
+    style JSON fill:#F18F01,stroke:#B86700,stroke-width:2px,color:#fff
+    style COERCE fill:#FFD93D,stroke:#CCAE31,stroke-width:2px,color:#000
+    style VALID fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style RESULT fill:#10AC84,stroke:#0D8A6A,stroke-width:3px,color:#fff
 ```
 
 **Detailed ASCII Flow Diagram:**
@@ -717,40 +739,31 @@ For complete implementation details, see:
 
 ```mermaid
 graph TB
-    subgraph "🤖 AI Curation Engine Core"
+    subgraph CORE["🤖 AI Curation Engine Core"]
         direction TB
         
-        subgraph "🧠 Cognitive Assessment Layer"
-            READING[📖 Reading Level
-Analysis]
-            EMOTIONAL[😊 Emotional
-Maturity Check]
-            CRITICAL[🎯 Critical
-Thinking Assessment]
+        subgraph COGNITIVE["🧠 Cognitive Assessment Layer"]
+            READING["📖 Reading Level Analysis<br/>Grade-Appropriate Complexity<br/>Lexile & Readability Metrics"]
+            EMOTIONAL["😊 Emotional Maturity Check<br/>Age-Appropriate Content<br/>Emotional Resilience Assessment"]
+            CRITICAL["🎯 Critical Thinking Assessment<br/>Information Literacy<br/>Fact-Checking Capability"]
         end
         
-        subgraph "🔍 Content Analysis Layer"
-            TOXICITY[☠️ Toxicity
-Detection]
-            VIOLENCE[⚔️ Violence
-Assessment]
-            EDUCATIONAL[📚 Educational
-Value Analysis]
+        subgraph ANALYSIS["🔍 Content Analysis Layer"]
+            TOXICITY["☠️ Toxicity Detection<br/>Hate Speech & Harassment<br/>Harmful Language Patterns"]
+            VIOLENCE["⚔️ Violence Assessment<br/>Graphic Content Detection<br/>Threat Level Evaluation"]
+            EDUCATIONAL["📚 Educational Value Analysis<br/>Learning Outcomes<br/>Cognitive Development Benefits"]
         end
         
-        subgraph "🌈 Diversity Optimization Layer"
-            VIEWPOINT[🗳️ Viewpoint
-Diversity]
-            SOURCE[📰 Source
-Variety]
-            ECHO[🔄 Echo Chamber
-Detection]
+        subgraph DIVERSITY["🌈 Diversity Optimization Layer"]
+            VIEWPOINT["🗳️ Viewpoint Diversity<br/>Political & Ideological Balance<br/>Bias Mitigation"]
+            SOURCE["📰 Source Variety<br/>Credibility Assessment<br/>Media Literacy Indicators"]
+            ECHO["🔄 Echo Chamber Detection<br/>Algorithmic Filter Bubble Analysis<br/>Exposure Diversity Metrics"]
         end
         
-        subgraph "⚙️ Decision Engine"
-            COMBINE[🔄 Result Fusion]
-            SCORE[📊 Safety Scoring]
-            RECOMMEND[💡 Content Recommendation]
+        subgraph DECISION["⚙️ Decision Engine"]
+            COMBINE["🔄 Result Fusion<br/>Multi-Signal Aggregation<br/>Weighted Scoring"]
+            SCORE["📊 Safety Scoring<br/>Risk Level Calculation<br/>Confidence Metrics"]
+            RECOMMEND["💡 Content Recommendation<br/>Personalized Filtering<br/>Adaptive Curation"]
         end
     end
     
@@ -769,18 +782,25 @@ Detection]
     COMBINE --> SCORE
     SCORE --> RECOMMEND
     
-    style READING fill:#e3f2fd
-    style EMOTIONAL fill:#fff3e0
-    style CRITICAL fill:#e8f5e8
-    style TOXICITY fill:#ffebee
-    style VIOLENCE fill:#fce4ec
-    style EDUCATIONAL fill:#e0f2f1
-    style VIEWPOINT fill:#f3e5f5
-    style SOURCE fill:#e1f5fe
-    style ECHO fill:#fff8e1
-    style COMBINE fill:#e8eaf6
-    style SCORE fill:#e0f7fa
-    style RECOMMEND fill:#f1f8e9
+    %% Professional color scheme
+    style CORE fill:#F5F1FF,stroke:#6C5CE7,stroke-width:3px
+    style COGNITIVE fill:#F0F9FF,stroke:#0ABDE3,stroke-width:2px
+    style ANALYSIS fill:#FFF5F5,stroke:#FF6B6B,stroke-width:2px
+    style DIVERSITY fill:#F0FDF4,stroke:#10AC84,stroke-width:2px
+    style DECISION fill:#FFFBF0,stroke:#FFD93D,stroke-width:2px
+    
+    style READING fill:#2E86AB,stroke:#1A4D6B,stroke-width:2px,color:#fff
+    style EMOTIONAL fill:#F18F01,stroke:#B86700,stroke-width:2px,color:#fff
+    style CRITICAL fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style TOXICITY fill:#FF6B6B,stroke:#CC5555,stroke-width:2px,color:#fff
+    style VIOLENCE fill:#FF6348,stroke:#CC4E3A,stroke-width:2px,color:#fff
+    style EDUCATIONAL fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style VIEWPOINT fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
+    style SOURCE fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style ECHO fill:#FFD93D,stroke:#CCAE31,stroke-width:2px,color:#000
+    style COMBINE fill:#6C5CE7,stroke:#4834A3,stroke-width:2px,color:#fff
+    style SCORE fill:#EE5A6F,stroke:#BB4757,stroke-width:2px,color:#fff
+    style RECOMMEND fill:#10AC84,stroke:#0D8A6A,stroke-width:3px,color:#fff
 ```
 
 ### Cognitive Capability Assessment
@@ -1259,11 +1279,18 @@ Reporter]
     ORCHESTRATOR --> VALIDATOR
     VALIDATOR --> REPORTER
     
-    style GDPR fill:#e3f2fd
-    style COPPA fill:#ffebee
-    style DPDPA fill:#e8f5e8
-    style PIPL fill:#fff3e0
-    style ORCHESTRATOR fill:#f3e5f5
+    %% Professional compliance color scheme
+    style GDPR fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style DSA fill:#2E86AB,stroke:#1A4D6B,stroke-width:2px,color:#fff
+    style COPPA fill:#FF6B6B,stroke:#CC5555,stroke-width:2px,color:#fff
+    style STATE fill:#EE5A6F,stroke:#BB4757,stroke-width:2px,color:#fff
+    style DPDPA fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style IT_RULES fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
+    style PIPL fill:#FF6348,stroke:#CC4E3A,stroke-width:2px,color:#fff
+    style MINOR_MODE fill:#F18F01,stroke:#B86700,stroke-width:2px,color:#fff
+    style ORCHESTRATOR fill:#6C5CE7,stroke:#4834A3,stroke-width:3px,color:#fff
+    style VALIDATOR fill:#FFD93D,stroke:#CCAE31,stroke-width:2px,color:#000
+    style REPORTER fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
 ```
 
 #### European Union (GDPR + DSA)
@@ -1687,11 +1714,22 @@ graph TB
     MONITOR --> ENCRYPT
     BACKUP --> SIGNING
     
-    style AUTH fill:#e8f5e8
-    style CIRCUIT fill:#e3f2fd
-    style NETWORK fill:#fff3e0
-    style ENCRYPT fill:#ffebee
-    style SIGNING fill:#f3e5f5
+    %% Professional security color scheme
+    style AUTH fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style AUTHZ fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style INPUT fill:#FF6B6B,stroke:#CC5555,stroke-width:2px,color:#fff
+    style CIRCUIT fill:#6C5CE7,stroke:#4834A3,stroke-width:2px,color:#fff
+    style KEYS fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
+    style PROOF fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style NETWORK fill:#2E86AB,stroke:#1A4D6B,stroke-width:2px,color:#fff
+    style CONTAINER fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style MONITOR fill:#EE5A6F,stroke:#BB4757,stroke-width:2px,color:#fff
+    style ENCRYPT fill:#FF6348,stroke:#CC4E3A,stroke-width:2px,color:#fff
+    style PRIVACY fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style BACKUP fill:#F18F01,stroke:#B86700,stroke-width:2px,color:#fff
+    style SIGNING fill:#FFD93D,stroke:#CCAE31,stroke-width:2px,color:#000
+    style SANDBOX fill:#A23B72,stroke:#6F2550,stroke-width:2px,color:#fff
+    style AUDIT fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
 ```
 
 ### Zero-Knowledge Proof Security
@@ -1794,10 +1832,35 @@ graph TB
     AS_BML --> PROM
     PROM --> GRAF
     
-    style CDN fill:#e3f2fd
-    style US_BML fill:#fff3e0
-    style EU_BML fill:#fff3e0
-    style AS_BML fill:#fff3e0
+    %% Professional infrastructure color scheme
+    style CDN fill:#2E86AB,stroke:#1A4D6B,stroke-width:3px,color:#fff
+    style LB fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style WAF fill:#FF6348,stroke:#CC4E3A,stroke-width:2px,color:#fff
+    
+    style US_K8S fill:#6C5CE7,stroke:#4834A3,stroke-width:2px,color:#fff
+    style US_ZKP fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style US_API fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style US_BML fill:#FFD93D,stroke:#CCAE31,stroke-width:2px,color:#000
+    style US_DB fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
+    style US_CACHE fill:#FF6B6B,stroke:#CC5555,stroke-width:2px,color:#fff
+    
+    style EU_K8S fill:#6C5CE7,stroke:#4834A3,stroke-width:2px,color:#fff
+    style EU_ZKP fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style EU_API fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style EU_BML fill:#FFD93D,stroke:#CCAE31,stroke-width:2px,color:#000
+    style EU_DB fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
+    style EU_CACHE fill:#FF6B6B,stroke:#CC5555,stroke-width:2px,color:#fff
+    
+    style AS_K8S fill:#6C5CE7,stroke:#4834A3,stroke-width:2px,color:#fff
+    style AS_ZKP fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style AS_API fill:#0ABDE3,stroke:#0888AB,stroke-width:2px,color:#fff
+    style AS_BML fill:#FFD93D,stroke:#CCAE31,stroke-width:2px,color:#000
+    style AS_DB fill:#5F27CD,stroke:#44219D,stroke-width:2px,color:#fff
+    style AS_CACHE fill:#FF6B6B,stroke:#CC5555,stroke-width:2px,color:#fff
+    
+    style PROM fill:#EE5A6F,stroke:#BB4757,stroke-width:2px,color:#fff
+    style GRAF fill:#10AC84,stroke:#0D8A6A,stroke-width:2px,color:#fff
+    style TRACE fill:#F18F01,stroke:#B86700,stroke-width:2px,color:#fff
 ```
 
 ### Deployment Strategy
