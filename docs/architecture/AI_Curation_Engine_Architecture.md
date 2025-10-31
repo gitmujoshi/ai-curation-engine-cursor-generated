@@ -315,7 +315,7 @@ interface BiometricChallenge {
 ## BoundaryML (BAML) Integration for LLM-Based Content Classification
 
 ### Overview
-**IMPORTANT UPDATE**: After reviewing the actual [BoundaryML GitHub repository](https://github.com/BoundaryML/baml), this implementation now uses the real BAML (BoundaryML's AI Markup Language) - a domain-specific language for structured LLM interactions.
+**IMPORTANT UPDATE**: After reviewing the actual [BoundaryML GitHub repository](https://github.com/BoundaryML/baml), this implementation now uses the real BoundaryML (BAML) - a domain-specific language for structured LLM interactions.
 
 BAML provides:
 - **Type-safe LLM Functions**: Define prompts as functions with structured inputs/outputs

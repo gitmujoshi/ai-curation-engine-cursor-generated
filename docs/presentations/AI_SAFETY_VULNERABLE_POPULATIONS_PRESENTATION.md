@@ -1025,7 +1025,7 @@ interface CurationResult {
 
 ### **Technical Implementation**
 
-19. **BoundaryML Documentation (2024)**. "Boundary's AI Markup Language: Structured LLM Interactions." Available at: https://boundaryml.com/docs
+19. **BoundaryML Documentation (2024)**. "BoundaryML (BAML): Structured LLM Interactions." Available at: https://boundaryml.com/docs
 
 20. **Ollama (2024)**. "Run Large Language Models Locally." Available at: https://ollama.ai
 

@@ -2,11 +2,11 @@
 
 ## Overview
 
-This document provides a comprehensive guide to the **actual** BoundaryML implementation for the AI Curation Engine. After reviewing the real [BoundaryML GitHub repository](https://github.com/BoundaryML/baml), we've created a proper implementation using BAML (BoundaryML's AI Markup Language).
+This document provides a comprehensive guide to the **actual** BoundaryML implementation for the AI Curation Engine. After reviewing the real [BoundaryML GitHub repository](https://github.com/BoundaryML/baml), we've created a proper implementation using BoundaryML (BAML).
 
 ## What is BAML?
 
-BAML (BoundaryML's AI Markup Language) is a domain-specific language for structured LLM interactions. It treats LLM prompts as functions with typed inputs and outputs, providing:
+BoundaryML (BAML) is a domain-specific language for structured LLM interactions. It treats LLM prompts as functions with typed inputs and outputs, providing:
 
 - **Type Safety**: Structured inputs/outputs with compile-time validation
 - **Multi-Provider Support**: OpenAI, Anthropic, Google, Azure, and more

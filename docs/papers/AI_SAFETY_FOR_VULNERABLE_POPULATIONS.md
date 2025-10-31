@@ -256,7 +256,7 @@ The system balances safety with learning opportunities:
 
 ### 1. BoundaryML Integration
 
-The system uses BoundaryML (Boundary's AI Markup Language) for structured AI interactions:
+The system uses BoundaryML (BAML) for structured AI interactions:
 
 ```baml
 function ComprehensiveContentAnalysis(content: string, user_context: UserContext) -> ComprehensiveClassification {
