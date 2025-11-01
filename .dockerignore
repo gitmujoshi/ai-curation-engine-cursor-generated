@@ -1,0 +1,68 @@
+# .dockerignore for AI Curation Engine
+
+# Git
+.git
+.gitignore
+.github
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Node
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Logs
+logs/
+*.log
+
+# Data
+data/
+*.db
+*.sqlite
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Docker
+docker-compose.yml
+Dockerfile*.old
+
+# Test files
+tests/
+test_*.py
+*_test.py
+
+# Legacy
+old/
+backup/
+*.bak
+

@@ -11,7 +11,7 @@ A comprehensive React/Next.js application for managing AI content curation rules
 3. **Local LLM Support**: Configured for Ollama/Llama 3.2 local inference
 4. **Complete Logging**: Full BAML Collector integration for detailed AI activity tracking
 
-For more details, see the [BAML Integration Documentation](../BAML_README.md).
+For more details, see the [BAML Integration Documentation](../../../../docs/guides/BAML_README.md).
 
 ## 🚀 Quick Start
 

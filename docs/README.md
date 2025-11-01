@@ -224,11 +224,11 @@ ai-curation-engine/
 ## 📖 Documentation
 
 ### Architecture Documents
-- 📄 **[Complete Architecture](AI_Curation_Engine_Architecture.md)**: Comprehensive system design
-- 📊 **[Visual Diagrams](Advanced_Architecture_Diagrams.md)**: Interactive Mermaid diagrams
-- 🤖 **[BAML Integration](BAML_README.md)**: BoundaryML implementation guide
-- 📖 **[Project Overview](REAL_PROJECT_OVERVIEW.md)**: Real vs. conceptual components
-- 📋 **[Implementation Guide](curation-engine-ui/README.md)**: Detailed setup instructions
+- 📄 **[Complete Architecture](architecture/AI_Curation_Engine_Architecture.md)**: Comprehensive system design
+- 📊 **[Visual Diagrams](architecture/Advanced_Architecture_Diagrams.md)**: Interactive Mermaid diagrams
+- 🤖 **[BAML Integration](guides/BAML_README.md)**: BoundaryML implementation guide
+- 📖 **[Project Overview](guides/REAL_PROJECT_OVERVIEW.md)**: Real vs. conceptual components
+- 📋 **[Implementation Guide](guides/DEMO_GUIDE.md)**: Detailed setup instructions
 
 ### API Documentation
 - Authentication endpoints for user management
