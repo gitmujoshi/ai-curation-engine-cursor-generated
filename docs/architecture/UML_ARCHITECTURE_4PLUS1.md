@@ -24,53 +24,46 @@ This document provides the **4+1 architectural view model** using **Mermaid diag
 
 ```mermaid
 graph TB
-    subgraph "Primary Actors"
+    subgraph PARENT_SECTION["👨‍👩‍👧 Parent/Guardian"]
+        direction TB
         PARENT[👨‍👩‍👧 Parent/Guardian]
+        PARENT --> UC1[(Create Child Profile)]
+        PARENT --> UC2[(Configure Safety Rules)]
+        PARENT --> UC3[(Monitor Activity)]
+        PARENT --> UC4[(Adjust Filters)]
+        PARENT --> UC5[(Review Reports)]
+    end
+    
+    subgraph CHILD_SECTION["🧒 Child/User"]
+        direction TB
         CHILD[🧒 Child/User]
+        CHILD --> UC6[(Access Content)]
+        CHILD --> UC7[(View Filtered Content)]
+        CHILD --> UC8[(Request Override)]
+    end
+    
+    subgraph ADMIN_SECTION["👤 System Administrator"]
+        direction TB
         ADMIN[👤 System Administrator]
+        ADMIN --> UC9[(Manage Policies)]
+        ADMIN --> UC10[(Configure LLM Models)]
+        ADMIN --> UC11[(Monitor Performance)]
+        ADMIN --> UC12[(Update Strategies)]
+    end
+    
+    subgraph COMP_SECTION["⚖️ Compliance Officer"]
+        direction TB
         COMP[⚖️ Compliance Officer]
+        COMP --> UC13[(Audit Decisions)]
+        COMP --> UC14[(Generate Compliance Reports)]
+    end
+    
+    subgraph PLAT_SECTION["🌐 Content Platform"]
+        direction TB
         PLAT[🌐 Content Platform]
+        PLAT --> UC15[(Submit Content)]
+        PLAT --> UC16[(Receive Classification)]
     end
-    
-    subgraph "AI Curation Engine System"
-        UC1[(Create Child Profile)]
-        UC2[(Configure Safety Rules)]
-        UC3[(Monitor Activity)]
-        UC4[(Adjust Filters)]
-        UC5[(Review Reports)]
-        UC6[(Access Content)]
-        UC7[(View Filtered Content)]
-        UC8[(Request Override)]
-        UC9[(Manage Policies)]
-        UC10[(Configure LLM Models)]
-        UC11[(Monitor Performance)]
-        UC12[(Update Strategies)]
-        UC13[(Audit Decisions)]
-        UC14[(Generate Compliance Reports)]
-        UC15[(Submit Content)]
-        UC16[(Receive Classification)]
-    end
-    
-    PARENT --> UC1
-    PARENT --> UC2
-    PARENT --> UC3
-    PARENT --> UC4
-    PARENT --> UC5
-    
-    CHILD --> UC6
-    CHILD --> UC7
-    CHILD --> UC8
-    
-    ADMIN --> UC9
-    ADMIN --> UC10
-    ADMIN --> UC11
-    ADMIN --> UC12
-    
-    COMP --> UC13
-    COMP --> UC14
-    
-    PLAT --> UC15
-    PLAT --> UC16
 ```
 
 ### 1.2 Core Class Model
