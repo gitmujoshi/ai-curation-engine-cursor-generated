@@ -20,50 +20,83 @@ This document provides the **4+1 architectural view model** using **Mermaid diag
 
 ### 1.1 Use Case Diagram
 
-**Actor**: Parent, Child, Administrator, Compliance Officer, Content Platform
+**Actors**: Parent/Guardian, Child/User, System Administrator, Compliance Officer, Content Platform
 
 ```mermaid
 graph TB
-    subgraph PARENT_SECTION["👨‍👩‍👧 Parent/Guardian"]
-        direction TB
-        PARENT[👨‍👩‍👧 Parent/Guardian]
-        PARENT --> UC1[(Create Child Profile)]
-        PARENT --> UC2[(Configure Safety Rules)]
-        PARENT --> UC3[(Monitor Activity)]
-        PARENT --> UC4[(Adjust Filters)]
-        PARENT --> UC5[(Review Reports)]
+    subgraph SYSTEM["AI Curation Engine"]
+        START[System]
     end
     
-    subgraph CHILD_SECTION["🧒 Child/User"]
+    subgraph PARENT_GROUP["👨‍👩‍👧 Parent/Guardian"]
         direction TB
-        CHILD[🧒 Child/User]
-        CHILD --> UC6[(Access Content)]
-        CHILD --> UC7[(View Filtered Content)]
-        CHILD --> UC8[(Request Override)]
+        P0[Parent]
+        P1[Create Child Profile]
+        P2[Configure Safety Rules]
+        P3[Monitor Activity]
+        P4[Adjust Filters]
+        P5[Review Reports]
+        P0 --> P1
+        P1 --> P2
+        P2 --> P3
+        P3 --> P4
+        P4 --> P5
     end
     
-    subgraph ADMIN_SECTION["👤 System Administrator"]
+    subgraph CHILD_GROUP["🧒 Child/User"]
         direction TB
-        ADMIN[👤 System Administrator]
-        ADMIN --> UC9[(Manage Policies)]
-        ADMIN --> UC10[(Configure LLM Models)]
-        ADMIN --> UC11[(Monitor Performance)]
-        ADMIN --> UC12[(Update Strategies)]
+        C0[Child]
+        C1[Access Content]
+        C2[View Filtered Content]
+        C3[Request Override]
+        C0 --> C1
+        C1 --> C2
+        C2 --> C3
     end
     
-    subgraph COMP_SECTION["⚖️ Compliance Officer"]
+    subgraph ADMIN_GROUP["👤 System Administrator"]
         direction TB
-        COMP[⚖️ Compliance Officer]
-        COMP --> UC13[(Audit Decisions)]
-        COMP --> UC14[(Generate Compliance Reports)]
+        A0[Admin]
+        A1[Manage Policies]
+        A2[Configure LLM Models]
+        A3[Monitor Performance]
+        A4[Update Strategies]
+        A0 --> A1
+        A1 --> A2
+        A2 --> A3
+        A3 --> A4
     end
     
-    subgraph PLAT_SECTION["🌐 Content Platform"]
+    subgraph COMP_GROUP["⚖️ Compliance Officer"]
         direction TB
-        PLAT[🌐 Content Platform]
-        PLAT --> UC15[(Submit Content)]
-        PLAT --> UC16[(Receive Classification)]
+        CO0[Compliance]
+        CO1[Audit Decisions]
+        CO2[Generate Compliance Reports]
+        CO0 --> CO1
+        CO1 --> CO2
     end
+    
+    subgraph PLAT_GROUP["🌐 Content Platform"]
+        direction TB
+        PL0[Platform]
+        PL1[Submit Content]
+        PL2[Receive Classification]
+        PL0 --> PL1
+        PL1 --> PL2
+    end
+    
+    START --> P0
+    START --> C0
+    START --> A0
+    START --> CO0
+    START --> PL0
+    
+    style PARENT_GROUP fill:#e8f5e9,stroke:#4caf50,stroke-width:3px
+    style CHILD_GROUP fill:#fff3e0,stroke:#ff9800,stroke-width:3px
+    style ADMIN_GROUP fill:#e3f2fd,stroke:#2196f3,stroke-width:3px
+    style COMP_GROUP fill:#f3e5f5,stroke:#9c27b0,stroke-width:3px
+    style PLAT_GROUP fill:#fce4ec,stroke:#e91e63,stroke-width:3px
+    style SYSTEM fill:#f5f5f5,stroke:#757575,stroke-width:2px
 ```
 
 ### 1.2 Core Class Model
