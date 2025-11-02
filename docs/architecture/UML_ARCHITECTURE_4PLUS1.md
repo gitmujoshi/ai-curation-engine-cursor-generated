@@ -23,80 +23,93 @@ This document provides the **4+1 architectural view model** using **Mermaid diag
 **Actors**: Parent/Guardian, Child/User, System Administrator, Compliance Officer, Content Platform
 
 ```mermaid
-graph TB
-    subgraph SYSTEM["AI Curation Engine"]
-        START[System]
-    end
+graph LR
+    %% Actors
+    PARENT((👨‍👩‍👧 Parent))
+    CHILD((🧒 Child))
+    ADMIN((👤 Admin))
+    COMP((⚖️ Compliance))
+    PLAT((🌐 Platform))
     
-    subgraph PARENT_GROUP["👨‍👩‍👧 Parent/Guardian"]
-        direction TB
-        P0[Parent]
-        P1[Create Child Profile]
-        P2[Configure Safety Rules]
-        P3[Monitor Activity]
-        P4[Adjust Filters]
-        P5[Review Reports]
-        P0 --> P1
-        P1 --> P2
-        P2 --> P3
-        P3 --> P4
-        P4 --> P5
-    end
+    %% Parent Use Cases
+    UC1(("Create Child<br/>Profile"))
+    UC2(("Configure<br/>Safety Rules"))
+    UC3(("Monitor<br/>Activity"))
+    UC4(("Adjust<br/>Filters"))
+    UC5(("Review<br/>Reports"))
     
-    subgraph CHILD_GROUP["🧒 Child/User"]
-        direction TB
-        C0[Child]
-        C1[Access Content]
-        C2[View Filtered Content]
-        C3[Request Override]
-        C0 --> C1
-        C1 --> C2
-        C2 --> C3
-    end
+    %% Child Use Cases  
+    UC6(("Access<br/>Content"))
+    UC7(("View Filtered<br/>Content"))
+    UC8(("Request<br/>Override"))
     
-    subgraph ADMIN_GROUP["👤 System Administrator"]
-        direction TB
-        A0[Admin]
-        A1[Manage Policies]
-        A2[Configure LLM Models]
-        A3[Monitor Performance]
-        A4[Update Strategies]
-        A0 --> A1
-        A1 --> A2
-        A2 --> A3
-        A3 --> A4
-    end
+    %% Admin Use Cases
+    UC9(("Manage<br/>Policies"))
+    UC10(("Configure<br/>LLM Models"))
+    UC11(("Monitor<br/>Performance"))
+    UC12(("Update<br/>Strategies"))
     
-    subgraph COMP_GROUP["⚖️ Compliance Officer"]
-        direction TB
-        CO0[Compliance]
-        CO1[Audit Decisions]
-        CO2[Generate Compliance Reports]
-        CO0 --> CO1
-        CO1 --> CO2
-    end
+    %% Compliance Use Cases
+    UC13(("Audit<br/>Decisions"))
+    UC14(("Generate<br/>Reports"))
     
-    subgraph PLAT_GROUP["🌐 Content Platform"]
-        direction TB
-        PL0[Platform]
-        PL1[Submit Content]
-        PL2[Receive Classification]
-        PL0 --> PL1
-        PL1 --> PL2
-    end
+    %% Platform Use Cases
+    UC15(("Submit<br/>Content"))
+    UC16(("Receive<br/>Classification"))
     
-    START --> P0
-    START --> C0
-    START --> A0
-    START --> CO0
-    START --> PL0
+    %% Parent Relationships
+    PARENT --> UC1
+    PARENT --> UC2
+    PARENT --> UC3
+    PARENT --> UC4
+    PARENT --> UC5
     
-    style PARENT_GROUP fill:#e8f5e9,stroke:#4caf50,stroke-width:3px
-    style CHILD_GROUP fill:#fff3e0,stroke:#ff9800,stroke-width:3px
-    style ADMIN_GROUP fill:#e3f2fd,stroke:#2196f3,stroke-width:3px
-    style COMP_GROUP fill:#f3e5f5,stroke:#9c27b0,stroke-width:3px
-    style PLAT_GROUP fill:#fce4ec,stroke:#e91e63,stroke-width:3px
-    style SYSTEM fill:#f5f5f5,stroke:#757575,stroke-width:2px
+    %% Child Relationships
+    CHILD --> UC6
+    CHILD --> UC7
+    CHILD --> UC8
+    
+    %% Admin Relationships
+    ADMIN --> UC9
+    ADMIN --> UC10
+    ADMIN --> UC11
+    ADMIN --> UC12
+    
+    %% Compliance Relationships
+    COMP --> UC13
+    COMP --> UC14
+    
+    %% Platform Relationships
+    PLAT --> UC15
+    PLAT --> UC16
+    
+    %% Styling
+    style PARENT fill:#e8f5e9,stroke:#4caf50,stroke-width:3px
+    style CHILD fill:#fff3e0,stroke:#ff9800,stroke-width:3px
+    style ADMIN fill:#e3f2fd,stroke:#2196f3,stroke-width:3px
+    style COMP fill:#f3e5f5,stroke:#9c27b0,stroke-width:3px
+    style PLAT fill:#fce4ec,stroke:#e91e63,stroke-width:3px
+    
+    style UC1 fill:#fff,stroke:#4caf50,stroke-width:2px,stroke-dasharray: 5 5
+    style UC2 fill:#fff,stroke:#4caf50,stroke-width:2px,stroke-dasharray: 5 5
+    style UC3 fill:#fff,stroke:#4caf50,stroke-width:2px,stroke-dasharray: 5 5
+    style UC4 fill:#fff,stroke:#4caf50,stroke-width:2px,stroke-dasharray: 5 5
+    style UC5 fill:#fff,stroke:#4caf50,stroke-width:2px,stroke-dasharray: 5 5
+    
+    style UC6 fill:#fff,stroke:#ff9800,stroke-width:2px,stroke-dasharray: 5 5
+    style UC7 fill:#fff,stroke:#ff9800,stroke-width:2px,stroke-dasharray: 5 5
+    style UC8 fill:#fff,stroke:#ff9800,stroke-width:2px,stroke-dasharray: 5 5
+    
+    style UC9 fill:#fff,stroke:#2196f3,stroke-width:2px,stroke-dasharray: 5 5
+    style UC10 fill:#fff,stroke:#2196f3,stroke-width:2px,stroke-dasharray: 5 5
+    style UC11 fill:#fff,stroke:#2196f3,stroke-width:2px,stroke-dasharray: 5 5
+    style UC12 fill:#fff,stroke:#2196f3,stroke-width:2px,stroke-dasharray: 5 5
+    
+    style UC13 fill:#fff,stroke:#9c27b0,stroke-width:2px,stroke-dasharray: 5 5
+    style UC14 fill:#fff,stroke:#9c27b0,stroke-width:2px,stroke-dasharray: 5 5
+    
+    style UC15 fill:#fff,stroke:#e91e63,stroke-width:2px,stroke-dasharray: 5 5
+    style UC16 fill:#fff,stroke:#e91e63,stroke-width:2px,stroke-dasharray: 5 5
 ```
 
 ### 1.2 Core Class Model
