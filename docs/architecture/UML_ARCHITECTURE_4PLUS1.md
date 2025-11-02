@@ -291,7 +291,7 @@ sequenceDiagram
     participant Router as Strategy Router
     participant LLM as LLM Strategy
     participant Multi as Multi-Layer
-    participant Hybrid as Hybrid Strategy
+    participant Hybrid as Hybrid
     
     Admin->>Engine: POST /api/strategy {"strategy": "hybrid"}
     activate Engine
@@ -672,7 +672,7 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant S as System
-    participant H as Hybrid Strategy
+    participant H as Hybrid
     participant F as Fast Filters
     participant C as Cache Layer
     participant L as LLM Analyzer
