@@ -364,17 +364,13 @@ sequenceDiagram
     activate Engine
     
     Engine->>Fast: Check fast filters
-    activate Fast
     Fast->>Fast: Pattern matching
     Fast-->>Engine: Pattern check result
     
     alt BLOCK Decision
-        deactivate Fast
         Engine-->>Input: Return BLOCK (50ms)
         deactivate Engine
     else PASS Decision
-        deactivate Fast
-        
         Engine->>AI: Specialized analysis
         activate AI
         AI->>AI: Heuristic checks
