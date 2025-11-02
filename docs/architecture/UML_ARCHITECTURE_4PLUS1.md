@@ -340,16 +340,16 @@ sequenceDiagram
     Engine->>Fast: Check fast filters
     activate Fast
     Fast->>Fast: Pattern matching
+    
     alt Pattern Match
         Fast-->>Engine: BLOCK (50ms)
-        Engine-->>Input: Return BLOCK decision
         deactivate Fast
+        Engine-->>Input: Return BLOCK decision
+        deactivate Engine
     else No Match
         Fast-->>Engine: PASS
         deactivate Fast
-    end
-    
-    alt Pass Fast Filter
+        
         Engine->>AI: Specialized analysis
         activate AI
         AI->>AI: Heuristic checks
@@ -362,6 +362,7 @@ sequenceDiagram
             Engine->>Agg: Aggregate results
             Agg-->>Engine: Final Decision
             Engine-->>Input: Return decision
+            deactivate Engine
         else Low Confidence or Edge Case
             Engine->>LLM: Deep analysis
             activate LLM
@@ -372,10 +373,9 @@ sequenceDiagram
             Engine->>Agg: Aggregate all results
             Agg-->>Engine: Final Decision
             Engine-->>Input: Return decision
+            deactivate Engine
         end
     end
-    
-    deactivate Engine
 ```
 
 ---
