@@ -704,20 +704,32 @@ sequenceDiagram
     participant L as LLM Analyzer
     
     S->>H: Classify content stream
+    activate H
     
     loop For each content item
         H->>F: Pre-filter check
+        activate F
         
         alt Fast Filter Blocks
+            F->>F: Pattern matching
             F-->>H: BLOCK (50ms)
+            deactivate F
             H-->>S: Return BLOCK
         else Fast Filter Passes
+            F-->>H: PASS
+            deactivate F
+            
             H->>C: Check cache
+            activate C
             
             alt Cache Hit
                 C-->>H: Cached result (10ms)
+                deactivate C
                 H-->>S: Return cached decision
             else Cache Miss
+                C-->>H: Not found
+                deactivate C
+                
                 H->>L: Deep LLM analysis
                 activate L
                 L->>L: Comprehensive analysis (5s)
@@ -725,10 +737,16 @@ sequenceDiagram
                 deactivate L
                 
                 H->>C: Store in cache (TTL: 5min)
+                activate C
+                C-->>H: Stored
+                deactivate C
+                
                 H-->>S: Return decision
             end
         end
     end
+    
+    deactivate H
     
     Note over S,L: Performance Gains:<br/>85% faster than pure LLM<br/>through filtering & caching
 ```
