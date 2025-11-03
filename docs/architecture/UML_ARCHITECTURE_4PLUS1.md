@@ -20,7 +20,11 @@ This document provides the **4+1 architectural view model** using **Mermaid diag
 
 ### 1.1 Use Case Diagram
 
+**Purpose**: This diagram illustrates the primary actors and their interactions with the AI Curation Engine system, showing who uses the system and what they can do.
+
 **Actors**: Parent/Guardian, Child/User, System Administrator, Compliance Officer, Content Platform
+
+**Description**: The use case diagram identifies five key actors and their associated use cases. Parents/Guardians manage child profiles and safety settings. Children access and view filtered content. System Administrators configure the underlying AI models and policies. Compliance Officers audit decisions and generate regulatory reports. Content Platforms submit content for classification and receive filtering results. Each actor is represented as a circle (UML actor notation), and use cases are shown as double circles with dashed borders.
 
 ```mermaid
 graph LR
@@ -84,37 +88,41 @@ graph LR
     PLAT --> UC16
     
     %% Styling
-    style PARENT fill:#e8f5e9,stroke:#4caf50,stroke-width:3px
-    style CHILD fill:#fff3e0,stroke:#ff9800,stroke-width:3px
-    style ADMIN fill:#e3f2fd,stroke:#2196f3,stroke-width:3px
-    style COMP fill:#f3e5f5,stroke:#9c27b0,stroke-width:3px
-    style PLAT fill:#fce4ec,stroke:#e91e63,stroke-width:3px
+    style PARENT fill:#e8f5e9,stroke:#4caf50,stroke-width:3px,color:#000
+    style CHILD fill:#fff3e0,stroke:#ff9800,stroke-width:3px,color:#000
+    style ADMIN fill:#e3f2fd,stroke:#2196f3,stroke-width:3px,color:#000
+    style COMP fill:#f3e5f5,stroke:#9c27b0,stroke-width:3px,color:#000
+    style PLAT fill:#fce4ec,stroke:#e91e63,stroke-width:3px,color:#000
     
-    style UC1 fill:#fff,stroke:#4caf50,stroke-width:2px,stroke-dasharray: 5 5
-    style UC2 fill:#fff,stroke:#4caf50,stroke-width:2px,stroke-dasharray: 5 5
-    style UC3 fill:#fff,stroke:#4caf50,stroke-width:2px,stroke-dasharray: 5 5
-    style UC4 fill:#fff,stroke:#4caf50,stroke-width:2px,stroke-dasharray: 5 5
-    style UC5 fill:#fff,stroke:#4caf50,stroke-width:2px,stroke-dasharray: 5 5
+    style UC1 fill:#fff,stroke:#4caf50,stroke-width:2px,stroke-dasharray: 5 5,color:#000
+    style UC2 fill:#fff,stroke:#4caf50,stroke-width:2px,stroke-dasharray: 5 5,color:#000
+    style UC3 fill:#fff,stroke:#4caf50,stroke-width:2px,stroke-dasharray: 5 5,color:#000
+    style UC4 fill:#fff,stroke:#4caf50,stroke-width:2px,stroke-dasharray: 5 5,color:#000
+    style UC5 fill:#fff,stroke:#4caf50,stroke-width:2px,stroke-dasharray: 5 5,color:#000
     
-    style UC6 fill:#fff,stroke:#ff9800,stroke-width:2px,stroke-dasharray: 5 5
-    style UC7 fill:#fff,stroke:#ff9800,stroke-width:2px,stroke-dasharray: 5 5
-    style UC8 fill:#fff,stroke:#ff9800,stroke-width:2px,stroke-dasharray: 5 5
+    style UC6 fill:#fff,stroke:#ff9800,stroke-width:2px,stroke-dasharray: 5 5,color:#000
+    style UC7 fill:#fff,stroke:#ff9800,stroke-width:2px,stroke-dasharray: 5 5,color:#000
+    style UC8 fill:#fff,stroke:#ff9800,stroke-width:2px,stroke-dasharray: 5 5,color:#000
     
-    style UC9 fill:#fff,stroke:#2196f3,stroke-width:2px,stroke-dasharray: 5 5
-    style UC10 fill:#fff,stroke:#2196f3,stroke-width:2px,stroke-dasharray: 5 5
-    style UC11 fill:#fff,stroke:#2196f3,stroke-width:2px,stroke-dasharray: 5 5
-    style UC12 fill:#fff,stroke:#2196f3,stroke-width:2px,stroke-dasharray: 5 5
+    style UC9 fill:#fff,stroke:#2196f3,stroke-width:2px,stroke-dasharray: 5 5,color:#000
+    style UC10 fill:#fff,stroke:#2196f3,stroke-width:2px,stroke-dasharray: 5 5,color:#000
+    style UC11 fill:#fff,stroke:#2196f3,stroke-width:2px,stroke-dasharray: 5 5,color:#000
+    style UC12 fill:#fff,stroke:#2196f3,stroke-width:2px,stroke-dasharray: 5 5,color:#000
     
-    style UC13 fill:#fff,stroke:#9c27b0,stroke-width:2px,stroke-dasharray: 5 5
-    style UC14 fill:#fff,stroke:#9c27b0,stroke-width:2px,stroke-dasharray: 5 5
+    style UC13 fill:#fff,stroke:#9c27b0,stroke-width:2px,stroke-dasharray: 5 5,color:#000
+    style UC14 fill:#fff,stroke:#9c27b0,stroke-width:2px,stroke-dasharray: 5 5,color:#000
     
-    style UC15 fill:#fff,stroke:#e91e63,stroke-width:2px,stroke-dasharray: 5 5
-    style UC16 fill:#fff,stroke:#e91e63,stroke-width:2px,stroke-dasharray: 5 5
+    style UC15 fill:#fff,stroke:#e91e63,stroke-width:2px,stroke-dasharray: 5 5,color:#000
+    style UC16 fill:#fff,stroke:#e91e63,stroke-width:2px,stroke-dasharray: 5 5,color:#000
 ```
 
 ### 1.2 Core Class Model
 
+**Purpose**: This class diagram shows the core domain entities, their attributes, methods, and relationships that form the foundation of the AI Curation Engine.
+
 **Domain Entities and Relationships**
+
+**Description**: The class model illustrates the object-oriented design with key entities including User management (User, ChildProfile, UserPreferences), Content Curation (CurationEngine, Strategy implementations, CurationResult), BAML Integration (RealBAMLContentAnalyzer, UserContext, ClassificationResult), Compliance (ComplianceHandler implementations for different jurisdictions), and Gateway Integration (GatewayProxy, ProfileManager, DecisionEngine). Relationships show inheritance (Strategy pattern), composition (Engine has Strategies), and associations (User has ChildProfiles). This design enables pluggable curation strategies, multi-jurisdiction compliance, and flexible content filtering.
 
 ```mermaid
 classDiagram
@@ -256,7 +264,11 @@ classDiagram
 
 ### 2.1 Content Classification Flow
 
+**Purpose**: This sequence diagram shows the real-time content classification process from user request to final decision.
+
 **Real-Time Processing Sequence**
+
+**Description**: This diagram illustrates the complete flow when a user requests content. The Gateway Proxy intercepts the request, retrieves the user's profile and policies from the Profile Manager, then sends the content to the Curation Engine. The Engine selects an appropriate strategy and uses the LLM Analyzer to perform comprehensive content analysis (safety, educational value, viewpoint). The Decision Engine evaluates the results against the user's policy and either allows or blocks the content. The entire process typically completes in 5-10 seconds, providing real-time protection while maintaining a reasonable user experience.
 
 ```mermaid
 sequenceDiagram
@@ -321,7 +333,11 @@ sequenceDiagram
 
 ### 2.2 Strategy Switching Flow
 
+**Purpose**: This sequence diagram demonstrates how system administrators can dynamically switch between different curation strategies without system restart.
+
 **Runtime Strategy Configuration**
+
+**Description**: This diagram shows the hot-swapping capability of the curation engine. An administrator sends a strategy change request (LLM-Only, Multi-Layer, or Hybrid) to the Curation Engine. The Strategy Router stops the current strategy and initializes the new one. For the Hybrid strategy, it configures delegation rules to route complex cases to LLM analysis and simple cases to Multi-Layer filtering. The entire switch happens in real-time without interrupting ongoing content classification, allowing for adaptive performance tuning based on system load and accuracy requirements.
 
 ```mermaid
 sequenceDiagram
@@ -362,7 +378,11 @@ sequenceDiagram
 
 ### 2.3 Multi-Layer Filtering Flow
 
+**Purpose**: This sequence diagram illustrates the multi-layer filtering approach that optimizes performance by using fast filters before expensive LLM analysis.
+
 **Hybrid Strategy Processing**
+
+**Description**: This diagram shows how the Hybrid strategy processes content through multiple layers for optimal performance. First, Fast Filters perform quick pattern matching (50ms) to block obviously inappropriate content. If content passes, Specialized AI performs heuristic checks. Based on confidence levels, the system either returns a decision immediately (high confidence) or escalates to deep LLM analysis (low confidence or edge cases). The Result Aggregator combines all analyses to make the final decision. This multi-layer approach achieves 85% faster processing than pure LLM analysis while maintaining high accuracy.
 
 ```mermaid
 sequenceDiagram
@@ -412,7 +432,11 @@ sequenceDiagram
 
 ## 3️⃣ Development View: Component Diagram
 
+**Purpose**: This component diagram shows the software architecture, module organization, and dependencies between different layers of the system.
+
 ### Software Architecture and Module Organization
+
+**Description**: The system is organized into four layers: Presentation Layer (Demo Frontend, Admin UI), Application Layer (Flask API, Gateway Service), Domain Layer (Curation Engine, Strategy Implementations, BAML Integration, Profile Manager, Compliance Engine), and Infrastructure Layer (Ollama Service, MongoDB, Redis, Logging). Components communicate through well-defined interfaces, with the Domain Layer containing the core business logic. This layered architecture enables separation of concerns, independent deployment of components, and easy testing. The diagram shows both synchronous (HTTP, internal calls) and asynchronous (caching, logging) communication patterns.
 
 ```mermaid
 graph TB
@@ -482,7 +506,11 @@ graph TB
 
 ### 4.1 Local Development Deployment
 
+**Purpose**: This deployment diagram shows how to run the entire system on a single development machine for testing and development.
+
 **Single Machine Setup**
+
+**Description**: For local development, all services run on localhost with different ports. The User Browser connects to Flask Dev Server (port 5001), which communicates with Ollama Service (port 11434) for LLM processing, MongoDB (local) for data storage, and Redis (local) for caching. This setup requires approximately 3-4GB for model downloads and 8GB RAM minimum. All services can be started with Docker Compose or run natively. This configuration is perfect for development, testing, and demonstration purposes without requiring cloud infrastructure.
 
 ```mermaid
 graph TB
@@ -512,7 +540,11 @@ graph TB
 
 ### 4.2 Docker Container Deployment
 
+**Purpose**: This deployment diagram illustrates how the system runs in isolated Docker containers for consistent deployment across environments.
+
 **Containerized Services**
+
+**Description**: Docker deployment packages each service in its own container within a shared network. The demo-frontend container (Flask, port 5001) handles user requests, ollama-service container provides LLM processing (port 11434), mongodb container stores persistent data (port 27017), and curation-cache container (Redis, port 6379) handles caching. External users connect to the frontend container, which orchestrates calls to other services. This containerized approach provides isolation, easy scaling, simplified deployment, and version control. The entire stack can be launched with a single `docker-compose up` command.
 
 ```mermaid
 graph TB
@@ -539,7 +571,11 @@ graph TB
 
 ### 4.3 Cloud Production Deployment
 
+**Purpose**: This deployment diagram shows a production-ready, scalable cloud architecture on AWS with high availability and auto-scaling capabilities.
+
 **AWS Multi-Tier Architecture**
+
+**Description**: The production deployment uses AWS cloud services for enterprise-scale operation. Internet users connect through an Application Load Balancer (ALB) with SSL termination. An Auto Scaling Group manages multiple EC2 instances running the Flask application, automatically scaling based on load. GPU instances run Ollama for LLM processing with CUDA support. The private subnet contains managed databases: RDS PostgreSQL for profiles and logs, ElastiCache Redis for caching, and DocumentDB (MongoDB-compatible) for user data. S3 stores models and logs, while CloudWatch provides monitoring and logging. This architecture supports thousands of concurrent users with 99.9% uptime, automatic failover, and horizontal scaling.
 
 ```mermaid
 graph TB
@@ -600,7 +636,11 @@ graph TB
 
 ### Scenario 1: New User Onboarding
 
+**Purpose**: This scenario demonstrates the complete user onboarding flow from initial registration through child profile setup.
+
 **User Registration and Profile Setup**
+
+**Description**: A new parent registers by providing email and password through the Registration UI. The system performs age verification using Zero-Knowledge Proof (ZKP) to confirm the user is an adult without storing sensitive identity data. After verification, the parent completes their profile with preferences and settings. They then add their first child profile, configuring safety levels, time limits, and content restrictions. The entire onboarding process takes approximately 6 minutes and results in a fully configured account ready for content filtering. The system stores all data in the database and displays the dashboard with demo data to help parents understand the interface.
 
 ```mermaid
 sequenceDiagram
@@ -642,7 +682,11 @@ sequenceDiagram
 
 ### Scenario 2: Real-Time Content Filtering
 
+**Purpose**: This scenario shows the end-to-end process of real-time content classification when a child user attempts to access online content.
+
 **Live Content Classification and Filtering**
+
+**Description**: When a child opens an article URL, the Browser sends a request to the Gateway, which identifies the user profile. The Gateway forwards the content to the Curation Engine for classification. The LLM Analyzer performs comprehensive analysis including safety checks (2s), educational value assessment (2s), and age appropriateness evaluation (1s), totaling approximately 5 seconds. The Decision Engine then checks the results against the child's profile policy, including safety scores, category restrictions, time limits, and age appropriateness. Based on the decision, the system either displays the article or shows a filter page explaining why the content was blocked. This real-time protection operates transparently, providing immediate feedback to users.
 
 ```mermaid
 sequenceDiagram
@@ -697,7 +741,11 @@ sequenceDiagram
 
 ### Scenario 3: Strategy Performance Optimization
 
+**Purpose**: This scenario illustrates how the Hybrid strategy achieves 85% performance improvement through intelligent multi-layer filtering and caching.
+
 **Hybrid Strategy Adaptive Processing**
+
+**Description**: The Hybrid strategy processes a high-volume content stream through multiple optimization layers. For each content item, Fast Filters perform pattern matching first. Approximately 60% of content is blocked at this stage in just 50ms. For content that passes, the system checks the cache, achieving hits on 30% of requests (10ms response). Only the remaining 10% of content requires expensive LLM analysis (5s). After LLM analysis, results are cached with a 5-minute TTL for future requests. This multi-layer approach dramatically reduces average processing time while maintaining high accuracy. The system can handle thousands of requests per second by avoiding unnecessary LLM calls.
 
 ```mermaid
 sequenceDiagram
@@ -743,7 +791,11 @@ sequenceDiagram
 
 ### Scenario 4: Compliance Audit Trail
 
+**Purpose**: This scenario demonstrates how the system generates comprehensive compliance reports for regulatory audits, specifically for GDPR.
+
 **GDPR Compliance Reporting**
+
+**Description**: A Compliance Officer requests a GDPR audit report through the Audit System. The Compliance Engine retrieves data and invokes the GDPR Handler to validate compliance across multiple requirements: data minimization (collecting only necessary data), consent records (verifying user permissions), right to erasure (tracking deletion requests), and data localization (ensuring EU data stays in EU). The system queries audit logs from the Data Store to compile evidence of compliance. The Report Generator aggregates all data points and generates insights showing data processing records, consent timestamps, erasure request handling, and localization proof. This comprehensive report demonstrates regulatory alignment and can be submitted to authorities during audits.
 
 ```mermaid
 sequenceDiagram
@@ -790,7 +842,11 @@ sequenceDiagram
 
 ### Scenario 5: Multi-Device Profile Sync
 
+**Purpose**: This scenario shows how user profiles and settings synchronize in real-time across multiple devices for seamless user experience.
+
 **Cross-Device Profile Synchronization**
+
+**Description**: A parent creates a child profile on Device 1 (mobile). The Profile Service stores the profile in the Central Database and publishes a "profile.created" event to the Event Bus. When the parent logs in on Device 2 (tablet), the system syncs all profiles from the database. Later, when the parent modifies the safety level on Device 1, the Profile Service updates the database and publishes a "profile.updated" event. The Event Bus immediately notifies Device 2, which fetches the updated profile and refreshes its UI. This real-time synchronization ensures consistency across all devices using event-driven architecture. Parents can manage settings from any device, and changes propagate instantly, providing a seamless multi-device experience with eventual consistency guarantees.
 
 ```mermaid
 sequenceDiagram
