@@ -258,6 +258,163 @@ classDiagram
     ComplianceHandler <|.. COPPAHandler
 ```
 
+### 1.3 Business Domain Model
+
+**Purpose**: This simplified class diagram shows the core business concepts and relationships without technical implementation details, focusing on the domain language and business rules.
+
+**Business Entities and Relationships**
+
+**Description**: The business domain model represents the real-world concepts in the AI content curation domain. A **Family** consists of a **Guardian** (parent) who manages multiple **Dependents** (children or vulnerable adults). Each Dependent has a **SafetyProfile** defining their protection level, content preferences, and usage limits. **Content** from various **Sources** (platforms, websites) is evaluated by the **CurationService** which applies **SafetyRules** and **ComplianceRequirements** based on the Dependent's profile and jurisdiction. The service produces a **CurationDecision** (Allow/Block/Caution) with reasoning. **ActivityLogs** track all content access for monitoring and reporting. This model focuses on business concepts rather than technical implementation, making it accessible to non-technical stakeholders.
+
+```mermaid
+classDiagram
+    class Family {
+        +String familyId
+        +String familyName
+        +Date createdDate
+    }
+    
+    class Guardian {
+        +String guardianId
+        +String name
+        +String email
+        +String jurisdiction
+        +verifyIdentity()
+        +manageDependents()
+        +reviewActivity()
+    }
+    
+    class Dependent {
+        +String dependentId
+        +String name
+        +Integer age
+        +VulnerabilityType type
+        +accessContent()
+        +requestOverride()
+    }
+    
+    class SafetyProfile {
+        +ProtectionLevel level
+        +List~ContentCategory~ allowedCategories
+        +List~ContentCategory~ blockedCategories
+        +TimeLimit dailyLimit
+        +TimeLimit sessionLimit
+        +Boolean requireApproval
+    }
+    
+    class Content {
+        +String contentId
+        +String title
+        +String source
+        +ContentType type
+        +String description
+        +Date publishedDate
+    }
+    
+    class ContentSource {
+        +String sourceId
+        +String name
+        +SourceType type
+        +TrustLevel trustLevel
+    }
+    
+    class CurationService {
+        +evaluateContent()
+        +applyRules()
+        +checkCompliance()
+        +makeDecision()
+    }
+    
+    class SafetyRule {
+        +String ruleId
+        +String name
+        +RuleType type
+        +Severity severity
+        +evaluate()
+    }
+    
+    class ComplianceRequirement {
+        +String requirementId
+        +Jurisdiction jurisdiction
+        +RegulationType type
+        +enforce()
+    }
+    
+    class CurationDecision {
+        +DecisionType decision
+        +Float confidenceScore
+        +String reasoning
+        +List~String~ appliedRules
+        +Date timestamp
+    }
+    
+    class ActivityLog {
+        +String logId
+        +Date timestamp
+        +String contentAccessed
+        +DecisionType decision
+        +Duration timeSpent
+    }
+    
+    class VulnerabilityType {
+        <<enumeration>>
+        CHILD
+        ELDERLY
+        COGNITIVE_IMPAIRMENT
+        FINANCIAL_VULNERABILITY
+    }
+    
+    class ProtectionLevel {
+        <<enumeration>>
+        MINIMAL
+        MODERATE
+        STRICT
+        MAXIMUM
+    }
+    
+    class DecisionType {
+        <<enumeration>>
+        ALLOW
+        BLOCK
+        CAUTION
+        REQUIRE_APPROVAL
+    }
+    
+    %% Relationships
+    Family "1" --> "1..*" Guardian : has
+    Family "1" --> "0..*" Dependent : protects
+    Guardian "1" --> "0..*" Dependent : manages
+    Dependent "1" --> "1" SafetyProfile : has
+    
+    Content "1" --> "1" ContentSource : from
+    
+    CurationService --> Content : evaluates
+    CurationService --> SafetyProfile : applies
+    CurationService --> SafetyRule : uses
+    CurationService --> ComplianceRequirement : enforces
+    CurationService --> CurationDecision : produces
+    
+    Dependent "1" --> "0..*" ActivityLog : generates
+    ActivityLog --> Content : references
+    ActivityLog --> CurationDecision : records
+    
+    SafetyProfile --> ProtectionLevel : uses
+    Dependent --> VulnerabilityType : classified_as
+    CurationDecision --> DecisionType : has
+    
+    %% Styling
+    style Family fill:#e8f5e9,stroke:#4caf50,stroke-width:2px,color:#000
+    style Guardian fill:#e3f2fd,stroke:#2196f3,stroke-width:2px,color:#000
+    style Dependent fill:#fff3e0,stroke:#ff9800,stroke-width:2px,color:#000
+    style SafetyProfile fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px,color:#000
+    style Content fill:#fce4ec,stroke:#e91e63,stroke-width:2px,color:#000
+    style CurationService fill:#fff9c4,stroke:#fbc02d,stroke-width:3px,color:#000
+    style CurationDecision fill:#c8e6c9,stroke:#66bb6a,stroke-width:2px,color:#000
+    style VulnerabilityType fill:#ffecb3,stroke:#ffa726,stroke-width:2px,color:#000
+    style ProtectionLevel fill:#d1c4e9,stroke:#7e57c2,stroke-width:2px,color:#000
+    style DecisionType fill:#b2dfdb,stroke:#26a69a,stroke-width:2px,color:#000
+```
+
 ---
 
 ## 2️⃣ Process View: Sequence Diagrams
