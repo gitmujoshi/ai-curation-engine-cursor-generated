@@ -373,16 +373,14 @@ sequenceDiagram
     participant LLM as LLM Analysis
     participant Agg as Result Aggregator
     
-    Input->>Engine: Submit content for curation
-    activate Engine
+    Input->>+Engine: Submit content for curation
     
     Engine->>Fast: Check fast filters
     Fast->>Fast: Pattern matching
     Fast-->>Engine: Pattern check result
     
     alt BLOCK Decision
-        Engine-->>Input: Return BLOCK (50ms)
-        deactivate Engine
+        Engine-->>-Input: Return BLOCK (50ms)
     else PASS Decision
         Engine->>AI: Specialized analysis
         activate AI
@@ -395,8 +393,7 @@ sequenceDiagram
         alt High Confidence
             Engine->>Agg: Aggregate results
             Agg-->>Engine: Final Decision
-            Engine-->>Input: Return decision
-            deactivate Engine
+            Engine-->>-Input: Return decision
         else Low Confidence or Edge Case
             Engine->>LLM: Deep analysis
             activate LLM
@@ -406,8 +403,7 @@ sequenceDiagram
             
             Engine->>Agg: Aggregate all results
             Agg-->>Engine: Final Decision
-            Engine-->>Input: Return decision
-            deactivate Engine
+            Engine-->>-Input: Return decision
         end
     end
 ```
